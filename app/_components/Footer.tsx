@@ -1,6 +1,6 @@
-const TELEGRAM_URL = process.env.NEXT_PUBLIC_TELEGRAM_URL;
-const X_URL = process.env.NEXT_PUBLIC_X_URL;
-const GITHUB_URL = process.env.NEXT_PUBLIC_GITHUB_URL;
+const TELEGRAM_URL = process.env.NEXT_PUBLIC_TELEGRAM_URL || "";
+const X_URL = process.env.NEXT_PUBLIC_X_URL || "";
+const GITHUB_URL = process.env.NEXT_PUBLIC_GITHUB_URL || "";
 
 const Footer = () => {
   return (
