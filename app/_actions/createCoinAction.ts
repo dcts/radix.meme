@@ -6,12 +6,12 @@ import { pinata } from "../../lib/pinata/config";
 // TODO handle pinata errors
 
 export async function createCoinAction(formData: FormData) {
-  const name = formData.get("name");
-  const symbol = formData.get("symbol");
-  const description = formData.get("description");
-  const telegramUrl = formData.get("telegramUrl");
-  const xUrl = formData.get("xUrl");
-  const website = formData.get("website");
+  // const name = formData.get("name");
+  // const symbol = formData.get("symbol");
+  // const description = formData.get("description");
+  // const telegramUrl = formData.get("telegramUrl");
+  // const xUrl = formData.get("xUrl");
+  // const website = formData.get("website");
   const imageFile = formData.get("image") as File;
 
   // upload img to pinata => imgUrl
