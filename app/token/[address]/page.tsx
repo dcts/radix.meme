@@ -1,4 +1,4 @@
-// import type { TToken } from "../../../types";
+// import type { TTokenInfo } from "../../../types";
 
 type TProps = {
   params: {

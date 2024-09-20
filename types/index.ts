@@ -1,9 +1,9 @@
-export type TToken = {
+export type TTokenInfo = {
   name: string;
   symbol: string;
-  image: string;
+  imageUrl: string;
   description: string;
-  telegramLink?: string;
-  xLink?: string;
+  telegramUrl?: string;
+  xUrl?: string;
   website?: string;
 };
