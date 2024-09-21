@@ -9,9 +9,8 @@ export default function Home() {
           The first meme <br></br>fair launch platform <br></br>on Radix
         </h1>
         <p className="mb-2">
-          Launch you coin instantly with infinite liquidity
+          Launch you coin with infinite liquidity by using a bonding curve.
         </p>
-        <p className="mb-2">By using a bonding curve.</p>
         <p>Created by DeXter.</p>
       </div>
 
