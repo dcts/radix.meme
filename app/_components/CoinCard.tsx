@@ -10,7 +10,7 @@ const CoinCard = ({ coin }: TProps) => {
   return (
     <Link
       href={`/token/${coin.address}`}
-      className="card max-w-[28rem] card-compact bg-base-300 shadow-xl"
+      className="card max-max-w-[28rem] card-compact bg-base-300 shadow-xl"
     >
       <figure>
         <Image
@@ -65,7 +65,7 @@ export default CoinCard;
 
 export const CoinCardSkeleton = () => {
   return (
-    <div className="flex w-[28rem] flex-col gap-4">
+    <div className="flex max-w-[28rem] flex-col gap-4">
       <div className="skeleton h-64 w-full"></div>
       <div className="flex flex-col py-2 gap-4">
         <div className="flex h-8 items-center gap-4">
