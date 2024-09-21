@@ -1,10 +1,9 @@
-import RadixConnectButton from "./RadixConnectButton";
 
 const Navbar = () => {
   return (
     <div className="w-full flex items-center justify-between h-16">
       <span>LOGO</span>
-      <RadixConnectButton />
+      <radix-connect-button></radix-connect-button>
     </div>
   );
 };

@@ -49,6 +49,8 @@ export function initializeSubscriptions(store: AppStore) {
 
   // Set connect button theme
   rdtInstance.buttonApi.setTheme("black");
+
+  console.log("INITIALIZATION DONE");
 }
 
 export function unsubscribeAll() {
