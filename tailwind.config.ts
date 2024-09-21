@@ -20,8 +20,22 @@ const config: Config = {
         "dexter-grey-dark": "#141414",
         "dexter-grey-light": "#191B1D",
         "content-dark": "#212A09",
+        "dexter-gray": "#474C52",
+        "dexter-gray-b": "#212426",
+        white: "#fff",
       },
     },
+  },
+  daisyui: {
+    themes: [
+      {
+        dark: {
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
+          ...require("daisyui/src/theming/themes")["dark"],
+          primary: "#A7D22D", // dexter-green
+        },
+      },
+    ],
   },
   plugins: [daisyui],
 };
