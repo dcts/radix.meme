@@ -1,9 +1,10 @@
-import React from "react";
+import RadixConnectButton from "./RadixConnectButton";
 
 const Navbar = () => {
   return (
-    <div>
-      <radix-connect-button />
+    <div className="w-full flex items-center justify-between h-16">
+      <span>LOGO</span>
+      <RadixConnectButton />
     </div>
   );
 };
