@@ -48,7 +48,7 @@ export function initializeSubscriptions(store: AppStore) {
   setRdt(rdtInstance);
 
   // Set connect button theme
-  rdtInstance.buttonApi.setTheme("black");
+  rdtInstance.buttonApi.setTheme("white");
 
   console.log("INITIALIZATION DONE");
 }
