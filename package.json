@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.5",
     "@hookform/resolvers": "^3.9.0",
     "@radixdlt/radix-dapp-toolkit": "^2.1.0",
     "@reduxjs/toolkit": "^2.2.7",
+    "@types/react-icons": "^3.0.0",
     "next": "14.2.12",
     "pinata-web3": "^0.4.1",
     "react": "^18",
