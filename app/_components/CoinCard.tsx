@@ -10,7 +10,7 @@ const CoinCard = ({ coin }: TProps) => {
   return (
     <Link
       href={`/token/${coin.address}`}
-      className="card w-[28rem] card-compact bg-base-300 shadow-xl"
+      className="card max-w-[28rem] card-compact bg-base-300 shadow-xl"
     >
       <figure>
         <Image
