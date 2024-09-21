@@ -1,4 +1,6 @@
-export type TTokenInfo = {
+export type TTokenData = {
+  id: string;
+  address: string;
   name: string;
   symbol: string;
   imageUrl: string;

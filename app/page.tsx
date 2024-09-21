@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Gallery from "./_components/Gallery";
 
 export default function Home() {
   return (
@@ -38,6 +39,8 @@ export default function Home() {
           Browse coins
         </a>
       </div>
+
+      <Gallery />
     </main>
   );
 }
