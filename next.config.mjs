@@ -8,6 +8,12 @@ const nextConfig = {
         port: "",
         pathname: "/**/**",
       },
+      {
+        protocol: "https",
+        hostname: "fuchsia-dramatic-heron-401.mypinata.cloud",
+        port: "",
+        pathname: "/**/**",
+      },
     ],
   },
 };
