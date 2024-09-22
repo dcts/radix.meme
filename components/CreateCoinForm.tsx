@@ -2,8 +2,8 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateCoinInputSchema } from "../_zod";
-import { createCoinAction } from "../_actions/createCoinAction";
+import { CreateCoinInputSchema } from "@/app/_zod";
+import { createCoinAction } from "@/app/_actions/createCoinAction";
 
 // TODO display validation errors
 // TODO set submit btn disabled state
