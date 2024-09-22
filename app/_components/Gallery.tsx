@@ -1,69 +1,89 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import CoinCard, { CoinCardSkeleton } from "./CoinCard";
+import { CoinCard2, CoinCardSkeleton } from "./CoinCard";
 import type { TTokenData } from "@/types";
 
 const devCoinsData: TTokenData[] = [
   {
     id: "1",
-    address: "00Xcoin00Xcoin00Xcoin00Xcoin00Xcoin00Xcoin",
-    name: "Stonks",
+    address: "THnDxamD9PELnaQ7K71TENuJsZL5ypUyEZ",
+    name: "Ninja Tron",
     imageUrl:
-      "https://fuchsia-dramatic-heron-401.mypinata.cloud/ipfs/bafkreibkjqljap7f5xebjshp6u3pm4p7z5ovsd7w4copcn56sicq4rez6i",
-    symbol: "STK",
+      "https://cdn.sunpump.meme/public/logo/NINJA_TH9s5x_6JuBr85YPLLj.png",
+    symbol: "NINJA",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.",
+      "Earn 5% daily with a 10-level affiliate bonus. Hold $NINJA to boost your interest to 10%! Built with love at ninja-tron.com 每天赚取5%的收益，还有10级推荐奖励。持有$NINJA，利率提升至10%！ 由ninja-tron.com倾心打造",
   },
   {
     id: "2",
-    address: "00Xcoin00Xcoin00Xcoin00Xcoin00Xcoin00Xcoin",
-    name: "Stonks",
+    address: "TPcsPLi88dTDj1VLvJQD1xKEQ2HbggEgVu",
+    name: "Aiko",
     imageUrl:
-      "https://fuchsia-dramatic-heron-401.mypinata.cloud/ipfs/bafkreibkjqljap7f5xebjshp6u3pm4p7z5ovsd7w4copcn56sicq4rez6i",
-    symbol: "STK",
+      "https://cdn.sunpump.meme/public/logo/AIKO_TBNprT_y4CKlTmMpqrE.jpeg",
+    symbol: "AIKO",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.",
+      "私 $AIKO はNEIROとは異なります。NEIROのように実際に存在する犬ではありませんが、持続可能性があり、長い間、次世代の仮想通貨愛好家に愛されたいと願っています。",
   },
   {
     id: "3",
-    address: "00Xcoin00Xcoin00Xcoin00Xcoin00Xcoin00Xcoin",
-    name: "Stonks",
+    address: "TYxewKScvXZxAGsAxj3abWiNA1vQ2aopxf",
+    name: "Trump Coins",
     imageUrl:
-      "https://fuchsia-dramatic-heron-401.mypinata.cloud/ipfs/bafkreibkjqljap7f5xebjshp6u3pm4p7z5ovsd7w4copcn56sicq4rez6i",
-    symbol: "STK",
+      "https://cdn.sunpump.meme/public/logo/coins_TEzier_MWlwUyuZKFR0.gif",
+    symbol: "COINS",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.",
+      "Hello everyone! I have something incredible to share today, as we are introducing the launch of our Official Trump Coins! TThe President Donald J. Trump First Edition Silver Medallion will be available starting Wednesday, 9/25/24",
   },
   {
     id: "4",
-    address: "00Xcoin00Xcoin00Xcoin00Xcoin00Xcoin00Xcoin",
-    name: "Stonks",
+    address: "TFeizfyFQytXht4N1SLjFHkYEZ5bSVdsKh",
+    name: "Sock",
     imageUrl:
-      "https://fuchsia-dramatic-heron-401.mypinata.cloud/ipfs/bafkreibkjqljap7f5xebjshp6u3pm4p7z5ovsd7w4copcn56sicq4rez6i",
-    symbol: "STK",
+      "https://cdn.sunpump.meme/public/logo/Sock_TADoHw_dU5rJyEAQoBu.jpeg",
+    symbol: "SOCK",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.",
+      "If u wanna take $sock just take it !",
   },
   {
     id: "5",
-    address: "00Xcoin00Xcoin00Xcoin00Xcoin00Xcoin00Xcoin",
-    name: "Stonks",
+    address: "TREutKMpuAXfZgbaJXVvCdSPSpNz4pzPDa",
+    name: "SUNLV",
     imageUrl:
-      "https://fuchsia-dramatic-heron-401.mypinata.cloud/ipfs/bafkreibkjqljap7f5xebjshp6u3pm4p7z5ovsd7w4copcn56sicq4rez6i",
-    symbol: "STK",
+      "https://cdn.sunpump.meme/public/logo/SUNLV_TY1FDb_Qm2p0SqanUHq.jpg",
+    symbol: "SUNLV",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.",
+      "SUNLV - Aiming to be the most expensive token on SunPump.",
   },
   {
     id: "6",
-    address: "00Xcoin00Xcoin00Xcoin00Xcoin00Xcoin00Xcoin",
-    name: "Stonks",
+    address: "TQYmJDBuEbZJmagZpn3W8GDKDgnQmBSm9m",
+    name: "MooTron",
     imageUrl:
-      "https://fuchsia-dramatic-heron-401.mypinata.cloud/ipfs/bafkreibkjqljap7f5xebjshp6u3pm4p7z5ovsd7w4copcn56sicq4rez6i",
-    symbol: "STK",
+      "https://cdn.sunpump.meme/public/logo/MooTron_TLaggr_9jdLv09KcF35.webp",
+    symbol: "MooTron",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.",
+      "For all the three cute Moos, MooDeng, MooWang, MooToon",
+  },
+  {
+    id: "7",
+    address: "TX9XtfxoWdhnekKodehNd6JFnKrSbEg2fz",
+    name: "Jawstin Sun",
+    imageUrl:
+      "https://cdn.sunpump.meme/public/logo/JAWSTIN_TH5QRr_anCQHPeGRxg6.jpg",
+    symbol: "JAWSTIN",
+    description:
+      "$JAWSTIN is a meme brand inspired by Justin Sun. Our ambition is to become one of the most recognized meme brand on TRON blockchain.",
+  },
+  {
+    id: "8",
+    address: "TXakuBojTkJpcKN9MtPkGYbbYqf4eq5WmU",
+    name: "DANCING ZOMBIE",
+    imageUrl:
+      "https://cdn.sunpump.meme/public/logo/DANCINGZ_TPiYgb_iGMViR0fmxrG.png",
+    symbol: "DANCINGZ",
+    description:
+      "Dancing Zombie ($DANCINGZ) is the most fun and spooky coin on the Tron blockchain. Inspired by undead creatures that just can't stop moving, this memecoin is here to shake up the crypto space.",
   },
 ];
 
@@ -105,13 +125,13 @@ const Gallery = () => {
   }
 
   return (
-    <div className="flex flex-wrap place-content-center	max-w-8xl gap-8 my-8">
+    <div className="flex flex-wrap place-content-baseline	max-w-8xl gap-8 my-8 mt-20">
       {isLoading
         ? Array.from({ length: 12 }, (_, idx) => {
             return <CoinCardSkeleton key={idx} />;
           })
         : coinsData.map((coin) => {
-            return <CoinCard key={coin.id} coin={coin} />;
+            return <CoinCard2 key={coin.id} coin={coin} />;
           })}
     </div>
   );

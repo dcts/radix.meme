@@ -14,6 +14,12 @@ const nextConfig = {
         port: "",
         pathname: "/**/**",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.sunpump.meme",
+        port: "",
+        pathname: "/public/logo/**",
+      },
     ],
   },
 };

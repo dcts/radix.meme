@@ -96,3 +96,60 @@ export const CoinCardSkeleton = () => {
     </div>
   );
 };
+
+export const CoinCard2 = ({ coin }: TProps) => {
+  const randomPercentage = Math.floor(Math.random() * 101);
+
+  return (
+    <Link
+      href={`/token/${coin.address}`}
+      className="card card-compact bg-base-300 shadow-xl max-w-[285px] h-[470px]"
+    >
+      <figure>
+        <Image
+          src={coin.imageUrl}
+          alt={coin.name}
+          width={175}
+          height={240}
+          className="object-cover w-full h-[240px]"
+        />
+      </figure>
+      <div className="card-body">
+        <h2 className="card-title">
+          <span className="text-dexter-green capitalize">{coin.name} coin</span>
+          <span className="text-dexter-gray uppercase">(${coin.symbol})</span>
+        </h2>
+
+        <p className="text-white/90">
+          Created by: account...{coin.address.slice(0, 12)}
+        </p>
+
+        <p className="line-clamp-3 text-white/40">{coin.description}</p>
+
+        <div className="flex justify-between items-center my-2">
+          <h2 className="">Last Price:</h2>
+          <div>
+            <span className="text-dexter-green">+65%</span>
+            <span className="ms-4 p-1 bg-dexter-gray-b">0.002 XRD</span>
+          </div>
+        </div>
+
+        <div className="flex justify-between items-center my-2">
+          <h2 className="text-xs">Ready to DeXter:</h2>
+          <div>
+            <span className="text-dexter-green">
+              {randomPercentage}k / 100k XRD{" "}
+            </span>
+            <span className="ms-4">({randomPercentage}%)</span>
+          </div>
+        </div>
+
+        <progress
+          className="progress progress-primary w-full h-3 mb-3"
+          value={randomPercentage}
+          max="100"
+        ></progress>
+      </div>
+    </Link>
+  );
+};
