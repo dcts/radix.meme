@@ -1,6 +1,12 @@
+import Link from "next/link";
+import Image from "next/image";
 import { GalleryWithHover } from "@/components/ui/gallery-with-hover";
 import { SparklesCore } from "@/components/ui/sparkles";
-import Link from "next/link";
+import heroRocket from "../public/hero-rocket.png";
+import bigCoin from "../public/big-coin.png";
+import mediumCoin from "../public/medium-coin.png";
+import smallCoin from "../public/small-coin.png";
+import { HiMiniRocketLaunch } from "react-icons/hi2";
 
 export default function Home() {
   return (
@@ -16,34 +22,53 @@ export default function Home() {
           particleColor="#FFFFFF"
         />
       </div>
+      <main>
+        <div className="flex justify-between items-center mt-16 mb-24">
+          <div className="flex flex-col gap-8 items-center sm:items-start">
+            <div className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
+              <h1 className="max-sm:text-2xl max-md:text-3xl md:text-4xl mb-10 font-black">
+                <span>The first meme</span>
+                <br></br>fair launch platform <br></br>on Radix
+              </h1>
+              <p className="mb-2">
+                Launch you coin with infinite liquidity by using a bonding
+                curve.
+              </p>
+              <p>Created by DeXter.</p>
+            </div>
 
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <div className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <h1 className="max-sm:text-2xl max-md:text-3xl md:text-4xl mb-10 font-black">
-            <span>The first meme</span>
-            <br></br>fair launch platform <br></br>on Radix
-          </h1>
-          <p className="mb-2">
-            Launch you coin with infinite liquidity by using a bonding curve.
-          </p>
-          <p>Created by DeXter.</p>
-        </div>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <Link
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-dexter-green-OG text-black font-bold font-[family-name:var(--font-geist-mono)] text-background gap-2 text-sm sm:text-base h-10 sm:h-12 px-8"
-            href="/launch"
-          >
-            Launch now
-          </Link>
-          <a
-            className="rounded-full border border-solid border-white/[.145] transition-colors flex items-center justify-center bg-[#1c1c1c] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44 font-[family-name:var(--font-geist-mono)] "
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Browse coins
-          </a>
+            <div className="flex gap-4 items-center flex-col sm:flex-row">
+              <Link
+                href="/launch"
+                className="flex items-center gap-4 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
+              >
+                <HiMiniRocketLaunch className="text-3xl" />
+                <span className="font-bold text-xl">Launch your token</span>
+              </Link>
+            </div>
+          </div>
+          <div className="relative w-96 h-96 max-xl:hidden mr-32">
+            <Image
+              src={bigCoin}
+              alt="bigCoin"
+              className="absolute -bottom-8 -right-8"
+            />
+            <Image
+              src={mediumCoin}
+              alt="mediumCoin"
+              className="absolute -top-2 -left-2"
+            />
+            <Image
+              src={smallCoin}
+              alt="smallCoin"
+              className="absolute top-10 right-0"
+            />
+            <Image
+              src={heroRocket}
+              alt="rocket"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            />
+          </div>
         </div>
 
         <GalleryWithHover />
