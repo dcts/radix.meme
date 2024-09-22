@@ -44,7 +44,7 @@ const Gallery = () => {
             return <CoinCardSkeleton key={idx} />;
           })
         : coinsData.map((coin) => {
-            return <CoinCard2 key={coin.id} coin={coin} />;
+            return <CoinCard2 key={coin.address} coin={coin} />;
           })}
     </div>
   );

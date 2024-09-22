@@ -25,7 +25,8 @@ export const GalleryWithHover = ({ className }: TProps) => {
 
   useEffect(() => {
     (async () => {
-      await wait(5000);
+      // TODO remove transient
+      await wait(2000);
       try {
         setIsLoading(true);
         setIsError(false);
@@ -58,7 +59,7 @@ export const GalleryWithHover = ({ className }: TProps) => {
           })
         : coinsData.map((coin, idx) => (
             <Link
-              href={coin?.address}
+              href={`/token/${coin?.address}`}
               key={coin?.address}
               className="relative group block p-2 h-full w-fit"
               onMouseEnter={() => setHoveredIndex(idx)}
