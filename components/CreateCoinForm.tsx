@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateCoinInputSchema } from "@/app/_zod";
@@ -10,28 +11,78 @@ import { Label } from "@radix-ui/react-label";
 import { HiMiniRocketLaunch } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
+import { FileUpload } from "@/components/ui/file-upload";
 
 // TODO display validation errors
 // TODO set submit btn disabled state
 
+const MAX_CHAR_COUNT = 140;
+
 const CreateCoinForm = () => {
+  const [descriptionLength, setDescriptionLength] = React.useState("");
+  const [files, setFiles] = useState<File[]>([]);
+
   const {
     register,
-    formState: {
-      // errors
-    },
+    setValue,
+    formState: { errors },
+    handleSubmit,
+    watch,
+    trigger,
   } = useForm({
     resolver: zodResolver(CreateCoinInputSchema),
+    mode: "onChange",
   });
 
+  const descriptionValue = watch("description", "");
+  React.useEffect(() => {
+    setDescriptionLength(descriptionValue.length);
+  }, [descriptionValue]);
+
+  const onSubmit = async () => {
+    // Handle submit
+  };
+
+  const handleLaunchTokenClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+
+    const isValid = await trigger();
+    if (isValid) {
+      handleSubmit(onSubmit)();
+    }
+  };
+
   return (
-    <form action={createCoinAction} className="flex flex-col gap-6">
-      <div className="grid w-full max-w-sm items-center gap-1.5">
+    <form
+      action={createCoinAction}
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-6 max-w-sm"
+    >
+      <div className="grid items-center gap-1.5">
         <Label htmlFor="image">Image *</Label>
-        <Input id="image" type="file" {...register("image")} />
+        <FileUpload
+          {...register("image")}
+          onChange={(uploadedFiles) => {
+            setFiles(uploadedFiles);
+            setValue("image", uploadedFiles); // Set the uploaded files in the form state
+            trigger("image"); // Trigger validation for the image field
+          }}
+        />
+        {files.length > 0 && ( // <-- Added this block
+          <div className="text-sm text-gray-600">
+            Uploaded files: {files.map((file) => file.name).join(", ")}
+          </div>
+        )}
+        {errors.image && (
+          <span className="text-red-500">
+            {(errors.image.message as string) || "Error"}
+          </span>
+        )}
       </div>
 
-      <div className="grid w-full max-w-sm items-center gap-1.5">
+      <div className="grid items-center gap-1.5">
         <Label htmlFor="name">Name *</Label>
         <Input
           type="name"
@@ -39,29 +90,47 @@ const CreateCoinForm = () => {
           placeholder="E.G.: Meme token"
           {...register("name")}
         />
+        {errors.name && (
+          <span className="text-red-500">
+            {(errors.name.message as string) || "Error"}
+          </span>
+        )}
       </div>
 
-      <div className="grid w-full max-w-sm items-center gap-1.5">
+      <div className="grid items-center gap-1.5">
         <Label htmlFor="name">Ticker *</Label>
         <Input
           type="symbol"
           id="symbol"
           placeholder="E.G.: MEME"
-          {...register("symbol")}
+          {...register("ticker")}
         />
+        {errors.ticker && (
+          <span className="text-red-500">
+            {(errors.ticker.message as string) || "Error"}
+          </span>
+        )}
       </div>
 
-      <div className="grid w-full max-w-sm items-center gap-1.5">
+      <div className="grid items-center gap-1.5">
         <Label htmlFor="description">Description *</Label>
         <Textarea
           id="description"
           placeholder="E.G.: A token created to celebrate the meme culture around the crypto world"
           {...register("description")}
+          maxLength={MAX_CHAR_COUNT}
         />
-        <span className="text-sm text-right">16/140 characters</span>
+        <span className="text-sm text-right text-white text-opacity-50">
+          {descriptionLength}/{MAX_CHAR_COUNT} characters
+        </span>
+        {errors.description && (
+          <span className="text-red-500">
+            {(errors.description.message as string) || "Error"}
+          </span>
+        )}
       </div>
 
-      <div className="grid w-full max-w-sm items-center gap-1.5">
+      <div className="grid items-center gap-1.5">
         <Label htmlFor="website">Website</Label>
         <Input
           type="text"
@@ -71,12 +140,12 @@ const CreateCoinForm = () => {
         />
       </div>
 
-      <div className="grid w-full max-w-sm items-center gap-1.5">
+      <div className="grid items-center gap-1.5">
         <Label htmlFor="twitter">X profile</Label>
         <Input type="text" id="twitter" placeholder="@" {...register("xUrl")} />
       </div>
 
-      <div className="grid w-full max-w-sm items-center gap-1.5">
+      <div className="grid items-center gap-1.5">
         <Label htmlFor="telegram">Telegram</Label>
         <Input
           type="text"
@@ -86,16 +155,17 @@ const CreateCoinForm = () => {
         />
       </div>
 
-      <span className="text-white/80">
+      <span className="text-white/80 text-xs">
         Attention: Coin data cannot be changed after creation
       </span>
       <Button
         type="submit"
         className="btn bg-dexter-gradient-green/80 hover:bg-dexter-gradient-green
         w-full self-center flex items-center text-2xl"
+        onClick={handleLaunchTokenClick}
       >
         <HiMiniRocketLaunch />
-        <span className="ms-4 font-bold">Launch your token</span>
+        <span className="ms-2 font-bold text-sm">Launch your token</span>
       </Button>
     </form>
   );
@@ -141,8 +211,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           className={cn(
-            `flex h-10 w-full border-none bg-gray-50 dark:bg-zinc-800 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm  file:border-0 file:bg-transparent 
-          file:text-sm file:font-medium placeholder:text-neutral-400 dark:placeholder-text-neutral-600 
+            `flex h-10 w-full border-none bg-gray-50 dark:bg-zinc-800 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm  file:border-0 file:bg-transparent
+          file:text-sm file:font-medium placeholder:text-neutral-400 dark:placeholder-text-neutral-600
           focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-600
            disabled:cursor-not-allowed disabled:opacity-50
            dark:shadow-[0px_0px_1px_1px_var(--neutral-700)]
@@ -195,8 +265,8 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
       >
         <textarea
           className={cn(
-            `flex h-32 w-full border-none bg-gray-50 dark:bg-zinc-800 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm  file:border-0 file:bg-transparent 
-              file:text-sm file:font-medium placeholder:text-neutral-400 dark:placeholder-text-neutral-600 
+            `flex h-32 w-full border-none bg-gray-50 dark:bg-zinc-800 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm  file:border-0 file:bg-transparent
+              file:text-sm file:font-medium placeholder:text-neutral-400 dark:placeholder-text-neutral-600
               focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-600
               disabled:cursor-not-allowed disabled:opacity-50
               dark:shadow-[0px_0px_1px_1px_var(--neutral-700)]
