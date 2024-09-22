@@ -21,10 +21,6 @@ const MAX_CHAR_COUNT = 140;
 const CreateCoinForm = () => {
   const [descriptionLength, setDescriptionLength] = React.useState("");
   const [files, setFiles] = useState<File[]>([]);
-  // const handleFileUpload = (files: File[]) => {
-  //   setFiles(files);
-  //   setValue("image", files);
-  // };
 
   const {
     register,
@@ -72,6 +68,11 @@ const CreateCoinForm = () => {
             trigger("image"); // Trigger validation for the image field
           }}
         />
+        {files.length > 0 && ( // <-- Added this block
+          <div className="text-sm text-gray-600">
+            Uploaded files: {files.map((file) => file.name).join(", ")}
+          </div>
+        )}
         {errors.image && (
           <span className="text-red-500">
             {(errors.image.message as string) || "Error"}
