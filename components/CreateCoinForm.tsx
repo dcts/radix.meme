@@ -43,7 +43,9 @@ const CreateCoinForm = () => {
     // Handle submit
   };
 
-  const handleLaunchTokenClick = async (event) => {
+  const handleLaunchTokenClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
 
     const isValid = await trigger();
