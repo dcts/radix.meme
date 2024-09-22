@@ -1,6 +1,6 @@
 export type TTokenData = {
-  id: string;
   address: string;
+  progress: number; // ready-to-dexter
   name: string;
   symbol: string;
   imageUrl: string;
