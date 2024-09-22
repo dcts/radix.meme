@@ -57,6 +57,11 @@ const CreateCoinForm = () => {
           placeholder="E.G.: Meme token"
           {...register("name")}
         />
+        {errors.name && (
+          <span className="text-red-500">
+            {(errors.name.message as string) || "Error"}
+          </span>
+        )}
       </div>
 
       <div className="grid items-center gap-1.5">
@@ -67,6 +72,11 @@ const CreateCoinForm = () => {
           placeholder="E.G.: MEME"
           {...register("symbol")}
         />
+        {errors.ticker && (
+          <span className="text-red-500">
+            {(errors.ticker.message as string) || "Error"}
+          </span>
+        )}
       </div>
 
       <div className="grid items-center gap-1.5">
