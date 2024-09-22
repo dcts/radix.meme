@@ -4,7 +4,7 @@ import Gallery from "./_components/Gallery";
 export default function Home() {
   return (
     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-      <div className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
+      <div className="z-10 list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
         <h1 className="text-4xl mb-10 font-black">
           The first meme <br></br>fair launch platform <br></br>on Radix
         </h1>
@@ -14,7 +14,7 @@ export default function Home() {
         <p>Created by DeXter.</p>
       </div>
 
-      <div className="flex gap-4 items-center flex-col sm:flex-row">
+      <div className="z-10 flex gap-4 items-center flex-col sm:flex-row">
         <Link
           className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-dexter-green-OG text-black font-bold font-[family-name:var(--font-geist-mono)] text-background gap-2 text-sm sm:text-base h-10 sm:h-12 px-8"
           href="/launch"

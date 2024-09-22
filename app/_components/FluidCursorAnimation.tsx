@@ -13,11 +13,12 @@ const FluidCursorAnimation = () => {
       SPLAT_AMOUNT: 10,
       DENSITY_DISSIPATION: 3,
       CURL: 10,
-      COLOR_PALETTE: ["#0000ff", "#111111", "#1d1d1d", "#eaeaea", "#4dba87"],
+      COLOR_PALETTE: ["#cafc40"],
+      // COLOR_PALETTE: ["#0000ff", "#111111", "#1d1d1d", "#eaeaea", "#4dba87"],
     });
   }, []);
 
-  return <canvas ref={canvasRef} className="w-full h-full fixed" />;
+  return <canvas ref={canvasRef} className="w-full h-full fixed opacity-30" />;
 };
 
 export default FluidCursorAnimation;
