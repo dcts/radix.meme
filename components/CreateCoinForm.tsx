@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateCoinInputSchema } from "@/app/_zod";
@@ -10,6 +11,7 @@ import { Label } from "@radix-ui/react-label";
 import { HiMiniRocketLaunch } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
+import { FileUpload } from "@/components/ui/file-upload";
 
 // TODO display validation errors
 // TODO set submit btn disabled state
@@ -18,9 +20,15 @@ const MAX_CHAR_COUNT = 140;
 
 const CreateCoinForm = () => {
   const [descriptionLength, setDescriptionLength] = React.useState("");
+  const [files, setFiles] = useState<File[]>([]);
+  // const handleFileUpload = (files: File[]) => {
+  //   setFiles(files);
+  //   setValue("image", files);
+  // };
 
   const {
     register,
+    setValue,
     formState: { errors },
     handleSubmit,
     watch,
@@ -56,7 +64,14 @@ const CreateCoinForm = () => {
     >
       <div className="grid items-center gap-1.5">
         <Label htmlFor="image">Image *</Label>
-        <Input id="image" type="file" {...register("image")} />
+        <FileUpload
+          {...register("image")}
+          onChange={(uploadedFiles) => {
+            setFiles(uploadedFiles);
+            setValue("image", uploadedFiles); // Set the uploaded files in the form state
+            trigger("image"); // Trigger validation for the image field
+          }}
+        />
         {errors.image && (
           <span className="text-red-500">
             {(errors.image.message as string) || "Error"}
@@ -85,7 +100,7 @@ const CreateCoinForm = () => {
           type="symbol"
           id="symbol"
           placeholder="E.G.: MEME"
-          {...register("symbol")}
+          {...register("ticker")}
         />
         {errors.ticker && (
           <span className="text-red-500">

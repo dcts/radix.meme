@@ -9,20 +9,26 @@ export const CreateCoinInputSchema = z.object({
     .max(140, { message: "Must be 140 characters or less" }),
   // TODO image file validation
   image: z
-    .instanceof(FileList)
+    .array(z.instanceof(File))
     .refine((files) => files.length > 0, {
       message: "Image is required",
     })
     .refine(
       (files) => {
-        if (files.length > 0) {
-          const file = files[0];
-          return ["image/jpeg", "image/png"].includes(file.type);
-        }
-        return false;
+        return files.every((file) =>
+          ["image/jpeg", "image/png"].includes(file.type)
+        );
       },
       {
         message: "Only JPEG and PNG formats are allowed",
+      }
+    )
+    .refine(
+      (files) => {
+        return files.every((file) => file.size <= 2_000_000); // 2 MB in bytes
+      },
+      {
+        message: "File size must not exceed 2 MB",
       }
     ),
   telegramUrl: z.string().url().optional(),
