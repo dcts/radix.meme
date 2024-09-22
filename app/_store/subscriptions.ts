@@ -6,7 +6,7 @@ import {
 } from "@radixdlt/radix-dapp-toolkit";
 import { GatewayApiClient } from "@radixdlt/babylon-gateway-api-sdk";
 
-import { userSlice, WalletData } from "./userSlice";
+import { fetchBalance, userSlice, WalletData } from "./userSlice";
 import { AppStore } from "./store";
 
 export type RDT = ReturnType<typeof RadixDappToolkit>;
@@ -55,6 +55,10 @@ export function initializeSubscriptions(store: AppStore) {
     rdt.walletApi.walletData$.subscribe((walletData: WalletData) => {
       const data: WalletData = JSON.parse(JSON.stringify(walletData));
       store.dispatch(userSlice.actions.setWalletData(data));
+      // Fetch XRD balance after login
+      // TODO(dcts): replace hardcoded tokenAddress with env tokenaddress of XRD
+      const xrdStokenetAddress = "resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc";
+      store.dispatch(fetchBalance(xrdStokenetAddress));
     })
   );
 }
