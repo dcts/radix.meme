@@ -1,8 +1,8 @@
 import * as z from "zod";
 
 export const CreateCoinInputSchema = z.object({
-  name: z.string().min(4, { message: "Required" }),
-  ticker: z.string().min(3, { message: "Required" }),
+  name: z.string().min(4, { message: "Name is required" }),
+  ticker: z.string().min(3, { message: "Ticker is required" }),
   description: z
     .string()
     .min(16, { message: "Must be at least 16 characters" })
@@ -17,7 +17,7 @@ export const CreateCoinInputSchema = z.object({
       (files) => {
         if (files.length > 0) {
           const file = files[0];
-          return ["image/jpeg", "image/png"].includes(file.type); // Accept JPEG and PNG
+          return ["image/jpeg", "image/png"].includes(file.type);
         }
         return false;
       },
