@@ -14,6 +14,7 @@
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-progress": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "@radixdlt/babylon-gateway-api-sdk": "^1.6.1",
     "@radixdlt/radix-dapp-toolkit": "^2.1.0",
     "@reduxjs/toolkit": "^2.2.7",
     "@tabler/icons-react": "^3.17.0",
