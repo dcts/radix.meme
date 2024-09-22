@@ -1,5 +1,5 @@
+import { GalleryWithHover } from "@/components/ui/gallery-with-hover";
 import Link from "next/link";
-import Gallery from "./_components/Gallery";
 
 export default function Home() {
   return (
@@ -31,7 +31,7 @@ export default function Home() {
         </a>
       </div>
 
-      <Gallery />
+      <GalleryWithHover />
     </main>
   );
 }

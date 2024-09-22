@@ -1,4 +1,4 @@
-import CreateCoinForm from "../_components/CreateCoinForm";
+import CreateCoinForm from "@/components/CreateCoinForm";
 
 const page = () => {
   return (

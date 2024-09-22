@@ -116,8 +116,12 @@ export const CoinCard2 = ({ coin }: TProps) => {
       </figure>
       <div className="card-body">
         <h2 className="card-title">
-          <span className="text-dexter-green capitalize truncate">{coin.name}</span>
-          <span className="text-dexter-gray uppercase truncate">(${coin.symbol})</span>
+          <span className="text-dexter-green capitalize truncate">
+            {coin.name}
+          </span>
+          <span className="text-dexter-gray uppercase truncate">
+            (${coin.symbol})
+          </span>
         </h2>
 
         <p className="text-white/90">
