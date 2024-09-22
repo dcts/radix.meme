@@ -24,6 +24,7 @@ const CreateCoinForm = () => {
     formState: { errors },
     handleSubmit,
     watch,
+    trigger,
   } = useForm({
     resolver: zodResolver(CreateCoinInputSchema),
     mode: "onChange",
@@ -38,6 +39,15 @@ const CreateCoinForm = () => {
     // Handle submit
   };
 
+  const handleLaunchTokenClick = async (event) => {
+    event.preventDefault();
+
+    const isValid = await trigger();
+    if (isValid) {
+      handleSubmit(onSubmit)();
+    }
+  };
+
   return (
     <form
       action={createCoinAction}
@@ -47,6 +57,11 @@ const CreateCoinForm = () => {
       <div className="grid items-center gap-1.5">
         <Label htmlFor="image">Image *</Label>
         <Input id="image" type="file" {...register("image")} />
+        {errors.image && (
+          <span className="text-red-500">
+            {(errors.image.message as string) || "Error"}
+          </span>
+        )}
       </div>
 
       <div className="grid items-center gap-1.5">
@@ -129,6 +144,7 @@ const CreateCoinForm = () => {
         type="submit"
         className="btn bg-dexter-gradient-green/80 hover:bg-dexter-gradient-green
         w-full self-center flex items-center text-2xl"
+        onClick={handleLaunchTokenClick}
       >
         <HiMiniRocketLaunch />
         <span className="ms-2 font-bold text-sm">Launch your token</span>
