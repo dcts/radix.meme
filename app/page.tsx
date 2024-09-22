@@ -19,8 +19,9 @@ export default function Home() {
 
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <div className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <h1 className="text-4xl mb-10 font-black">
-            The first meme <br></br>fair launch platform <br></br>on Radix
+          <h1 className="max-sm:text-2xl max-md:text-3xl md:text-4xl mb-10 font-black">
+            <span>The first meme</span>
+            <br></br>fair launch platform <br></br>on Radix
           </h1>
           <p className="mb-2">
             Launch you coin with infinite liquidity by using a bonding curve.

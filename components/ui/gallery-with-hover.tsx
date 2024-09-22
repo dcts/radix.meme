@@ -49,7 +49,7 @@ export const GalleryWithHover = ({ className }: TProps) => {
   return (
     <div
       className={cn(
-        "flex flex-wrap items-stretch place-content-center py-10",
+        "flex flex-wrap items-stretch max-md:place-content-center py-10",
         className
       )}
     >
