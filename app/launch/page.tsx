@@ -1,4 +1,10 @@
 import CreateCoinForm from "@/components/CreateCoinForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "DeXter Launchpad | Launch",
+  description: "The first meme fair launch platform on Radix",
+};
 
 const page = () => {
   return (
