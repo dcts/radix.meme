@@ -68,8 +68,8 @@ export default function Home() {
 const ModalWrapper = () => {
   return (
     <Modal>
-      <ModalTrigger className="flex items-center gap-2 bg-dexter-grey-dark w-fit rounded-lg text-white px-4 py-3 max-lg:self-center shadow-md hover:shadow-lg ring-1 ring-white shadow-white hover:shadow-white transition duration-100 active:translate-y-1">
-        <span className="font-bold text-lg ">How it works</span>
+      <ModalTrigger className="flex items-center border-b-[3px]  border-b-white gap-2 bg-dexter-grey-dark w-fit rounded-lg text-white px-4 py-3 max-lg:self-center shadow-md hover:shadow-lg ring-1 ring-white shadow-white hover:shadow-white transition duration-100 active:translate-y-1">
+        <span className="font-bold text-lg ">How does it work ?</span>
       </ModalTrigger>
       <ModalBody>
         <ModalContent>
