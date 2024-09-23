@@ -3,8 +3,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { TokenInfo } from "./tokenStoreSlice";
 
-export interface TradeTokenState {
+export interface TokenState {
   token: TokenInfo;
+  address?: string;
   vol24h?: number;
   vol7d?: number;
   change24h?: number;
@@ -28,8 +29,9 @@ interface FormInput {
   side: OrderSide;
 }
 
-const initialState: TradeTokenState = {
+const initialState: TokenState = {
   token: {} as TokenInfo,
+  address: undefined,
   vol24h: undefined,
   vol7d: undefined,
   change24h: undefined,
@@ -46,8 +48,8 @@ const initialState: TradeTokenState = {
   holderDistributionTable: {},
 };
 
-export const TradeTokenSlice = createSlice({
-  name: "TradeToken",
+export const tokenSlice = createSlice({
+  name: "token",
   initialState,
 
   // synchronous reducers
@@ -55,9 +57,7 @@ export const TradeTokenSlice = createSlice({
 
   // Async thunk are handled by extra reducers
   extraReducers: (builder) => {
-    builder.addCase(fetchToken.fulfilled, (state, action) => {
-      // const {address, value} = action.payload;
-      // state.token = 
+    builder.addCase(fetchToken.fulfilled, (/*state, action*/) => {
     });
     builder.addCase(fetchToken.rejected, (_state, action) => {
       const errorMessage = action.error?.message || "An unknown error occurred";
@@ -72,8 +72,8 @@ export const fetchToken = createAsyncThunk<
   {
     state: RootState;
   }
->("tradeToken/fetchToken", async () => {
-  const TradeToken = {};
+>("token/fetchToken", async () => {
+  const Token = {};
   // TODO(dcts): Fetch all info of current token
-  return TradeToken;
+  return Token;
 });
