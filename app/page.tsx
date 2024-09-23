@@ -104,17 +104,17 @@ export default function Home() {
             <Image
               src={bigCoin}
               alt="bigCoin"
-              className="absolute -bottom-8 -right-8"
+              className="absolute -bottom-8 -right-8  animate-float"
             />
             <Image
               src={mediumCoin}
               alt="mediumCoin"
-              className="absolute -top-2 -left-2"
+              className="absolute -top-2 -left-2 animate-float"
             />
             <Image
               src={smallCoin}
               alt="smallCoin"
-              className="absolute top-10 right-0"
+              className="absolute top-10 right-0 animate-float"
             />
             <Image
               src={heroRocket}
