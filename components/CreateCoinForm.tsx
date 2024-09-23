@@ -58,7 +58,7 @@ const CreateCoinForm = () => {
     <form
       action={createCoinAction}
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-6 max-w-sm"
+      className="flex flex-col gap-6 max-w-sm font-[family-name:var(--font-josefin-sans)]"
     >
       <div className="grid items-center gap-1.5">
         <Label htmlFor="image">Image *</Label>
@@ -66,8 +66,8 @@ const CreateCoinForm = () => {
           {...register("image")}
           onChange={(uploadedFiles) => {
             setFiles(uploadedFiles);
-            setValue("image", uploadedFiles); // Set the uploaded files in the form state
-            trigger("image"); // Trigger validation for the image field
+            setValue("image", uploadedFiles);
+            trigger("image");
           }}
         />
         {files.length > 0 && ( // <-- Added this block
