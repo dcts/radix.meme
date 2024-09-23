@@ -62,12 +62,14 @@ export default function Home() {
                 </ModalTrigger>
                 <ModalBody>
                   <ModalContent>
-                    <span className="px-1 py-0.5 rounded-md text-center pb-10">
-                      RADIX.MEME prevents rugs by making sure that all created
-                      tokens are safe. Each coin on RADIX.MEME is a fair-launch
-                      with no presale and no team allocation.
+                    <span className="px-1 py-0.5 rounded-md text-center pb-10 sm:text-lg">
+                      <span className="text-dexter-green-OG">RADIX.MEME </span>
+                      prevents rugs by making sure that all created tokens are
+                      safe. Each coin on{" "}
+                      <span className="text-dexter-green-OG">RADIX.MEME </span>
+                      is a fair-launch with no presale and no team allocation.
                     </span>
-                    <ul className="flex flex-wrap gap-x-4 gap-y-6 items-start justify-start max-w-sm mx-auto list-disc">
+                    <ul className="flex flex-wrap gap-x-4 gap-y-6 items-start justify-start max-w-sm mx-auto list-disc sm:text-lg">
                       <li>pick a coin that you like (or launch your own!)</li>
                       <li>buy the coin on the bonding curve</li>
                       <li>
@@ -84,11 +86,15 @@ export default function Home() {
                     </ul>
                   </ModalContent>
                   <ModalFooter className="gap-4 flex justify-center">
-                    <a href="/launch">
-                      <button className="gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-3 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300 font-bold text-center">
+                    <Link
+                      href="/launch"
+                      className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
+                    >
+                      <HiMiniRocketLaunch className="text-3xl" />
+                      <span className="font-bold text-l">
                         I&apos;m ready to pump!
-                      </button>
-                    </a>
+                      </span>
+                    </Link>
                   </ModalFooter>
                 </ModalBody>
               </Modal>
