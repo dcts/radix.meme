@@ -5,7 +5,7 @@ import type { TTokenData } from "@/types";
 
 export const Card = ({ coin }: { coin: TTokenData }) => {
   return (
-    <div className="rounded-2xl w-[22rem] h-[29rem] p-4 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20">
+    <div className="rounded-2xl w-[22rem] h-[29rem] p-4 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 mx-auto">
       <div className="relative z-50 h-full flex flex-col">
         <div className="px-4 py-1">
           <figure>

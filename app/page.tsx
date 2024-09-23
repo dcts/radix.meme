@@ -2,10 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { GalleryWithHover } from "@/components/ui/gallery-with-hover";
 import { SparklesCore } from "@/components/ui/sparkles";
-import heroRocket from "../public/hero-rocket.png";
-import bigCoin from "../public/big-coin.png";
-import mediumCoin from "../public/medium-coin.png";
-import smallCoin from "../public/small-coin.png";
+import heroRocket from "../public/hero-rocket.svg";
+import bigCoin from "../public/big-coin.svg";
+import mediumCoin from "../public/medium-coin.svg";
+import smallCoin from "../public/small-coin.svg";
 import { HiMiniRocketLaunch } from "react-icons/hi2";
 
 export default function Home() {
@@ -23,27 +23,29 @@ export default function Home() {
         />
       </div>
       <main>
-        <div className="flex justify-between items-center mt-16 mb-24">
+        <div className="flex justify-around items-center mt-16 mb-24 mx-20">
           <div className="flex flex-col gap-8 items-center sm:items-start">
-            <div className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-              <h1 className="max-sm:text-2xl max-md:text-3xl md:text-4xl mb-10 font-black">
-                <span>The first meme</span>
-                <br></br>fair launch platform <br></br>on Radix
+            <div className="list-inside list-decimal text-sm text-center sm:text-left ">
+              <h1 className="font-[family-name:var(--font-londrina-solid)] text-8xl max-sm:text-6xl max-md:text-8xl md:text-8xl mb-3 font-black">
+                RADIX.MEME
+                {/* <br></br>fair launch platform <br></br>on Radix */}
               </h1>
-              <p className="mb-2">
-                Launch you coin with infinite liquidity by using a bonding
-                curve.
+              <p className="font-[family-name:var(--font-josefin-sans)] text-2xl max-sm:text-l max-md:text-2xl md:text-2xl mb-6 max-w-lg sm:max-w-sm md:max-w-md font-normal !leading-none">
+                Instantly launch your coin with unlimited liquidity using a
+                dynamic bonding curve.
               </p>
-              <p>Created by DeXter.</p>
+              <p className="font-[family-name:var(--font-josefin-sans)]">
+                Created by DeXter.
+              </p>
             </div>
 
             <div className="flex gap-4 items-center flex-col sm:flex-row">
               <Link
                 href="/launch"
-                className="flex items-center gap-4 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
+                className="font-[family-name:var(--font-josefin-sans)] flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
               >
                 <HiMiniRocketLaunch className="text-3xl" />
-                <span className="font-bold text-xl">Launch your token</span>
+                <span className="font-bold text-l">Launch your token</span>
               </Link>
             </div>
           </div>
@@ -70,7 +72,6 @@ export default function Home() {
             />
           </div>
         </div>
-
         <GalleryWithHover />
       </main>
     </div>
