@@ -3,9 +3,9 @@ import Image from "next/image";
 import { GalleryWithHover } from "@/components/ui/gallery-with-hover";
 import { SparklesCore } from "@/components/ui/sparkles";
 import heroRocket from "../public/hero-rocket.svg";
-import bigCoin from "../public/big-coin.svg";
-import mediumCoin from "../public/medium-coin.svg";
-import smallCoin from "../public/small-coin.svg";
+import bigCoin from "../public/big-filled-coin.png";
+import mediumCoin from "../public/medium-filled-coin.png";
+import smallCoin from "../public/small-filled-coin.png";
 import { HiMiniRocketLaunch } from "react-icons/hi2";
 import {
   Modal,
@@ -54,77 +54,85 @@ export default function Home() {
                 <HiMiniRocketLaunch className="text-3xl" />
                 <span className="font-bold text-l">Launch your token</span>
               </Link>
-              <Modal>
-                <ModalTrigger className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-3 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300">
-                  <span className="font-bold text-l text-black">
-                    How it works
-                  </span>
-                </ModalTrigger>
-                <ModalBody>
-                  <ModalContent>
-                    <span className="px-1 py-0.5 rounded-md text-center pb-10 sm:text-lg">
-                      <span className="text-dexter-green-OG">RADIX.MEME </span>
-                      prevents rugs by making sure that all created tokens are
-                      safe. Each coin on{" "}
-                      <span className="text-dexter-green-OG">RADIX.MEME </span>
-                      is a fair-launch with no presale and no team allocation.
-                    </span>
-                    <ul className="flex flex-wrap gap-x-4 gap-y-6 items-start justify-start max-w-sm mx-auto list-disc sm:text-lg">
-                      <li>pick a coin that you like (or launch your own!)</li>
-                      <li>buy the coin on the bonding curve</li>
-                      <li>
-                        sell at any time to lock in your profits or losses
-                      </li>
-                      <li>
-                        when enough people buy on the bonding curve it reaches a
-                        market cap of $69k
-                      </li>
-                      <li>
-                        $12k of liquidity is then deposited in ociswap to enable
-                        further trading.
-                      </li>
-                    </ul>
-                  </ModalContent>
-                  <ModalFooter className="gap-4 flex justify-center">
-                    <Link
-                      href="/launch"
-                      className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
-                    >
-                      <HiMiniRocketLaunch className="text-3xl" />
-                      <span className="font-bold text-l">
-                        I&apos;m ready to pump!
-                      </span>
-                    </Link>
-                  </ModalFooter>
-                </ModalBody>
-              </Modal>
+              <ModalWrapper />
             </div>
           </div>
-          <div className="relative w-96 h-96 max-xl:hidden mr-32">
-            <Image
-              src={bigCoin}
-              alt="bigCoin"
-              className="absolute -bottom-8 -right-8  animate-float"
-            />
-            <Image
-              src={mediumCoin}
-              alt="mediumCoin"
-              className="absolute -top-2 -left-2 animate-float"
-            />
-            <Image
-              src={smallCoin}
-              alt="smallCoin"
-              className="absolute top-10 right-0 animate-float"
-            />
-            <Image
-              src={heroRocket}
-              alt="rocket"
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            />
-          </div>
+          <HeroImages />
         </div>
         <GalleryWithHover />
       </main>
     </div>
   );
 }
+
+const ModalWrapper = () => {
+  return (
+    <Modal>
+      <ModalTrigger className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-3 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300">
+        <span className="font-bold text-l text-black">How it works</span>
+      </ModalTrigger>
+      <ModalBody>
+        <ModalContent>
+          <span className="px-1 py-0.5 rounded-md text-center pb-10 sm:text-lg">
+            <span className="text-dexter-green-OG">RADIX.MEME </span>
+            prevents rugs by making sure that all created tokens are safe. Each
+            coin on <span className="text-dexter-green-OG">RADIX.MEME </span>
+            is a fair-launch with no presale and no team allocation.
+          </span>
+          <ul className="flex flex-wrap gap-x-4 gap-y-6 items-start justify-start max-w-sm mx-auto list-disc sm:text-lg">
+            <li>pick a coin that you like (or launch your own!)</li>
+            <li>buy the coin on the bonding curve</li>
+            <li>sell at any time to lock in your profits or losses</li>
+            <li>
+              when enough people buy on the bonding curve it reaches a market
+              cap of $69k
+            </li>
+            <li>
+              $12k of liquidity is then deposited in ociswap to enable further
+              trading.
+            </li>
+          </ul>
+        </ModalContent>
+        <ModalFooter className="gap-4 flex justify-center">
+          <Link
+            href="/launch"
+            className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
+          >
+            <HiMiniRocketLaunch className="text-3xl" />
+            <span className="font-bold text-l">I&apos;m ready to pump!</span>
+          </Link>
+        </ModalFooter>
+      </ModalBody>
+    </Modal>
+  );
+};
+
+const HeroImages = () => {
+  return (
+    <div className="relative w-96 h-96 max-xl:hidden mr-32">
+      <Image
+        src={bigCoin}
+        alt="bigCoin"
+        width={105}
+        className="absolute top-4 left-20 animate-float"
+      />
+      <Image
+        src={mediumCoin}
+        alt="mediumCoin"
+        width={75}
+        className="absolute bottom-4 -right-2  animate-float"
+      />
+      <Image
+        src={smallCoin}
+        alt="smallCoin"
+        className="absolute bottom-24 -left-12 animate-float"
+      />
+      <Image
+        src={heroRocket}
+        alt="rocket"
+        height={475}
+        className="absolute animate-floatRocket top-10 left-6  "
+      />
+    </div>
+  );
+};
