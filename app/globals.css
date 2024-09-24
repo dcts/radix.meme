@@ -67,3 +67,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Radix Connect button */
+:root {
+  --radix-connect-button-height: 40px;
+  --radix-connect-button-width: 140px;
+}
+@media (max-width: 700px) {
+  :root {
+    --radix-connect-button-width: 40px;
+    --radix-connect-button-height: 40px;
+  }
+}
