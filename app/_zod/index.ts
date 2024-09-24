@@ -1,8 +1,14 @@
 import * as z from "zod";
 
 export const CreateCoinInputSchema = z.object({
-  name: z.string().min(4, { message: "Name is required" }),
-  ticker: z.string().min(3, { message: "Ticker is required" }),
+  name: z
+    .string()
+    .min(4, { message: "Must be at least 4 characters" })
+    .max(42, { message: "Must be 42 characters or less" }),
+  ticker: z
+    .string()
+    .min(3, { message: "Must be at least 3 characters" })
+    .max(12, { message: "Must be 12 characters or less" }),
   description: z
     .string()
     .min(16, { message: "Must be at least 16 characters" })

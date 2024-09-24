@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useState } from "react";
+// import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateCoinInputSchema } from "@/app/_zod";
@@ -11,7 +11,7 @@ import { Label } from "@radix-ui/react-label";
 import { HiMiniRocketLaunch } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
-import { FileUpload } from "@/components/ui/file-upload";
+// import { FileUpload } from "@/components/ui/file-upload";
 
 // TODO display validation errors
 // TODO set submit btn disabled state
@@ -19,58 +19,38 @@ import { FileUpload } from "@/components/ui/file-upload";
 const MAX_CHAR_COUNT = 140;
 
 const CreateCoinForm = () => {
-  const [descriptionLength, setDescriptionLength] = React.useState("");
-  const [files, setFiles] = useState<File[]>([]);
+  // const [descriptionLength, setDescriptionLength] = React.useState("");
+  // const [files, setFiles] = useState<File[]>([]);
 
   const {
     register,
-    setValue,
+    // setValue,
     formState: { errors },
-    handleSubmit,
-    watch,
-    trigger,
+    // watch,
+    // trigger,
   } = useForm({
     resolver: zodResolver(CreateCoinInputSchema),
-    mode: "onChange",
+    // mode: "onChange",
   });
-
-  const descriptionValue = watch("description", "");
-  React.useEffect(() => {
-    setDescriptionLength(descriptionValue.length);
-  }, [descriptionValue]);
-
-  const onSubmit = async () => {
-    // Handle submit
-  };
-
-  const handleLaunchTokenClick = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-
-    const isValid = await trigger();
-    if (isValid) {
-      handleSubmit(onSubmit)();
-    }
-  };
 
   return (
     <form
       action={createCoinAction}
-      onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6 max-w-sm font-[family-name:var(--font-josefin-sans)]"
     >
       <div className="grid items-center gap-1.5">
         <Label htmlFor="image">Image *</Label>
-        <FileUpload
+        <input type="file" {...register("image")}></input>
+        {/* <FileUpload
           {...register("image")}
           onChange={(uploadedFiles) => {
+            console.log(uploadedFiles);
             setFiles(uploadedFiles);
-            setValue("image", uploadedFiles);
-            trigger("image");
+            setValue("image", uploadedFiles[0]);
+            // trigger("image");
           }}
-        />
-        {files.length > 0 && ( // <-- Added this block
+        /> */}
+        {/* {files.length > 0 && ( // <-- Added this block
           <div className="text-sm text-gray-600">
             Uploaded files: {files.map((file) => file.name).join(", ")}
           </div>
@@ -79,7 +59,7 @@ const CreateCoinForm = () => {
           <span className="text-red-500">
             {(errors.image.message as string) || "Error"}
           </span>
-        )}
+        )} */}
       </div>
 
       <div className="grid items-center gap-1.5">
@@ -120,9 +100,9 @@ const CreateCoinForm = () => {
           {...register("description")}
           maxLength={MAX_CHAR_COUNT}
         />
-        <span className="text-sm text-right text-white text-opacity-50">
+        {/* <span className="text-sm text-right text-white text-opacity-50">
           {descriptionLength}/{MAX_CHAR_COUNT} characters
-        </span>
+        </span> */}
         {errors.description && (
           <span className="text-red-500">
             {(errors.description.message as string) || "Error"}
@@ -162,7 +142,6 @@ const CreateCoinForm = () => {
         type="submit"
         className="btn bg-dexter-gradient-green/80 hover:bg-dexter-gradient-green
         w-full self-center flex items-center text-2xl"
-        onClick={handleLaunchTokenClick}
       >
         <HiMiniRocketLaunch />
         <span className="ms-2 font-bold text-sm">Launch your token</span>
@@ -212,11 +191,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           type={type}
           className={cn(
             `flex h-10 w-full border-none bg-gray-50 dark:bg-zinc-800 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm  file:border-0 file:bg-transparent
-          file:text-sm file:font-medium placeholder:text-neutral-400 dark:placeholder-text-neutral-600
-          focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-600
-           disabled:cursor-not-allowed disabled:opacity-50
-           dark:shadow-[0px_0px_1px_1px_var(--neutral-700)]
-           group-hover/input:shadow-none transition duration-400
+              file:text-sm file:font-medium placeholder:text-neutral-400 dark:placeholder-text-neutral-600
+              focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-600
+              disabled:cursor-not-allowed disabled:opacity-50
+              dark:shadow-[0px_0px_1px_1px_var(--neutral-700)]
+              group-hover/input:shadow-none transition duration-400
            `,
             className
           )}
