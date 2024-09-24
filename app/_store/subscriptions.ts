@@ -31,34 +31,47 @@ export function getGatewayApiClientOrThrow() {
 let subs: Subscription[] = [];
 
 export function initializeSubscriptions(store: AppStore) {
+  // Get network from environment
+  const networkId = {
+    mainnet: RadixNetwork.Mainnet,
+    stokenet: RadixNetwork.Stokenet,
+  }[process.env.NEXT_PUBLIC_NETWORK!] || RadixNetwork.Stokenet;
+
   // Initialize rdt instance (specify to which app it connects)
+  if (!process.env.NEXT_PUBLIC_DAPP_ADDRESS) {
+    throw new Error("NEXT_PUBLIC_DAPP_ADDRESS env variable not defined!");
+  }
   rdt = RadixDappToolkit({
-    dAppDefinitionAddress:
-      "account_tdx_2_129kev9w27tsl7qjg0dlyze70kxnlzycs8v2c85kzec40gg8mt73f7y",
-    networkId: RadixNetwork.Stokenet,
+    dAppDefinitionAddress: process.env.NEXT_PUBLIC_DAPP_ADDRESS,
+    networkId: networkId,
     featureFlags: ["ExperimentalMobileSupport"],
   });
+  
   // Single VS multi account support
   // -> accounts().exactly(1) -> single account
   // -> accounts().atLeast(1) -> multi account
   rdt.walletApi.setRequestData(
     DataRequestBuilder.accounts().exactly(1)
   );
+  
   // Initialize gateway api client
   gatewayApiClient = GatewayApiClient.initialize(
     rdt.gatewayApi.clientConfig
   );
+  
   // Set connect button theme
   rdt.buttonApi.setTheme("white");
+  
   // Subscribe to connect button updates (if user loggs out, updates data sharing etc...)
   subs.push(
     rdt.walletApi.walletData$.subscribe((walletData: WalletData) => {
       const data: WalletData = JSON.parse(JSON.stringify(walletData));
       store.dispatch(userSlice.actions.setWalletData(data));
       // Fetch XRD balance after login
-      // TODO(dcts): replace hardcoded tokenAddress with env tokenaddress of XRD
-      const xrdStokenetAddress = "resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc";
-      store.dispatch(fetchBalance(xrdStokenetAddress));
+      if (!process.env.NEXT_PUBLIC_XRD_ADDRESS) {
+        throw new Error("NEXT_PUBLIC_XRD_ADDRESS env variable not defined!");
+      }
+      store.dispatch(fetchBalance(process.env.NEXT_PUBLIC_XRD_ADDRESS || ""));
     })
   );
 }
