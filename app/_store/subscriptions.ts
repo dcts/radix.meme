@@ -38,9 +38,11 @@ export function initializeSubscriptions(store: AppStore) {
   }[process.env.NEXT_PUBLIC_NETWORK!] || RadixNetwork.Stokenet;
 
   // Initialize rdt instance (specify to which app it connects)
+  if (!process.env.NEXT_PUBLIC_DAPP_ADDRESS) {
+    throw new Error("NEXT_PUBLIC_DAPP_ADDRESS env variable not defined!");
+  }
   rdt = RadixDappToolkit({
-    dAppDefinitionAddress:
-      "account_tdx_2_129kev9w27tsl7qjg0dlyze70kxnlzycs8v2c85kzec40gg8mt73f7y",
+    dAppDefinitionAddress: process.env.NEXT_PUBLIC_DAPP_ADDRESS,
     networkId: networkId,
     featureFlags: ["ExperimentalMobileSupport"],
   });
@@ -66,9 +68,10 @@ export function initializeSubscriptions(store: AppStore) {
       const data: WalletData = JSON.parse(JSON.stringify(walletData));
       store.dispatch(userSlice.actions.setWalletData(data));
       // Fetch XRD balance after login
-      // TODO(dcts): replace hardcoded tokenAddress with env tokenaddress of XRD
-      const xrdStokenetAddress = "resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc";
-      store.dispatch(fetchBalance(xrdStokenetAddress));
+      if (!process.env.NEXT_PUBLIC_XRD_ADDRESS) {
+        throw new Error("NEXT_PUBLIC_XRD_ADDRESS env variable not defined!");
+      }
+      store.dispatch(fetchBalance(process.env.NEXT_PUBLIC_XRD_ADDRESS || ""));
     })
   );
 }
