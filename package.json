@@ -22,6 +22,7 @@
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.5.0",
     "@types/react-icons": "^3.0.0",
+    "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.5.6",
@@ -37,7 +38,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^20.16.6",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
