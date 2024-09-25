@@ -45,11 +45,11 @@ function OrderSideTab({ orderSide }: OrderSideTabProps): JSX.Element | null {
 
   return (
     <div
-      className={`w-1/2 flex justify-center items-center cursor-pointer hover:opacity-100 ${
+      className={`w-1/2 flex justify-center items-center cursor-pointer hover:opacity-100 border rounded-tl-sm rounded-tr-sm ${
         side === "BUY" && orderSide === "BUY"
-          ? "bg-dexter-green text-content-dark"
+          ? "bg bg-dexter-gray-dark text-dexter-green"
           : side === "SELL" && orderSide === "SELL"
-          ? "bg-dexter-red text-white"
+          ? " text-white"
           : "opacity-50"
       }`}
       onClick={() => {
@@ -66,7 +66,10 @@ function OrderSideTab({ orderSide }: OrderSideTabProps): JSX.Element | null {
 const TokenDetails = ({ tokenAddress }: TProps) => {
   const dispatch = useAppDispatch();
 
-  const { token } = useAppSelector((state) => state.token);
+  const { token, side } = useAppSelector((state) => ({
+    token: state.token.token, // Adjust based on your state structure
+    side: state.token.formInput.side, // Accessing the order side directly
+  }));
 
   // useEffect fetch token data
   useEffect(() => {
@@ -109,7 +112,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
             <div className="">
               <OrderSideTabs />
             </div>
-            <div className="border border-white-1 p-6 rounded-md bg-dexter-gray-c">
+            <div className="border border-white-1 p-6 rounded-bl-sm rounded-br-sm bg-dexter-gray-c">
               <div className="flex flex-row justify-between mt-3">
                 <p>Last Price:</p>
                 <p>0</p>
@@ -122,12 +125,22 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
                   placeholder="0.00"
                 />
               </div>
-              <Link
-                href=""
-                className="flex justify-center w-full mx-auto gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green rounded-lg text-dexter-grey-light px-4 py-3 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300 mt-4 mb-4"
-              >
-                <span className="font-bold text-sm">Buy Stonks!</span>
-              </Link>
+              {side === "SELL" && ( // Check if the current order side is SELL
+                <Link
+                  href=""
+                  className="flex justify-center w-full mx-auto gap-2 bg-dexter-red-b hover:bg-dexter-red-c rounded-lg text-white px-4 py-3 max-lg:self-center shadow-md shadow-dexter-red-b transition duration-300 mt-4 mb-4"
+                >
+                  <span className="font-bold text-sm">Sell Stonks!</span>
+                </Link>
+              )}
+              {side === "BUY" && (
+                <Link
+                  href=""
+                  className="flex justify-center w-full mx-auto gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green rounded-lg text-dexter-grey-light px-4 py-3 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300 mt-4 mb-4"
+                >
+                  <span className="font-bold text-sm">Buy Stonks!</span>
+                </Link>
+              )}
             </div>
             <div>
               <div className="flex flex-row justify-between mt-8">
