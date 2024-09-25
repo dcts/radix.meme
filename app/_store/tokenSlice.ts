@@ -2,11 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { RootState } from "./store";
 import { TokenInfo } from "./tokenStoreSlice";
-import {
-  getGatewayApiClientFromScratchOrThrow,
-  getGatewayApiClientOrThrow,
-} from "./subscriptions";
-import { wait } from "@/utils";
+import { getGatewayApiClientFromScratchOrThrow } from "./subscriptions";
 
 export interface TokenState {
   token: TokenInfo;
@@ -83,17 +79,15 @@ export const fetchToken = createAsyncThunk<
   }
 >("token/fetchToken", async (tokenAddress) => {
   const gatewayApiClient = getGatewayApiClientFromScratchOrThrow();
-  const res = await gatewayApiClient.state.getEntityMetadata(
-    tokenAddress
-  );
+  const res = await gatewayApiClient.state.getEntityMetadata(tokenAddress);
   const dict: Record<string, string> = {};
-  res.items.forEach(it => {
+  res.items.forEach((it) => {
     // ensure typedValue has a "value" property before accessing it
     const typedValue = it.value.typed;
-    if ('value' in typedValue) {
+    if ("value" in typedValue) {
       const value = typedValue.value;
       // ensure the value is of type string
-      if (typeof value === 'string') {
+      if (typeof value === "string") {
         dict[it.key] = value;
       }
     }
