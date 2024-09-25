@@ -2,6 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { RootState } from "./store";
 import { TokenInfo } from "./tokenStoreSlice";
+import {
+  getGatewayApiClientFromScratchOrThrow,
+  getGatewayApiClientOrThrow,
+} from "./subscriptions";
+import { wait } from "@/utils";
 
 export interface TokenState {
   token: TokenInfo;
@@ -57,9 +62,13 @@ export const tokenSlice = createSlice({
 
   // Async thunk are handled by extra reducers
   extraReducers: (builder) => {
-    builder.addCase(fetchToken.fulfilled, (/*state, action*/) => {
+    builder.addCase(fetchToken.fulfilled, (state, action) => {
+      console.log("fetchToken FULFILLED reached");
+      console.log(action.payload);
+      state.token = action.payload;
     });
     builder.addCase(fetchToken.rejected, (_state, action) => {
+      console.log("fetchToken REJECTED reached");
       const errorMessage = action.error?.message || "An unknown error occurred";
       console.error("fetchTokens failed:", errorMessage);
     });
@@ -67,13 +76,35 @@ export const tokenSlice = createSlice({
 });
 
 export const fetchToken = createAsyncThunk<
-  Record<string, TokenInfo>, // Return type of the payload creator
-  undefined, // argument type
+  TokenInfo, // Return type of the payload creator
+  string, // Argument type (function input: tokenAddress)
   {
     state: RootState;
   }
->("token/fetchToken", async () => {
-  const Token = {};
-  // TODO(dcts): Fetch all info of current token
-  return Token;
+>("token/fetchToken", async (tokenAddress) => {
+  const gatewayApiClient = getGatewayApiClientFromScratchOrThrow();
+  const res = await gatewayApiClient.state.getEntityMetadata(
+    tokenAddress
+  );
+  const dict: Record<string, string> = {};
+  res.items.forEach(it => {
+    // ensure typedValue has a "value" property before accessing it
+    const typedValue = it.value.typed;
+    if ('value' in typedValue) {
+      const value = typedValue.value;
+      // ensure the value is of type string
+      if (typeof value === 'string') {
+        dict[it.key] = value;
+      }
+    }
+  });
+  return {
+    name: dict.name,
+    symbol: dict.symbol,
+    description: dict.description,
+    iconUrl: dict.icon_url,
+    telegram: dict.telegram,
+    x: dict.x,
+    website: dict.website,
+  } as TokenInfo;
 });

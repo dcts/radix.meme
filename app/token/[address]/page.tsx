@@ -17,7 +17,7 @@ const page = async ({ params }: TProps) => {
 
   return (
     <div>
-      <h1>Token details</h1>
+      <h1 className="text-xl font-bold">Token details</h1>
       <TokenDetails tokenAddress={address} />
     </div>
   );
