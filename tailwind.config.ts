@@ -94,7 +94,7 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         float: "float 2.5s ease-in-out infinite",
-        floatRocket: "float 3.5s ease-in-out infinite",
+        floatRocket: "float s ease-in-out infinite",
       },
       boxShadow: {
         input: `0px 2px 3px -1px rgba(0,0,0,0.1), 0px 1px 0px 0px rgba(25,28,33,0.02), 0px 0px 0px 1px rgba(25,28,33,0.08)`,
