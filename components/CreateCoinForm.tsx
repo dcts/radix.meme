@@ -86,9 +86,9 @@ const CreateCoinForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-6 max-w-sm font-[family-name:var(--font-josefin-sans)]"
+      className="flex flex-col gap-6 max-sm:max-w-72 font-[family-name:var(--font-josefin-sans)]"
     >
-      <div className="grid items-center gap-1.5">
+      <div className="flex flex-col">
         <Label htmlFor="image">Image *</Label>
         <input type="file" {...register("image")}></input>
         {/* TODO */}
@@ -113,7 +113,7 @@ const CreateCoinForm = () => {
         )}
       </div>
 
-      <div className="grid items-center gap-1.5">
+      <div className="flex flex-col">
         <Label htmlFor="name">Name *</Label>
         <Input
           type="name"
@@ -128,7 +128,7 @@ const CreateCoinForm = () => {
         )}
       </div>
 
-      <div className="grid items-center gap-1.5">
+      <div className="flex flex-col">
         <Label htmlFor="name">Ticker *</Label>
         <Input
           type="symbol"
@@ -143,7 +143,7 @@ const CreateCoinForm = () => {
         )}
       </div>
 
-      <div className="grid items-center gap-1.5">
+      <div className="flex flex-col">
         <Label htmlFor="description">Description *</Label>
         <Textarea
           id="description"
@@ -161,7 +161,7 @@ const CreateCoinForm = () => {
         )}
       </div>
 
-      <div className="grid items-center gap-1.5">
+      <div className="flex flex-col">
         <Label htmlFor="website">Website</Label>
         <Input
           type="text"
@@ -171,12 +171,12 @@ const CreateCoinForm = () => {
         />
       </div>
 
-      <div className="grid items-center gap-1.5">
+      <div className="flex flex-col">
         <Label htmlFor="twitter">X profile</Label>
         <Input type="text" id="twitter" placeholder="@" {...register("xUrl")} />
       </div>
 
-      <div className="grid items-center gap-1.5">
+      <div className="flex flex-col">
         <Label htmlFor="telegram">Telegram</Label>
         <Input
           type="text"
@@ -186,7 +186,7 @@ const CreateCoinForm = () => {
         />
       </div>
 
-      <span className="text-white/80 text-xs">
+      <span className="text-white/80 text-xs my-2">
         Attention: Coin data cannot be changed after creation
       </span>
       <Button
