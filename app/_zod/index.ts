@@ -13,31 +13,29 @@ export const CreateCoinFormSchema = z.object({
     .string()
     .min(16, { message: "Must be at least 16 characters" })
     .max(140, { message: "Must be 140 characters or less" }),
-  // TODO image file validation
-  image: z.any(),
-  // image: z
-  //   .array(z.instanceof(File))
-  //   .refine((files) => files.length > 0, {
-  //     message: "Image is required",
-  //   })
-  //   .refine(
-  //     (files) => {
-  //       return files.every((file) =>
-  //         ["image/jpeg", "image/png"].includes(file.type)
-  //       );
-  //     },
-  //     {
-  //       message: "Only JPEG and PNG formats are allowed",
-  //     }
-  //   )
-  //   .refine(
-  //     (files) => {
-  //       return files.every((file) => file.size <= 2_000_000); // 2 MB in bytes
-  //     },
-  //     {
-  //       message: "File size must not exceed 2 MB",
-  //     }
-  //   ),
+  image: z
+    .any()
+    .refine((files) => files instanceof FileList && files.length > 0, {
+      message: "File is required.",
+    })
+    .refine(
+      (files) => {
+        const file = files[0];
+        const validTypes = ["image/jpeg", "image/jpg", "image/png"];
+        return file ? validTypes.includes(file.type) : true;
+      },
+      {
+        message: "Only jpeg, jpg, and png are allowed.",
+      }
+    )
+    .refine(
+      (files) => {
+        return files?.[0] ? files[0].size <= 2 * 1024 * 1024 : true;
+      },
+      {
+        message: "File size should not exceed 2MB.",
+      }
+    ),
   telegramUrl: z.string().optional(),
   xUrl: z.string().optional(),
   website: z.string().optional(),

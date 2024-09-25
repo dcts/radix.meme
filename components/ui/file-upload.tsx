@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
@@ -36,10 +34,8 @@ export const FileUpload = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (newFiles: File[]) => {
-    setFiles(newFiles);
-    if (onChange) {
-      onChange(newFiles);
-    }
+    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+    onChange && onChange(newFiles);
   };
 
   const handleClick = () => {
@@ -59,8 +55,8 @@ export const FileUpload = ({
     <div className="w-full" {...getRootProps()}>
       <motion.div
         onClick={handleClick}
-        // whileHover="animate"
-        className=" group/file block rounded-lg cursor-pointer w-full relative overflow-hidden"
+        whileHover="animate"
+        className="p-10 group/file block rounded-lg cursor-pointer w-full relative overflow-hidden"
       >
         <input
           ref={fileInputRef}
@@ -69,16 +65,24 @@ export const FileUpload = ({
           onChange={(e) => handleFileChange(Array.from(e.target.files || []))}
           className="hidden"
         />
-        <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]"></div>
+        <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]">
+          <GridPattern />
+        </div>
         <div className="flex flex-col items-center justify-center">
-          <div className="relative w-full max-w-xl">
+          <p className="relative z-20 font-sans font-bold text-neutral-700 dark:text-neutral-300 text-base">
+            Upload file
+          </p>
+          <p className="relative z-20 font-sans font-normal text-neutral-400 dark:text-neutral-400 text-base mt-2">
+            Drag or drop your files here or click to upload
+          </p>
+          <div className="relative w-full mt-10 max-w-xl mx-auto">
             {files.length > 0 &&
               files.map((file, idx) => (
                 <motion.div
                   key={"file" + idx}
                   layoutId={idx === 0 ? "file-upload" : "file-upload-" + idx}
                   className={cn(
-                    "relative overflow-hidden z-40 bg-white dark:bg-neutral-900 flex flex-col items-start justify-start w-full mx-auto rounded-md",
+                    "relative overflow-hidden z-40 bg-white dark:bg-neutral-900 flex flex-col items-start justify-start md:h-24 p-4 mt-4 w-full mx-auto rounded-md",
                     "shadow-sm"
                   )}
                 >
@@ -163,3 +167,27 @@ export const FileUpload = ({
     </div>
   );
 };
+
+export function GridPattern() {
+  const columns = 41;
+  const rows = 11;
+  return (
+    <div className="flex bg-gray-100 dark:bg-neutral-900 flex-shrink-0 flex-wrap justify-center items-center gap-x-px gap-y-px  scale-105">
+      {Array.from({ length: rows }).map((_, row) =>
+        Array.from({ length: columns }).map((_, col) => {
+          const index = row * columns + col;
+          return (
+            <div
+              key={`${col}-${row}`}
+              className={`w-10 h-10 flex flex-shrink-0 rounded-[2px] ${
+                index % 2 === 0
+                  ? "bg-gray-50 dark:bg-neutral-950"
+                  : "bg-gray-50 dark:bg-neutral-950 shadow-[0px_0px_1px_3px_rgba(255,255,255,1)_inset] dark:shadow-[0px_0px_1px_3px_rgba(0,0,0,1)_inset]"
+              }`}
+            />
+          );
+        })
+      )}
+    </div>
+  );
+}
