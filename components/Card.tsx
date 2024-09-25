@@ -5,7 +5,7 @@ import type { TTokenData } from "@/types";
 
 export const Card = ({ coin }: { coin: TTokenData }) => {
   return (
-    <div className="rounded-2xl w-[22rem] h-[29rem] p-4 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 mx-auto">
+    <div className="rounded-2xl w-[22rem] h-[29rem] p-4 overflow-hidden bg-dexter-grey-dark border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 mx-auto">
       <div className="relative z-50 h-full flex flex-col">
         <div className="px-4 py-1">
           <figure>
@@ -69,7 +69,7 @@ export const CardSkeleton = () => {
   const randomPercentage = Math.floor(Math.random() * 101);
 
   return (
-    <div className="rounded-2xl w-[22rem] h-[29rem] p-4 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 m-2">
+    <div className="rounded-2xl w-[22rem] h-[29rem] p-4 overflow-hidden bg-dexter-grey-dark border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 m-2">
       <div className="relative z-50">
         <div className="px-4 py-1">
           <Skeleton className="py-2 w-full h-44 rounded-xl" />
