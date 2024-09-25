@@ -35,6 +35,8 @@ export const FileUpload = ({
 
   const handleFileChange = (newFiles: File[]) => {
     setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+    // TODO(siegfried): check this error please :)
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     onChange && onChange(newFiles);
   };
 
