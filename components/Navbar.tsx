@@ -41,9 +41,9 @@ const Navbar = () => {
           height={50}
           className="hover:animate-spin transition duration-1000"
         />
-        <h1 className="ml-3 mt-2 text-lg text-white font-bold font-[family-name:var(--font-geist-mono)]">
-          radix.meme
-        </h1>
+        <span className="mx-3 font-[family-name:var(--font-londrina-solid)] text-xl font-black tracking-wider">
+          RADIX.MEME
+        </span>
         <BetaLabel />
       </Link>
       <div className="h-full flex items-center">
@@ -60,11 +60,11 @@ const Navbar = () => {
   );
 };
 
-const BetaLabel = () => {
+export const BetaLabel = () => {
   return (
-    <div className="bg-dexter-red text-xs font-bold px-2 py-[0.15rem] rounded-md absolute rotate-[15deg] -right-[37px] top-0 hover:scale-[1.2] transition-transform duration-300 select-none">
+    <span className="bg-dexter-red text-sm font-bold px-2 py-[0.15rem] rounded-md hover:scale-[1.2] transition-transform duration-300 font-[family-name:var(--font-londrina-solid)]">
       BETA
-    </div>
+    </span>
   );
 };
 export default Navbar;
