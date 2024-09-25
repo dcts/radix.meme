@@ -11,6 +11,10 @@ type TProps = {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getData = async (address: string) => {
   const token = devCoinsData.at(0) as TTokenData;
+  // const gatewayApiClient = getGatewayApiClientOrThrow();
+  // console.log({address});
+  // const res = await gatewayApiClient.state.getEntityMetadata(address);
+  // console.log({res});
   return token;
 };
 

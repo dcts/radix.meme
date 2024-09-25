@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { RootState } from "./store";
 import { TokenInfo } from "./tokenStoreSlice";
+import { getGatewayApiClientOrThrow } from "./subscriptions";
 
 export interface TokenState {
   token: TokenInfo;
@@ -68,12 +69,16 @@ export const tokenSlice = createSlice({
 
 export const fetchToken = createAsyncThunk<
   Record<string, TokenInfo>, // Return type of the payload creator
-  undefined, // argument type
+  string, // function input type (tokenResourceAddress)
   {
     state: RootState;
   }
->("token/fetchToken", async () => {
+>("token/fetchToken", async (tokenResourceAddress) => {
+  console.log("INSIDE FETCH TOKEN ASYNC THUNK");
   const Token = {};
+  const gatewayApiClient = getGatewayApiClientOrThrow();
+  const res = await gatewayApiClient.state.getEntityMetadata(tokenResourceAddress);
+  console.log({res});
   // TODO(dcts): Fetch all info of current token
   return Token;
 });
