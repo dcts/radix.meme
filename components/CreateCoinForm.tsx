@@ -1,24 +1,32 @@
 "use client";
 
 import * as React from "react";
-// import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateCoinInputSchema } from "@/app/_zod";
-import { createCoinAction } from "@/app/_actions/createCoinAction";
+import { CreateCoinFormSchema, type TCreateCoinForm } from "@/app/_zod";
 import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { HiMiniRocketLaunch } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 // import { FileUpload } from "@/components/ui/file-upload";
+import { createPinataUrl } from "@/app/_actions/create-pinata-url";
 
 // TODO display validation errors
 // TODO set submit btn disabled state
 
 const MAX_CHAR_COUNT = 140;
 
+type TCreateCoinInputTRX = Omit<TCreateCoinForm, "image"> & {
+  imageUrl: string;
+};
+
 const CreateCoinForm = () => {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  // const [file, setFile] = useState<File>();
   // const [descriptionLength, setDescriptionLength] = React.useState("");
   // const [files, setFiles] = useState<File[]>([]);
 
@@ -28,19 +36,62 @@ const CreateCoinForm = () => {
     formState: { errors },
     // watch,
     // trigger,
+    handleSubmit,
   } = useForm({
-    resolver: zodResolver(CreateCoinInputSchema),
-    // mode: "onChange",
+    resolver: zodResolver(CreateCoinFormSchema),
+    mode: "onChange",
   });
+
+  async function onSubmit(data: FieldValues) {
+    const { image, name, ticker, description, telegramUrl, xUrl, website } =
+      data;
+
+    setIsSubmitting(true);
+
+    try {
+      /** upload img to pinata */
+      const imageUrl = (await uploadImage(image?.[0])) as string;
+
+      /** TODO notify user ? */
+      //toast.success("Image created successfully, creating coin...")
+
+      /** create TX */
+      const token = await createToken({
+        imageUrl,
+        name,
+        ticker,
+        description,
+        telegramUrl,
+        xUrl,
+        website,
+      });
+
+      console.log(token);
+
+      /** TODO notify user ? */
+      //toast.success("Coin created successfully")
+
+      /** navigate to token details page */
+      // TODO router.push(`/token/${token.address}`);
+      router.push(`/token/OX...`);
+    } catch (error) {
+      console.log(error);
+      /** TODO notify user ? */
+      // toast.error(`Could not create token, please try again later`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <form
-      action={createCoinAction}
+      onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6 max-w-sm font-[family-name:var(--font-josefin-sans)]"
     >
       <div className="grid items-center gap-1.5">
         <Label htmlFor="image">Image *</Label>
         <input type="file" {...register("image")}></input>
+        {/* TODO */}
         {/* <FileUpload
           {...register("image")}
           onChange={(uploadedFiles) => {
@@ -54,12 +105,12 @@ const CreateCoinForm = () => {
           <div className="text-sm text-gray-600">
             Uploaded files: {files.map((file) => file.name).join(", ")}
           </div>
-        )}
+        )} */}
         {errors.image && (
           <span className="text-red-500">
             {(errors.image.message as string) || "Error"}
           </span>
-        )} */}
+        )}
       </div>
 
       <div className="grid items-center gap-1.5">
@@ -140,6 +191,7 @@ const CreateCoinForm = () => {
       </span>
       <Button
         type="submit"
+        disabled={isSubmitting}
         className="btn bg-dexter-gradient-green/80 hover:bg-dexter-gradient-green
         w-full self-center flex items-center text-2xl"
       >
@@ -152,6 +204,36 @@ const CreateCoinForm = () => {
 
 export default CreateCoinForm;
 
+/** Helpers */
+// create token TX
+const createToken = async (values: TCreateCoinInputTRX) => {
+  console.log("values", values);
+};
+
+// upload image to pinata/ipfs
+const uploadImage = async (file: File) => {
+  try {
+    if (!file) {
+      alert("No file selected");
+      return;
+    }
+
+    const data = new FormData();
+    data.set("image", file);
+    const response = await createPinataUrl(data);
+
+    if (response.status !== "success") {
+      throw new Error("Could not create image url");
+    }
+
+    return response.ipfsUrl;
+  } catch (err) {
+    console.log(err);
+    throw new Error("Could not create image url");
+  }
+};
+
+/** TODO use Aceternity File upload input */
 // Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
