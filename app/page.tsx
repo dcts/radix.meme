@@ -34,14 +34,14 @@ export default function Home() {
         <div className="h-[calc(100lvh-20rem)] pt-16 flex justify-around items-center mx-16 xl:mx-[4.5rem] 2xl:mx-20 px-8 2xl:px-20 gap-x-32">
           <div className="flex flex-col gap-8 items-center sm:items-start">
             <div className="list-inside list-decimal text-sm text-center sm:text-left ">
-              <h1 className="relative font-[family-name:var(--font-londrina-solid)] text-8xl max-sm:text-6xl max-md:text-8xl md:text-8xl mb-3 font-black tracking-wider">
+              <h1 className="relative font-[family-name:var(--font-londrina-solid)] text-8xl max-sm:text-6xl max-md:text-8xl md:text-8xl mb-4 font-black tracking-wider">
                 RADIX.MEME
                 <span className="absolute -top-6 right-0 text-base flex gap-x-2">
-                  <span className="text-dexter-green-OG/80">By DeXter</span>{" "}
-                  <BetaLabel />
+                  <span className="text-[20px] tracking-[2px] text-dexter-green-OG/80">By DeXter</span>{" "}
+                  <BetaLabel additionalClasses="!text-[20px]"/>
                 </span>
               </h1>
-              <p className="font-[family-name:var(--font-josefin-sans)] text-2xl max-sm:text-l max-md:text-2xl md:text-2xl mb-6 max-w-lg sm:max-w-sm md:max-w-md font-normal !leading-none">
+              <p className="font-[family-name:var(--font-josefin-sans)] text-2xl max-sm:text-l max-md:text-2xl md:text-2xl mb-6 max-w-lg sm:max-w-sm md:max-w-md font-normal !leading-8">
                 Instantly launch your coin with unlimited liquidity using a
                 dynamic bonding curve.
               </p>
