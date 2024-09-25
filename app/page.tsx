@@ -63,13 +63,18 @@ export default function Home() {
           <GalleryWithHover />
         </div>
 
-        <div className="w-full flex justify-center mt-16 mb-8">
+        <div className="w-full flex flex-col items-center justify-center mt-16 mb-8 gap-y-6">
+          <h3 className="text-3xl font-[family-name:var(--font-londrina-solid)] opacity-90 tracking-widest">
+            What are you waiting ?
+          </h3>
           <Link
             href="/launch"
-            className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
+            className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-blur-dexter-green-OG hover:shadow-blur-dexter-gradient-green transition duration-300"
           >
-            <HiMiniRocketLaunch className="text-3xl" />
-            <span className="font-bold text-lg">Launch your token</span>
+            <HiMiniRocketLaunch className="text-3xl opacity-80" />
+            <span className="text-base font-[family-name:var(--font-londrina-solid)] tracking-wider opacity-80">
+              Launch now your token!
+            </span>
           </Link>
         </div>
       </main>
