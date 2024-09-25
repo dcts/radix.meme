@@ -27,11 +27,15 @@ const config = {
         "dexter-gradient-green": "#ACF840",
         "dexter-gradient-blue": "#05CBE6",
         "dexter-red": "#D22D2D",
+        "dexter-red-b": "#D80B0B",
+        "dexter-red-c": "#FD2F2F",
         "dexter-grey-dark": "#141414",
         "dexter-grey-light": "#191B1D",
         "content-dark": "#212A09",
         "dexter-gray": "#474C52",
         "dexter-gray-b": "#212426",
+        "dexter-gray-c": "#181818",
+
         // aceternity
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
