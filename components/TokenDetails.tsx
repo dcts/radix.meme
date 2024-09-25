@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { mockInitialState, OrderSide } from "@/app/_store/tokenSlice";
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
+import { fetchToken } from "@/app/_store/tokenSlice";
+import { useEffect } from "react";
 
 type TProps = {
   tokenAddress: string;
@@ -51,9 +53,17 @@ function OrderSideTab({ orderSide }: OrderSideTabProps): JSX.Element | null {
 }
 
 const TokenDetails = ({ tokenAddress }: TProps) => {
-  console.log("tokenAddress", tokenAddress);
+  const dispatch = useAppDispatch();
 
+  const { token } = useAppSelector(state => state.token);
+  
   // useEffect fetch token data
+  useEffect(() => {
+    async function loadTokenData() {
+      await dispatch(fetchToken(tokenAddress));
+    }
+    loadTokenData();
+  }, [dispatch, tokenAddress]);
 
   const token = mockInitialState;
 

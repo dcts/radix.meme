@@ -32,7 +32,7 @@ const Navbar = () => {
   const { balances } = useAppSelector((state) => state.user);
   const xrdBalance = balances[process.env.NEXT_PUBLIC_XRD_ADDRESS || ""] || -1;
   return (
-    <div className="w-full flex items-center justify-between h-16">
+    <header className="w-full h-full flex items-center justify-between px-8">
       <Link href="/" className="flex justify-center items-center relative">
         <Image
           alt="racoon head"
@@ -41,26 +41,28 @@ const Navbar = () => {
           height={50}
           className="hover:animate-spin transition duration-1000"
         />
-        <h1 className="ml-3 text-lg text-white font-bold font-[family-name:var(--font-geist-mono)]">
+        <h1 className="ml-3 mt-2 text-lg text-white font-bold font-[family-name:var(--font-geist-mono)]">
           radix.meme
         </h1>
         <BetaLabel />
       </Link>
-      <div>
+      <div className="h-full flex items-center">
         <radix-connect-button
           ref={radixConnectButtonRef}
         ></radix-connect-button>
         {xrdBalance >= 0 && (
-          <p className="absolute text-sm pt-1 opacity-70">Balance: {xrdBalance.toLocaleString()} XRD</p>
+          <p className="absolute text-sm pt-1 opacity-70">
+            Balance: {xrdBalance.toLocaleString()} XRD
+          </p>
         )}
       </div>
-    </div>
+    </header>
   );
 };
 
 const BetaLabel = () => {
   return (
-    <div className="bg-dexter-red text-xs font-bold px-2 py-1 rounded-md absolute rotate-[15deg] right-[-37px] top-[-5px] hover:scale-[1.2] transition-transform duration-300 select-none">
+    <div className="bg-dexter-red text-xs font-bold px-2 py-[0.15rem] rounded-md absolute rotate-[15deg] -right-[37px] top-0 hover:scale-[1.2] transition-transform duration-300 select-none">
       BETA
     </div>
   );

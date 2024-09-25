@@ -1,7 +1,6 @@
 "use client";
 
-import * as React from "react";
-import { useState } from "react";
+import { useState, forwardRef, InputHTMLAttributes } from "react";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,10 +10,8 @@ import { Label } from "@radix-ui/react-label";
 import { HiMiniRocketLaunch } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
-// import { FileUpload } from "@/components/ui/file-upload";
 import { createPinataUrl } from "@/app/_actions/create-pinata-url";
 
-// TODO display validation errors
 // TODO set submit btn disabled state
 
 const MAX_CHAR_COUNT = 140;
@@ -26,16 +23,11 @@ type TCreateCoinInputTRX = Omit<TCreateCoinForm, "image"> & {
 const CreateCoinForm = () => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // const [file, setFile] = useState<File>();
-  // const [descriptionLength, setDescriptionLength] = React.useState("");
-  // const [files, setFiles] = useState<File[]>([]);
 
   const {
+    watch,
     register,
-    // setValue,
     formState: { errors },
-    // watch,
-    // trigger,
     handleSubmit,
   } = useForm({
     resolver: zodResolver(CreateCoinFormSchema),
@@ -86,26 +78,11 @@ const CreateCoinForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-6 max-w-sm font-[family-name:var(--font-josefin-sans)]"
+      className="flex flex-col gap-6 max-sm:max-w-72 font-[family-name:var(--font-josefin-sans)]"
     >
-      <div className="grid items-center gap-1.5">
+      <div className="flex flex-col">
         <Label htmlFor="image">Image *</Label>
-        <input type="file" {...register("image")}></input>
-        {/* TODO */}
-        {/* <FileUpload
-          {...register("image")}
-          onChange={(uploadedFiles) => {
-            console.log(uploadedFiles);
-            setFiles(uploadedFiles);
-            setValue("image", uploadedFiles[0]);
-            // trigger("image");
-          }}
-        /> */}
-        {/* {files.length > 0 && ( // <-- Added this block
-          <div className="text-sm text-gray-600">
-            Uploaded files: {files.map((file) => file.name).join(", ")}
-          </div>
-        )} */}
+        <Input type="file" id="image" {...register("image")} />
         {errors.image && (
           <span className="text-red-500">
             {(errors.image.message as string) || "Error"}
@@ -113,10 +90,10 @@ const CreateCoinForm = () => {
         )}
       </div>
 
-      <div className="grid items-center gap-1.5">
+      <div className="flex flex-col">
         <Label htmlFor="name">Name *</Label>
         <Input
-          type="name"
+          type="text"
           id="name"
           placeholder="E.G.: Meme token"
           {...register("name")}
@@ -128,10 +105,10 @@ const CreateCoinForm = () => {
         )}
       </div>
 
-      <div className="grid items-center gap-1.5">
+      <div className="flex flex-col">
         <Label htmlFor="name">Ticker *</Label>
         <Input
-          type="symbol"
+          type="text"
           id="symbol"
           placeholder="E.G.: MEME"
           {...register("ticker")}
@@ -143,7 +120,7 @@ const CreateCoinForm = () => {
         )}
       </div>
 
-      <div className="grid items-center gap-1.5">
+      <div className="flex flex-col">
         <Label htmlFor="description">Description *</Label>
         <Textarea
           id="description"
@@ -151,9 +128,9 @@ const CreateCoinForm = () => {
           {...register("description")}
           maxLength={MAX_CHAR_COUNT}
         />
-        {/* <span className="text-sm text-right text-white text-opacity-50">
-          {descriptionLength}/{MAX_CHAR_COUNT} characters
-        </span> */}
+        <span className="text-sm text-right text-white text-opacity-50">
+          {watch("description")?.length ?? 0}/{MAX_CHAR_COUNT} characters
+        </span>
         {errors.description && (
           <span className="text-red-500">
             {(errors.description.message as string) || "Error"}
@@ -161,7 +138,7 @@ const CreateCoinForm = () => {
         )}
       </div>
 
-      <div className="grid items-center gap-1.5">
+      <div className="flex flex-col">
         <Label htmlFor="website">Website</Label>
         <Input
           type="text"
@@ -171,12 +148,12 @@ const CreateCoinForm = () => {
         />
       </div>
 
-      <div className="grid items-center gap-1.5">
+      <div className="flex flex-col">
         <Label htmlFor="twitter">X profile</Label>
         <Input type="text" id="twitter" placeholder="@" {...register("xUrl")} />
       </div>
 
-      <div className="grid items-center gap-1.5">
+      <div className="flex flex-col">
         <Label htmlFor="telegram">Telegram</Label>
         <Input
           type="text"
@@ -186,7 +163,7 @@ const CreateCoinForm = () => {
         />
       </div>
 
-      <span className="text-white/80 text-xs">
+      <span className="text-white/80 text-xs my-2">
         Attention: Coin data cannot be changed after creation
       </span>
       <Button
@@ -233,15 +210,13 @@ const uploadImage = async (file: File) => {
   }
 };
 
-/** TODO use Aceternity File upload input */
 // Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
+const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
     const radius = 100; // change this to increase the rdaius of the hover effect
-    const [visible, setVisible] = React.useState(false);
+    const [visible, setVisible] = useState(false);
 
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
@@ -272,7 +247,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           className={cn(
-            `flex h-10 w-full border-none bg-gray-50 dark:bg-zinc-800 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm  file:border-0 file:bg-transparent
+            `flex h-10 w-full border-none bg-gray-50 dark:bg-stone-800 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm  file:border-0 file:bg-transparent
               file:text-sm file:font-medium placeholder:text-neutral-400 dark:placeholder-text-neutral-600
               focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-600
               disabled:cursor-not-allowed disabled:opacity-50
@@ -293,10 +268,10 @@ Input.displayName = "Input";
 export interface TextAreaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
-const Textarea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
+const Textarea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ({ className, ...props }, ref) => {
     const radius = 100; // change this to increase the rdaius of the hover effect
-    const [visible, setVisible] = React.useState(false);
+    const [visible, setVisible] = useState(false);
 
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
@@ -326,7 +301,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
       >
         <textarea
           className={cn(
-            `flex h-32 w-full border-none bg-gray-50 dark:bg-zinc-800 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm  file:border-0 file:bg-transparent
+            `flex h-32 w-full border-none bg-gray-50 dark:bg-stone-800 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm  file:border-0 file:bg-transparent
               file:text-sm file:font-medium placeholder:text-neutral-400 dark:placeholder-text-neutral-600
               focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-600
               disabled:cursor-not-allowed disabled:opacity-50

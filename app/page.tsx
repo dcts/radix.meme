@@ -30,7 +30,7 @@ export default function Home() {
         />
       </div>
       <main>
-        <div className="flex justify-around items-center mt-16 mb-24 mx-20">
+        <div className="h-[calc(100lvh-20rem)] pt-16 flex justify-around items-center mx-16 xl:mx-[4.5rem] 2xl:mx-20 px-8 2xl:px-20 gap-x-32">
           <div className="flex flex-col gap-8 items-center sm:items-start">
             <div className="list-inside list-decimal text-sm text-center sm:text-left ">
               <h1 className="font-[family-name:var(--font-londrina-solid)] text-8xl max-sm:text-6xl max-md:text-8xl md:text-8xl mb-3 font-black">
@@ -52,14 +52,26 @@ export default function Home() {
                 className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
               >
                 <HiMiniRocketLaunch className="text-3xl" />
-                <span className="font-bold text-l">Launch your token</span>
+                <span className="font-bold text-lg">Launch your token</span>
               </Link>
               <ModalWrapper />
             </div>
           </div>
           <HeroImages />
         </div>
-        <GalleryWithHover />
+        <div className="bg-dexter-grey-dark">
+          <GalleryWithHover />
+        </div>
+
+        <div className="w-full flex justify-center mt-16 mb-8">
+          <Link
+            href="/launch"
+            className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
+          >
+            <HiMiniRocketLaunch className="text-3xl" />
+            <span className="font-bold text-lg">Launch your token</span>
+          </Link>
+        </div>
       </main>
     </div>
   );
@@ -68,18 +80,23 @@ export default function Home() {
 const ModalWrapper = () => {
   return (
     <Modal>
-      <ModalTrigger className="flex items-center border-b-[3px]  border-b-white gap-2 bg-dexter-grey-dark w-fit rounded-lg text-white px-4 py-3 max-lg:self-center shadow-md hover:shadow-lg ring-1 ring-white shadow-white hover:shadow-white transition duration-100 active:translate-y-1">
+      <ModalTrigger className="flex items-center border-b-[3px] border-b-white bg-dexter-grey-dark w-fit rounded-lg text-white px-4 py-3 max-lg:self-center shadow-md hover:shadow-lg ring-1 ring-white shadow-white hover:shadow-white transition duration-100 active:translate-y-1">
         <span className="font-bold text-lg ">How does it work ?</span>
       </ModalTrigger>
       <ModalBody>
         <ModalContent>
-          <span className="px-1 py-0.5 rounded-md text-center pb-10 sm:text-lg">
-            <span className="text-dexter-green-OG">RADIX.MEME </span>
-            prevents rugs by making sure that all created tokens are safe. Each
-            coin on <span className="text-dexter-green-OG">RADIX.MEME </span>
-            is a fair-launch with no presale and no team allocation.
-          </span>
-          <ul className="flex flex-wrap gap-x-4 gap-y-6 items-start justify-start max-w-sm mx-auto list-disc sm:text-lg">
+          <div className="space-y-4 rounded-md text-center py-4 pb-8 sm:text-lg -mx-4">
+            <p>
+              <span className="text-dexter-green-OG">RADIX.MEME </span>
+              prevents rugs by making sure that all created tokens are safe.{" "}
+            </p>
+            <p>
+              Each coin on{" "}
+              <span className="text-dexter-green-OG">RADIX.MEME </span>
+              is a fair-launch with no presale and no team allocation.
+            </p>
+          </div>
+          <ul className="text-justify flex flex-col gap-y-4 items-start justify-start max-w-sm mx-auto list-disc sm:text-lg">
             <li>pick a coin that you like (or launch your own!)</li>
             <li>buy the coin on the bonding curve</li>
             <li>sell at any time to lock in your profits or losses</li>
@@ -125,7 +142,7 @@ const HeroImages = () => {
       <Image
         src={smallCoin}
         alt="smallCoin"
-        className="absolute bottom-24 -left-12 animate-float"
+        className="absolute bottom-24 -left-8 2xl:-left-12 animate-float"
       />
       <Image
         src={heroRocket}
