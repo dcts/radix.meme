@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { RootState } from "./store";
 import { TokenInfo } from "./tokenStoreSlice";
@@ -88,7 +88,11 @@ export const tokenSlice = createSlice({
   // initialState,
 
   // synchronous reducers
-  reducers: {},
+  reducers: {
+    setOrderSide: (state: TokenState, action: PayloadAction<OrderSide>) => {
+      state.formInput.side = action.payload;
+    },
+  },
 
   // Async thunk are handled by extra reducers
   extraReducers: (builder) => {
