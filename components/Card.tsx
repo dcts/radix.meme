@@ -19,7 +19,7 @@ export const Card = ({ coin }: { coin: TTokenData }) => {
           </figure>
 
           <div className="flex-grow">
-            <h2 className="text-dexter-green text-xl font-bold tracking-wide mt-4 flex items-center justify-between">
+            <h2 className="text-dexter-green max-sm:text-lg text-xl font-bold tracking-wide mt-4 flex items-center justify-between">
               <span className="inline-block text-dexter-green capitalize whitespace-nowrap max-w-32 truncate">
                 {coin.name}
               </span>
@@ -38,22 +38,24 @@ export const Card = ({ coin }: { coin: TTokenData }) => {
           </div>
         </div>
 
-        <div className="mt-auto pt-2">
+        <div className="mt-auto pt-2 px-4">
           <div className="flex items-center my-2">
-            <h2 className="text-lg">Last Price:</h2>
+            <h2 className="max-sm:text-base text-lg">Last Price:</h2>
             <div className="ms-auto">
               <span className="text-dexter-green">+65%</span>
-              <span className="ms-4 p-1 text-lg bg-dexter-gray-b">
+              <span className="ms-4 p-1 max-sm:text-base text-lg bg-dexter-gray-b">
                 0.002 XRD
               </span>
             </div>
           </div>
 
           <div className="flex items-center my-2">
-            <h2 className="text-lg whitespace-nowrap">Ready to DeXter:</h2>
+            <h2 className="max-sm:text-base text-lg whitespace-nowrap">
+              Ready to DeXter:
+            </h2>
             <div className="ms-auto">
               <span className="text-dexter-green whitespace-nowrap">
-                `${coin.progress.toFixed(0)}k / 100k XRD`
+                {coin.progress.toFixed(0)}k / 100k XRD
               </span>
             </div>
           </div>
@@ -87,7 +89,9 @@ export const CardSkeleton = () => {
           <Skeleton className="my-4 w-full h-14 rounded-xl bg-stone-600/55" />
 
           <div className="flex items-center my-2">
-            <h2 className="text-lg text-stone-200/55">Last Price:</h2>
+            <h2 className="max-sm:text-base text-lg text-stone-200/55">
+              Last Price:
+            </h2>
             <div className="ms-auto flex items-center">
               <Skeleton className="w-12 h-4 rounded-xl bg-dexter-green/55" />
               <Skeleton className="ms-4 w-20 h-8 rounded-xl bg-dexter-gray-b/55" />
@@ -95,7 +99,7 @@ export const CardSkeleton = () => {
           </div>
 
           <div className="flex items-center my-2">
-            <h2 className="text-lg text-stone-200/55 whitespace-nowrap">
+            <h2 className="max-sm:text-base text-lg text-stone-200/55 whitespace-nowrap">
               Ready to DeXter:
             </h2>
             <div className="ms-auto flex items-center">
