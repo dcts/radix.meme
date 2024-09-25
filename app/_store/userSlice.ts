@@ -53,6 +53,16 @@ export const userSlice = createSlice({
     ) => {
       state.selectedAccount = action.payload;
     },
+    reset: (state: UserState) => {
+      state.walletData = {
+        accounts: [],
+        personaData: [],
+        proofs: [],
+      };
+      state.isConnected = false;
+      state.selectedAccount = {} as WalletDataStateAccount;
+      state.balances = {};
+    }
   },
 
   // Async thunk are handled by extra reducers

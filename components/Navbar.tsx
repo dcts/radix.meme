@@ -1,8 +1,36 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../public/racoon-head.png";
+import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
+import { useEffect, useRef } from "react";
+import { userSlice } from "@/app/_store/userSlice";
 
 const Navbar = () => {
+  const dispatch = useAppDispatch();
+  const radixConnectButtonRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const handleDisconnect = () => {
+      dispatch(userSlice.actions.reset());
+    };
+    const radixConnectButton = radixConnectButtonRef.current;
+    if (radixConnectButton) {
+      radixConnectButton.addEventListener("onDisconnect", handleDisconnect);
+    }
+    return () => {
+      if (radixConnectButton) {
+        radixConnectButton.removeEventListener(
+          "onDisconnect",
+          handleDisconnect
+        );
+      }
+    };
+  }, [dispatch]);
+
+  const { balances } = useAppSelector((state) => state.user);
+  const xrdBalance = balances[process.env.NEXT_PUBLIC_XRD_ADDRESS || ""] || -1;
   return (
     <div className="w-full flex items-center justify-between h-16">
       <Link href="/" className="flex justify-center items-center relative">
@@ -18,7 +46,14 @@ const Navbar = () => {
         </h1>
         <BetaLabel />
       </Link>
-      <radix-connect-button></radix-connect-button>
+      <div>
+        <radix-connect-button
+          ref={radixConnectButtonRef}
+        ></radix-connect-button>
+        {xrdBalance >= 0 && (
+          <p className="absolute text-sm pt-1 opacity-70">Balance: {xrdBalance.toLocaleString()} XRD</p>
+        )}
+      </div>
     </div>
   );
 };
