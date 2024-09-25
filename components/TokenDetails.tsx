@@ -47,9 +47,9 @@ function OrderSideTab({ orderSide }: OrderSideTabProps): JSX.Element | null {
     <div
       className={`w-1/2 flex justify-center items-center cursor-pointer hover:opacity-100 border rounded-tl-sm rounded-tr-sm ${
         side === "BUY" && orderSide === "BUY"
-          ? "bg bg-dexter-gray-dark text-dexter-green"
+          ? "bg-dexter-gray-dark text-dexter-green bg-dexter-gray-c"
           : side === "SELL" && orderSide === "SELL"
-          ? " text-white"
+          ? "text-dexter-red-c bg-dexter-gray-dark bg-dexter-gray-c"
           : "opacity-50"
       }`}
       onClick={() => {
