@@ -11,18 +11,36 @@ import { HiMiniRocketLaunch } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 import { createPinataUrl } from "@/app/_actions/create-pinata-url";
+import { TokenInfo } from "@/app/_store/tokenStoreSlice";
+import { launchTokenTxManifest } from "@/utils/tx-utils";
 
 // TODO set submit btn disabled state
 
 const MAX_CHAR_COUNT = 140;
 
-type TCreateCoinInputTRX = Omit<TCreateCoinForm, "image"> & {
-  imageUrl: string;
-};
+// type TCreateCoinInputTRX = Omit<TCreateCoinForm, "image"> & {
+//   imageUrl: string;
+// };
 
 const CreateCoinForm = () => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  React.useEffect(() => {
+    const createTokenProgramatically = async () => {
+      const tokenAddress = await createToken({
+        iconUrl: "https://cdn.sunpump.meme/public/logo/NINJA_TH9s5x_6JuBr85YPLLj.png",
+        name: "Ninja Tron",
+        symbol: "NINJA",
+        description: "Earn 5% daily with a 10-level affiliate bonus. Hold $NINJA to boost your interest to 10%! Built with love at ninja-tron.com 每天赚取5%的收益，还有10级推荐奖励。持有$NINJA，利率提升至10%！ 由ninja-tron.com倾心打造",
+        telegram: "https://t.me/ninjatoken",
+        x: "https://x.com/ninjatoken",
+        website: "https://ninja.token",
+      });
+      console.log(tokenAddress);
+    }
+    createTokenProgramatically();
+  }, []);
 
   const {
     watch,
@@ -48,13 +66,13 @@ const CreateCoinForm = () => {
       //toast.success("Image created successfully, creating coin...")
 
       /** create TX */
-      const token = await createToken({
-        imageUrl,
+      const tokenAddress = await createToken({
+        iconUrl: imageUrl,
         name,
-        ticker,
+        symbol: ticker,
         description,
-        telegramUrl,
-        xUrl,
+        telegram: telegramUrl,
+        x: xUrl,
         website,
       });
 
@@ -183,8 +201,10 @@ export default CreateCoinForm;
 
 /** Helpers */
 // create token TX
-const createToken = async (values: TCreateCoinInputTRX) => {
-  console.log("values", values);
+const createToken = async (token: TokenInfo): Promise<string> => {
+  console.log("token", token);
+  const launchTxManifest = launchTokenTxManifest();
+  return "";
 };
 
 // upload image to pinata/ipfs

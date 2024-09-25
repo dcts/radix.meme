@@ -1,14 +1,26 @@
+import { TokenInfo } from "@/app/_store/tokenStoreSlice";
+
 export function launchTokenTxManifest(
-  name: string,
-  symbol: string,
-  description: string,
-  icon_url: string,
+  // name: string,
+  // symbol: string,
+  // description: string,
+  // icon_url: string,
+  token: TokenInfo,
   telegram: string,
   x: string,
   website: string,
   memetokensComponentAddress: string,
   txAccountAddress: string
 ): string {
+  const {
+    name,
+    symbol,
+    description,
+    imageUrl,
+    telegram,
+    x,
+    website,
+  } = token;
   const manifest = `
     CALL_METHOD Address("${memetokensComponentAddress}") "new_token_curve_simple" "${name}" "${symbol}" "${description}" "${icon_url}" "${telegram}" "${x}" "${website}";
     CALL_METHOD Address("${txAccountAddress}") "try_deposit_batch_or_abort" Expression("ENTIRE_WORKTOP") None;
