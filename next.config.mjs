@@ -20,8 +20,15 @@ const nextConfig = {
         port: "",
         pathname: "/public/logo/**",
       },
+      {
+        protocol: "https",
+        hostname: "www.radix.meme",
+        port: "",
+        pathname: "/**/**",
+      },
     ],
   },
 };
+
 
 export default nextConfig;

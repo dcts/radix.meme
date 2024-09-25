@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { mockInitialState, OrderSide } from "@/app/_store/tokenSlice";
+import { OrderSide, tokenSlice } from "@/app/_store/tokenSlice";
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
 import { fetchToken } from "@/app/_store/tokenSlice";
 import { useEffect } from "react";
@@ -29,7 +29,7 @@ function OrderSideTabs() {
 
 function OrderSideTab({ orderSide }: OrderSideTabProps): JSX.Element | null {
   const side = useAppSelector((state) => state.token.formInput.side);
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <div
@@ -41,8 +41,7 @@ function OrderSideTab({ orderSide }: OrderSideTabProps): JSX.Element | null {
           : "opacity-50"
       }`}
       onClick={() => {
-        // dispatch(orderInputSlice.actions.resetUserInput());
-        // dispatch(orderInputSlice.actions.setSide(orderSide));
+        dispatch(tokenSlice.actions.setOrderSide(orderSide));
       }}
     >
       <p className="font-bold text-sm tracking-[.1px] select-none uppercase">
@@ -65,15 +64,13 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
     loadTokenData();
   }, [dispatch, tokenAddress]);
 
-  const token = mockInitialState;
-
   return (
     <div>
       <div className="max-w-3xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex justify-center">
             <Image
-              src={token.imageUrl}
+              src={token.iconUrl}
               alt={`${token.name} token image`}
               width={400}
               height={150}
@@ -86,7 +83,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
             </div>
             <div className="font-[family-name:var(--font-josefin-sans)]">
               <div className="text-xs pt-2 pb-4 font-semibold">
-                Created by: {token.address}
+                Created by: {tokenAddress}
               </div>
               <div className="text-white text-opacity-40">
                 {token.description}
