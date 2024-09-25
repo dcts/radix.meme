@@ -32,6 +32,8 @@ const config = {
         "content-dark": "#212A09",
         "dexter-gray": "#474C52",
         "dexter-gray-b": "#212426",
+        "dexter-gray-c": "#181818",
+
         // aceternity
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

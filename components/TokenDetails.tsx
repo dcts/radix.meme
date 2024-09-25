@@ -5,6 +5,7 @@ import { OrderSide, tokenSlice } from "@/app/_store/tokenSlice";
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
 import { fetchToken } from "@/app/_store/tokenSlice";
 import { useEffect } from "react";
+import Link from "next/link";
 
 type TProps = {
   tokenAddress: string;
@@ -12,6 +13,17 @@ type TProps = {
 
 interface OrderSideTabProps {
   orderSide: OrderSide;
+}
+
+// SHortens radix wallet address
+function shortenWalletAddress(address: string): string {
+  // minimal length is 35 chars
+  if (address.length < 35) {
+    return address;
+  }
+  const firstPart = address.slice(0, 8);
+  const lastPart = address.slice(-20);
+  return `${firstPart}...${lastPart}`;
 }
 
 function OrderSideTabs() {
@@ -54,8 +66,8 @@ function OrderSideTab({ orderSide }: OrderSideTabProps): JSX.Element | null {
 const TokenDetails = ({ tokenAddress }: TProps) => {
   const dispatch = useAppDispatch();
 
-  const { token } = useAppSelector(state => state.token);
-  
+  const { token } = useAppSelector((state) => state.token);
+
   // useEffect fetch token data
   useEffect(() => {
     async function loadTokenData() {
@@ -83,7 +95,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
             </div>
             <div className="font-[family-name:var(--font-josefin-sans)]">
               <div className="text-xs pt-2 pb-4 font-semibold">
-                Created by: {tokenAddress}
+                Created by: {shortenWalletAddress(tokenAddress)}
               </div>
               <div className="text-white text-opacity-40">
                 {token.description}
@@ -93,8 +105,49 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
           <div className="flex justify-center items-center text-white">
             Trading Chart
           </div>
-          <div className="">
-            <OrderSideTabs />
+          <div className="font-[family-name:var(--font-josefin-sans)]">
+            <div className="">
+              <OrderSideTabs />
+            </div>
+            <div className="border border-white-1 p-6 rounded-md bg-dexter-gray-c">
+              <div className="flex flex-row justify-between mt-3">
+                <p>Last Price:</p>
+                <p>0</p>
+              </div>
+              <p className="mt-4">Amount</p>
+              <div className="mt-2">
+                <input
+                  type="text"
+                  className="text-sm grow w-full pl-2 bg-dexter-grey-dark rounded-lg h-10"
+                  placeholder="0.00"
+                />
+              </div>
+              <Link
+                href=""
+                className="flex justify-center w-full mx-auto gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green rounded-lg text-dexter-grey-light px-4 py-3 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300 mt-4 mb-4"
+              >
+                <span className="font-bold text-sm">Buy Stonks!</span>
+              </Link>
+            </div>
+            <div>
+              <div className="flex flex-row justify-between mt-8">
+                <p>Supply:</p>
+                <p>0</p>
+              </div>
+              <div className="flex flex-row justify-between mt-1">
+                <p>Available:</p>
+                <p>0</p>
+              </div>
+              <div className="flex flex-row justify-between mt-1">
+                <p>Ready to DeXter:</p>
+                <p>0</p>
+              </div>
+              <p className="text-white text-opacity-40 pt-4 leading-none">
+                When the market cap reaches 1,000 XRD all the liquidity from the
+                bonding curve will be deposited into DeXter and burned.
+                progression increases as the price goes up.
+              </p>
+            </div>
           </div>
         </div>
       </div>
