@@ -20,7 +20,6 @@ const initialState: TokenStoreState = {
   tokens: {},
 };
 
-
 export const tokenStoreSlice = createSlice({
   name: "tokenStore",
   initialState,
@@ -36,7 +35,7 @@ export const tokenStoreSlice = createSlice({
     builder.addCase(fetchTokens.rejected, (_state, action) => {
       const errorMessage = action.error?.message || "An unknown error occurred";
       console.error("fetchTokens failed:", errorMessage);
-    })
+    });
   },
 });
 
@@ -48,6 +47,6 @@ export const fetchTokens = createAsyncThunk<
   }
 >("tokenStore/fetchTokens", async () => {
   const tokenStore = {};
-  // TODO(dcts): Fetch all created tokens and populate tokenStore 
+  // TODO(dcts): Fetch all created tokens and populate tokenStore
   return tokenStore;
 });
