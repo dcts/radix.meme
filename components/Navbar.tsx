@@ -32,7 +32,7 @@ const Navbar = () => {
   const { balances } = useAppSelector((state) => state.user);
   const xrdBalance = balances[process.env.NEXT_PUBLIC_XRD_ADDRESS || ""] || -1;
   return (
-    <div className="w-full flex items-center justify-between h-16">
+    <div className="w-full flex items-center justify-between h-16 px-8 sm:px-20">
       <Link href="/" className="flex justify-center items-center relative">
         <Image
           alt="racoon head"
@@ -51,7 +51,9 @@ const Navbar = () => {
           ref={radixConnectButtonRef}
         ></radix-connect-button>
         {xrdBalance >= 0 && (
-          <p className="absolute text-sm pt-1 opacity-70">Balance: {xrdBalance.toLocaleString()} XRD</p>
+          <p className="absolute text-sm pt-1 opacity-70">
+            Balance: {xrdBalance.toLocaleString()} XRD
+          </p>
         )}
       </div>
     </div>
