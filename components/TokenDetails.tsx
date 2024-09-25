@@ -66,10 +66,15 @@ function OrderSideTab({ orderSide }: OrderSideTabProps): JSX.Element | null {
 const TokenDetails = ({ tokenAddress }: TProps) => {
   const dispatch = useAppDispatch();
 
-  const { token, side } = useAppSelector((state) => ({
-    token: state.token.token, // Adjust based on your state structure
-    side: state.token.formInput.side, // Accessing the order side directly
-  }));
+  const { token, side, lastPrice, supply, readyToDexter, available } =
+    useAppSelector((state) => ({
+      token: state.token.token,
+      side: state.token.formInput.side,
+      lastPrice: state.token.lastPrice,
+      supply: state.token.supply,
+      readyToDexter: state.token.readyToDexter,
+      available: state.token.available,
+    }));
 
   // useEffect fetch token data
   useEffect(() => {
@@ -82,7 +87,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
   return (
     <div>
       <div className="max-w-3xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-2 !grid-cols-[60%_40%]">
           <div className="flex justify-center">
             <Image
               src={token.iconUrl}
@@ -115,7 +120,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
             <div className="border border-white-1 p-6 rounded-bl-sm rounded-br-sm bg-dexter-gray-c">
               <div className="flex flex-row justify-between mt-3">
                 <p>Last Price:</p>
-                <p>0</p>
+                <p>{lastPrice}</p>
               </div>
               <p className="mt-4">Amount</p>
               <div className="mt-2">
@@ -145,15 +150,15 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
             <div>
               <div className="flex flex-row justify-between mt-8">
                 <p>Supply:</p>
-                <p>0</p>
+                <p>{supply}</p>
               </div>
               <div className="flex flex-row justify-between mt-1">
                 <p>Available:</p>
-                <p>0</p>
+                <p>{available}</p>
               </div>
               <div className="flex flex-row justify-between mt-1">
                 <p>Ready to DeXter:</p>
-                <p>0</p>
+                <p>{readyToDexter}</p>
               </div>
               <p className="text-white text-opacity-40 pt-4 leading-none">
                 When the market cap reaches 1,000 XRD all the liquidity from the
