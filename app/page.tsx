@@ -30,7 +30,7 @@ export default function Home() {
         />
       </div>
       <main className="">
-        <div className="max-sm:h-[calc(100dvh-16rem)] pt-28 sm:h-[calc(100dvh-20rem)] flex justify-around items-center mx-16 xl:mx-[4.5rem] 2xl:mx-20 px-8 2xl:px-20 gap-x-32">
+        <div className="max-sm:h-[calc(100lvh-16rem)] pt-28 sm:h-[calc(100lvh-20rem)] flex justify-around items-center mx-16 xl:mx-[4.5rem] 2xl:mx-20 px-8 2xl:px-20 gap-x-32">
           <div className="flex flex-col gap-8 items-center sm:items-start">
             <div className="list-inside list-decimal text-sm text-center sm:text-left ">
               <h1 className="font-[family-name:var(--font-londrina-solid)] text-8xl max-sm:text-6xl max-md:text-8xl md:text-8xl mb-3 font-black">
