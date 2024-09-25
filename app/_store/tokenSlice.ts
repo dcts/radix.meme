@@ -22,7 +22,7 @@ export interface TokenState {
   holderDistributionTable: Record<string, number>;
 }
 
-enum OrderSide {
+export enum OrderSide {
   "BUY" = "BUY",
   "SELL" = "SELL",
 }
