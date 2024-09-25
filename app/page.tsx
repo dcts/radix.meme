@@ -14,6 +14,7 @@ import {
   ModalTrigger,
   ModalFooter,
 } from "@/components/ui/animated-modal";
+import { BetaLabel } from "@/components/Navbar";
 
 export default function Home() {
   return (
@@ -33,16 +34,16 @@ export default function Home() {
         <div className="h-[calc(100lvh-20rem)] pt-16 flex justify-around items-center mx-16 xl:mx-[4.5rem] 2xl:mx-20 px-8 2xl:px-20 gap-x-32">
           <div className="flex flex-col gap-8 items-center sm:items-start">
             <div className="list-inside list-decimal text-sm text-center sm:text-left ">
-              <h1 className="font-[family-name:var(--font-londrina-solid)] text-8xl max-sm:text-6xl max-md:text-8xl md:text-8xl mb-3 font-black">
+              <h1 className="relative font-[family-name:var(--font-londrina-solid)] text-8xl max-sm:text-6xl max-md:text-8xl md:text-8xl mb-3 font-black tracking-wider">
                 RADIX.MEME
-                {/* <br></br>fair launch platform <br></br>on Radix */}
+                <span className="absolute -top-6 right-0 text-base flex gap-x-2">
+                  <span className="text-dexter-green-OG/80">By DeXter</span>{" "}
+                  <BetaLabel />
+                </span>
               </h1>
               <p className="font-[family-name:var(--font-josefin-sans)] text-2xl max-sm:text-l max-md:text-2xl md:text-2xl mb-6 max-w-lg sm:max-w-sm md:max-w-md font-normal !leading-none">
                 Instantly launch your coin with unlimited liquidity using a
                 dynamic bonding curve.
-              </p>
-              <p className="font-[family-name:var(--font-josefin-sans)]">
-                Created by DeXter.
               </p>
             </div>
 
