@@ -80,18 +80,23 @@ export default function Home() {
 const ModalWrapper = () => {
   return (
     <Modal>
-      <ModalTrigger className="flex items-center border-b-[3px]  border-b-white gap-2 bg-dexter-grey-dark w-fit rounded-lg text-white px-4 py-3 max-lg:self-center shadow-md hover:shadow-lg ring-1 ring-white shadow-white hover:shadow-white transition duration-100 active:translate-y-1">
+      <ModalTrigger className="flex items-center border-b-[3px] border-b-white bg-dexter-grey-dark w-fit rounded-lg text-white px-4 py-3 max-lg:self-center shadow-md hover:shadow-lg ring-1 ring-white shadow-white hover:shadow-white transition duration-100 active:translate-y-1">
         <span className="font-bold text-lg ">How does it work ?</span>
       </ModalTrigger>
       <ModalBody>
         <ModalContent>
-          <span className="px-1 py-0.5 rounded-md text-center pb-10 sm:text-lg">
-            <span className="text-dexter-green-OG">RADIX.MEME </span>
-            prevents rugs by making sure that all created tokens are safe. Each
-            coin on <span className="text-dexter-green-OG">RADIX.MEME </span>
-            is a fair-launch with no presale and no team allocation.
-          </span>
-          <ul className="flex flex-wrap gap-x-4 gap-y-6 items-start justify-start max-w-sm mx-auto list-disc sm:text-lg">
+          <div className="space-y-4 rounded-md text-center py-4 pb-8 sm:text-lg -mx-4">
+            <p>
+              <span className="text-dexter-green-OG">RADIX.MEME </span>
+              prevents rugs by making sure that all created tokens are safe.{" "}
+            </p>
+            <p>
+              Each coin on{" "}
+              <span className="text-dexter-green-OG">RADIX.MEME </span>
+              is a fair-launch with no presale and no team allocation.
+            </p>
+          </div>
+          <ul className="text-justify flex flex-col gap-y-4 items-start justify-start max-w-sm mx-auto list-disc sm:text-lg">
             <li>pick a coin that you like (or launch your own!)</li>
             <li>buy the coin on the bonding curve</li>
             <li>sell at any time to lock in your profits or losses</li>
