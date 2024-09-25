@@ -16,7 +16,7 @@ const page = async ({ params }: TProps) => {
   const { address } = params;
 
   return (
-    <div>
+    <div className="px-8 sm:px-20">
       <h1>Token details</h1>
       <TokenDetails tokenAddress={address} />
     </div>
