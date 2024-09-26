@@ -10,8 +10,8 @@ export const Card = ({ coin }: { coin: TTokenData }) => {
         <div className="px-4 py-1">
           <figure>
             <Image
-              src={coin.imageUrl}
-              alt={coin.name}
+              src={coin.imageUrl || ""}
+              alt={coin.name || ""}
               width={175}
               height={175}
               className="object-cover w-full h-44 rounded-lg"
@@ -54,7 +54,7 @@ export const Card = ({ coin }: { coin: TTokenData }) => {
             </h2>
             <div className="ms-auto">
               <span className="text-dexter-green whitespace-nowrap">
-                {coin.progress.toFixed(0)}k / 100k XRD
+                {coin.progress?.toFixed(0)}k / 100k XRD
               </span>
             </div>
           </div>
