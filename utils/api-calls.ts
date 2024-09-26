@@ -1,7 +1,64 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
-import { TTokenData } from "@/types";
+import { TMainComponentData, TTokenData } from "@/types";
 import { getRadixApiValue } from "./radix-api";
 
+export async function getMainComponentState(
+  componentAddress: string
+): Promise<TMainComponentData> {
+  const result = {
+    address: "",
+    ownerBadge: "",
+    maxTokenSupply: 0,
+    maxXrd: 0,
+    multiplier: "",
+    tokensKvs: "",
+  };
+  const apiResult = await getRadixApiValue("state/entity/details", {
+    addresses: [componentAddress],
+    aggregation_level: "Global",
+  });
+  if (apiResult.status != 200) {
+    console.error(
+      "Problem fetching main component details for address: " +
+        componentAddress,
+      apiResult
+    );
+    throw new Error();
+  } else {
+    if (apiResult.data?.items?.length > 0) {
+      let stateFields = apiResult.data.items[0].details?.state?.fields;
+      stateFields.forEach((fieldData: any) => {
+        switch (fieldData.field_name) {
+          case "address": {
+            result.address = fieldData.value;
+            break;
+          }
+          case "owner_badge_manager": {
+            result.ownerBadge = fieldData.value;
+            break;
+          }
+          case "max_token_supply": {
+            result.maxTokenSupply = Number(fieldData.value);
+            break;
+          }
+          case "max_xrd": {
+            result.maxXrd = Number(fieldData.value);
+            break;
+          }
+          case "multiplier": {
+            result.maxXrd = fieldData.value;
+            break;
+          }
+          case "tokens": {
+            result.tokensKvs = fieldData.value;
+            break;
+          }
+        }
+      });
+    }
+  }
+  return result;
+}
 export async function getAllTokensData(
   kvsAddress: string
 ): Promise<TTokenData[]> {
@@ -43,6 +100,7 @@ export async function getTokenData(
 ): Promise<TTokenData> {
   const result: TTokenData = {
     address: "",
+    componentAddress: tokenComponent,
     progress: 0,
     name: "",
     symbol: "",
