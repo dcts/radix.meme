@@ -62,7 +62,7 @@ export default function Home() {
           </div>
           <HeroImages />
         </div>
-        <div className="bg-dexter-grey-dark">
+        <div className="bg-dexter-grey-dark min-w-full">
           <GalleryWithHover />
         </div>
 

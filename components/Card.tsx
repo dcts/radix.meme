@@ -9,13 +9,15 @@ export const Card = ({ coin }: { coin: TTokenData }) => {
       <div className="relative z-50 h-full flex flex-col">
         <div className="px-4 py-1">
           <figure>
-            <Image
-              src={coin.imageUrl}
-              alt={coin.name}
-              width={175}
-              height={175}
-              className="object-cover w-full h-44 rounded-lg"
-            />
+            {coin?.imageUrl && coin?.name && (
+              <Image
+                src={coin.imageUrl}
+                alt={coin.name}
+                width={175}
+                height={175}
+                className="object-cover w-full h-44 rounded-lg"
+              />
+            )}
           </figure>
 
           <div className="flex-grow">
@@ -54,12 +56,12 @@ export const Card = ({ coin }: { coin: TTokenData }) => {
             </h2>
             <div className="ms-auto">
               <span className="text-dexter-green whitespace-nowrap">
-                {coin.progress.toFixed(0)}k / 100k XRD
+                {coin?.progress?.toFixed(0)}k / 100k XRD
               </span>
             </div>
           </div>
 
-          <Progress value={coin.progress} className="h-4" />
+          <Progress value={coin.progress || 20} className="h-4" />
         </div>
       </div>
     </div>

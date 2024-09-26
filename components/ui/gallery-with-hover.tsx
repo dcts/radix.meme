@@ -14,6 +14,7 @@ type TProps = {
 };
 
 export const GalleryWithHover = ({ className }: TProps) => {
+  const [isClient, setIsClient] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [coinsData, setCoinsData] = useState<TTokenData[]>(devCoinsData);
@@ -22,6 +23,10 @@ export const GalleryWithHover = ({ className }: TProps) => {
 
   // fetch all coins on chain data
   const getCoinData = useCallback(async () => {}, []);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -47,17 +52,19 @@ export const GalleryWithHover = ({ className }: TProps) => {
   }
 
   return (
-    <div className="mt-[10rem] py-12">
+    <div className="mt-[10rem] py-12 w-full">
       <h1 className="font-[family-name:var(--font-londrina-solid)] text-6xl flex justify-center">
         Last Tokens
       </h1>
       <div
         className={cn(
-          "flex flex-wrap items-stretch max-md:place-content-center py-10 font-[family-name:var(--font-josefin-sans)] justify-center",
+          "flex flex-wrap items-stretch max-md:place-content-center py-10 font-[family-name:var(--font-josefin-sans)] justify-center w-full",
           className
         )}
       >
-        {isLoading
+        {!isClient
+          ? null
+          : isLoading
           ? Array.from({ length: 12 }, (_, idx) => {
               return <CardSkeleton key={idx} />;
             })
@@ -72,7 +79,7 @@ export const GalleryWithHover = ({ className }: TProps) => {
                 <AnimatePresence>
                   {hoveredIndex === idx && (
                     <motion.span
-                      className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-dexter-gradient-blue/10 block  rounded-3xl"
+                      className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-dexter-gradient-blue/10 block rounded-3xl"
                       layoutId="hoverBackground"
                       initial={{ opacity: 0 }}
                       animate={{
