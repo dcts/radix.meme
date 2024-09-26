@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { RootState } from "./store";
+import { getAllTokensData, getMainComponentState } from "@/utils/api-calls";
+import { TMainComponentData } from "@/types";
 
 export interface TokenStoreState {
   tokens: Record<string, TokenInfo>;
@@ -48,5 +50,30 @@ export const fetchTokens = createAsyncThunk<
 >("tokenStore/fetchTokens", async () => {
   const tokenStore: Record<string, TokenInfo> = {};
   // TODO(dcts): Fetch all created tokens and populate tokenStore
+
+  // 1 call getMainComponentState
+  // https://github.com/dcts/radix.meme/blob/b6e71e0f3ab33c5886af38e099ed0eb7c746528d/utils/api-calls.ts#L5
+  if (!process.env.NEXT_PUBLIC_COMPONENT_ADDRESS) {
+    throw new Error("env var not set");
+  }
+  const res = await getMainComponentState(
+    process.env.NEXT_PUBLIC_COMPONENT_ADDRESS
+  );
+
+  // 2. get kvsAddress from TMainComponentData and input inside getAllTokensData
+  // https://github.com/dcts/radix.meme/blob/b6e71e0f3ab33c5886af38e099ed0eb7c746528d/utils/api-calls.ts#L76C23-L76C45
+  const data = await getAllTokensData(res.tokensKvs);
+  console.log(data);
+  // => []
+
+  // 3. transform into dictionary
+  // iterate over all elements from data and add it to the dict, e.g.: (this is just dummy code, not accurate):
+  // data.forEach(el => dict[el.address] = {
+  //   name: "...",
+  //   symbole: "..:",
+  //   description: "..",
+  //   ...
+  // }
+
   return tokenStore;
 });

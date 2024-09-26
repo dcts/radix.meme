@@ -8,6 +8,8 @@ import { useCallback, useEffect, useState } from "react";
 import { Card, CardSkeleton } from "../Card";
 import { TTokenData } from "@/types";
 import { wait } from "@/utils";
+import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
+import { fetchTokens } from "@/app/_store/tokenStoreSlice";
 
 type TProps = {
   className?: string;
@@ -16,23 +18,27 @@ type TProps = {
 export const GalleryWithHover = ({ className }: TProps) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [coinsData, setCoinsData] = useState<TTokenData[]>(devCoinsData);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
-  // fetch all coins on chain data
-  const getCoinData = useCallback(async () => {}, []);
+  const dispatch = useAppDispatch();
+
+  // TODO shouldn't tokens be of type Record<string, TokenInfo>[] ?
+  const fetchedCoins = useAppSelector((state) => ({
+    tokens: state.tokenStore.tokens,
+  }));
+  // TODO to remove when store fixed
+  const [coinsData, setCoinsData] = useState<TTokenData[]>(devCoinsData);
 
   useEffect(() => {
     (async () => {
       // TODO remove transient
-      await wait(2000);
+      await wait(1500);
       try {
         setIsLoading(true);
         setIsError(false);
-        // TODO
-        // const response = (await getCoinData()) as unknown as TTokenData[];
-        // setCoinsData(response);
+        // fetch token data
+        await dispatch(fetchTokens());
       } catch (error) {
         console.error(error);
         setIsError(true);
@@ -40,7 +46,7 @@ export const GalleryWithHover = ({ className }: TProps) => {
         setIsLoading(false);
       }
     })();
-  }, [getCoinData]);
+  }, [dispatch]);
 
   if (isError) {
     // TODO
