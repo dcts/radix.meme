@@ -26,7 +26,7 @@ export async function getMainComponentState(
     throw new Error();
   } else {
     if (apiResult.data?.items?.length > 0) {
-      let stateFields = apiResult.data.items[0].details?.state?.fields;
+      const stateFields = apiResult.data.items[0].details?.state?.fields;
       stateFields.forEach((fieldData: any) => {
         switch (fieldData.field_name) {
           case "address": {

@@ -63,6 +63,12 @@ export const tokenSlice = createSlice({
     setOrderSide: (state: TokenState, action: PayloadAction<OrderSide>) => {
       state.formInput.side = action.payload;
     },
+    setBuyAmount: (state: TokenState, action: PayloadAction<number>) => {
+      state.formInput.buyAmount = action.payload;
+    },
+    setSellAmount: (state: TokenState, action: PayloadAction<number>) => {
+      state.formInput.sellAmount = action.payload;
+    },
   },
 
   // Async thunk are handled by extra reducers

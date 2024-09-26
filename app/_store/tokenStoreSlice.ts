@@ -1,8 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { RootState } from "./store";
 
 export interface TokenStoreState {
+  // the key is the resource_address of the memecoin
   tokens: Record<string, TokenInfo>;
 }
 
@@ -14,18 +15,29 @@ export interface TokenInfo {
   telegram: string;
   x: string;
   website: string;
+  componentAddress?: string;  // the component_address
 }
 
 const initialState: TokenStoreState = {
   tokens: {},
 };
 
+interface AddMappingPayload {
+  resourceAddress: string;
+  token: TokenInfo;
+}
+
 export const tokenStoreSlice = createSlice({
   name: "tokenStore",
   initialState,
 
   // synchronous reducers
-  reducers: {},
+  reducers: {
+    addMapping: (state: TokenStoreState, action: PayloadAction<AddMappingPayload>) => {
+      const { resourceAddress, token} = action.payload;
+      state.tokens[resourceAddress] = token;
+    },
+  },
 
   // Async thunk are handled by extra reducers
   extraReducers: (builder) => {
