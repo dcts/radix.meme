@@ -1,11 +1,21 @@
+export type TMainComponentData = {
+  address: string;
+  ownerBadge: string;
+  maxTokenSupply: number;
+  maxXrd: number;
+  multiplier: string;
+  tokensKvs: string;
+};
+
 export type TTokenData = {
   address: string;
-  progress: number; // ready-to-dexter
-  name: string;
-  symbol: string;
+  componentAddress?: string;
+  progress?: number; // ready-to-dexter
+  name?: string;
+  symbol?: string;
   iconUrl?: string;
-  imageUrl: string;
-  description: string;
+  imageUrl?: string;
+  description?: string;
   telegramUrl?: string;
   xUrl?: string;
   website?: string;
