@@ -41,10 +41,10 @@ const Navbar = () => {
           height={50}
           className="hover:animate-spin transition duration-1000"
         />
-        <span className="mx-3 font-[family-name:var(--font-londrina-solid)] text-xl font-black tracking-wider">
+        <span className="max-sm:mx-2 sm:mx-3 font-[family-name:var(--font-londrina-solid)] text-xl font-black tracking-wider">
           RADIX.MEME
         </span>
-        <BetaLabel/>
+        <BetaLabel />
       </Link>
       <div className="h-full flex items-center">
         <radix-connect-button
@@ -66,7 +66,11 @@ export const BetaLabel = ({
   additionalClasses?: string;
 }) => {
   return (
-    <span className={`text-[16px] tracking-[1px] bg-dexter-red text-sm font-bold px-2 py-[0.15rem] rounded-md hover:scale-[1.2] transition-transform duration-300 font-[family-name:var(--font-londrina-solid)] ${additionalClasses || ""}`}>
+    <span
+      className={`text-[16px] tracking-[1px] bg-dexter-red text-sm font-bold px-2 py-[0.15rem] rounded-md hover:scale-[1.2] transition-transform duration-300 font-[family-name:var(--font-londrina-solid)] ${
+        additionalClasses || ""
+      }`}
+    >
       BETA
     </span>
   );
