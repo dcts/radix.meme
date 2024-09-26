@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, forwardRef, InputHTMLAttributes } from "react";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateCoinFormSchema } from "@/app/_zod";
@@ -14,12 +14,15 @@ import { createPinataUrl } from "@/app/_actions/create-pinata-url";
 import { TokenInfo } from "@/app/_store/tokenStoreSlice";
 import { launchTokenTxManifest } from "@/utils/tx-utils";
 import { useAppSelector } from "@/app/_hooks/hooks";
-import { getRdtOrThrow } from "@/app/_store/subscriptions";
+import {
+  getGatewayApiClientFromScratchOrThrow,
+  getRdtOrThrow,
+} from "@/app/_store/subscriptions";
 
 const MAX_CHAR_COUNT = 140;
 
 const CreateCoinForm = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const tokenCreatorAddress = useAppSelector(
     (state) => state.user.selectedAccount.address
@@ -45,8 +48,7 @@ const CreateCoinForm = () => {
 
     setIsSubmitting(true);
     try {
-      // TODO(important): currently the createToken function does not return the token
-      // address of the ressource. How can I get the token resource address?
+      // Creates token, and returns the token resource address
       const createdTokenAddress = await createToken(
         {
           name: data.name,
@@ -64,11 +66,12 @@ const CreateCoinForm = () => {
 
       // notify user that coin was created!
       // TODO: replace alert with fancy animated modal
-      alert(`AMAZING! You just created your token! ${data.name} $${data.ticker}`);
+      alert(
+        `AMAZING! You just created your token! ${data.name} $${data.ticker}`
+      );
 
       /** navigate to token details page */
-      // TODO router.push(`/token/${createdTokenAddress}`);
-      // router.push(`/token/${createdTokenAddress}`);
+      router.push(`/token/${createdTokenAddress}`);
     } catch (error) {
       console.log(error);
       alert("Something went wrong, could not create token! Please try again.");
@@ -221,10 +224,19 @@ const createToken = async (
   if (!transactionResult.isOk()) {
     throw new Error("Transaction failed");
   }
-  // return generated token address
-  console.log("transactionResult");
-  console.log(transactionResult);
-  return "MISSING_TOKEN_RESSOURCE_ADDRESS";
+  const txId = transactionResult.value.transactionIntentHash;
+  // Get resource address from gateway API
+  const gatewayApiClient = getGatewayApiClientFromScratchOrThrow();
+  const txDetails = await gatewayApiClient.transaction.getCommittedDetails(txId);
+  if (
+    !txDetails.transaction.affected_global_entities ||
+    txDetails.transaction.affected_global_entities.length <= 4
+  ) {
+    throw new Error(
+      "Invalid response from getCommitmentDetails API call: affected_global_entities not set or too few entities found."
+    );
+  } 
+  return txDetails.transaction.affected_global_entities[4];
 };
 
 // upload image to pinata/ipfs
