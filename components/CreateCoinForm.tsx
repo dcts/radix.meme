@@ -131,29 +131,27 @@ const CreateCoinForm = () => {
                   <Image
                     src={successRaccoon}
                     alt="success-raccoon"
-                    width={500}
-                    height={500}
+                    width={600}
+                    height={600}
                     className="animate-float"
                   />
                 </div>
                 <div>
-                  <h4 className="text-xl md:text-6xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-8 mt-4 uppercase">
+                  <h4 className="text-xl md:text-6xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-2 mt-4 uppercase">
                     Token created!
                   </h4>
                 </div>
-                <div>
+                <div className="flex justify-center max-auto mt-4 mb-4">
                   <Link
                     href="/launch"
-                    className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
+                    className="flex justify-center max-auto gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-8 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
                   >
-                    <span className="font-bold text-l">
+                    <span className="font-normal text-lg">
                       Now pump your token!
                     </span>
                   </Link>
                 </div>
               </div>
-              <div className="flex justify-center items-center"></div>
-              <div className="py-10 flex flex-wrap gap-x-4 gap-y-6 items-start justify-start max-w-sm mx-auto"></div>
             </ModalContent>
           </ModalBody>
         </Modal>
