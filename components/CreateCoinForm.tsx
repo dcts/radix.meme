@@ -18,7 +18,18 @@ import {
   getGatewayApiClientFromScratchOrThrow,
   getRdtOrThrow,
 } from "@/app/_store/subscriptions";
+
 import toast from "react-hot-toast";
+
+import {
+  ProgModal,
+  ModalBody,
+  ModalContent,
+  ModalTrigger,
+} from "@/components/ui/prog-animated-modal";
+import successRaccoon from "../public/success-raccoon.svg";
+import Image from "next/image";
+import Link from "next/link";
 
 const MAX_CHAR_COUNT = 140;
 
@@ -29,6 +40,7 @@ const CreateCoinForm = () => {
     (state) => state.user.selectedAccount.address
   );
   const [imageUrl, setImageUrl] = useState("");
+  const [newTokenAddress, setNewTokenAddress] = useState("");
 
   const {
     watch,
@@ -63,16 +75,9 @@ const CreateCoinForm = () => {
         process.env.NEXT_PUBLIC_COMPONENT_ADDRESS || "",
         tokenCreatorAddress
       );
-      console.log(createdTokenAddress);
 
-      // notify user that coin was created!
-      // TODO: replace toast with fancy animated modal
-      toast.success(
-        `AMAZING! You just created your token! ${data.name} $${data.ticker}`
-      );
-
-      /** navigate to token details page */
-      router.push(`/token/${createdTokenAddress}`);
+      setNewTokenAddress(createdTokenAddress);
+      // => open success modal
     } catch (error) {
       console.log(error);
       toast.error(
@@ -97,112 +102,160 @@ const CreateCoinForm = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-6 max-sm:max-w-72 font-[family-name:var(--font-josefin-sans)]"
-    >
-      <div className="flex flex-col">
-        <Label htmlFor="image">Image *</Label>
-        <Input
-          type="file"
-          id="image"
-          {...register("image")}
-          onChange={handleFileUpload} // Trigger upload on file selection
-        />
-        {errors.image && (
-          <span className="text-red-500">
-            {(errors.image.message as string) || "Error"}
-          </span>
-        )}
-      </div>
-
-      <div className="flex flex-col">
-        <Label htmlFor="name">Name *</Label>
-        <Input
-          type="text"
-          id="name"
-          placeholder="E.G.: Meme token"
-          {...register("name")}
-        />
-        {errors.name && (
-          <span className="text-red-500">
-            {(errors.name.message as string) || "Error"}
-          </span>
-        )}
-      </div>
-
-      <div className="flex flex-col">
-        <Label htmlFor="name">Ticker *</Label>
-        <Input
-          type="text"
-          id="symbol"
-          placeholder="E.G.: MEME"
-          {...register("ticker")}
-        />
-        {errors.ticker && (
-          <span className="text-red-500">
-            {(errors.ticker.message as string) || "Error"}
-          </span>
-        )}
-      </div>
-
-      <div className="flex flex-col">
-        <Label htmlFor="description">Description *</Label>
-        <Textarea
-          id="description"
-          placeholder="E.G.: A token created to celebrate the meme culture around the crypto world"
-          {...register("description")}
-          maxLength={MAX_CHAR_COUNT}
-        />
-        <span className="text-sm text-right text-white text-opacity-50">
-          {watch("description")?.length ?? 0}/{MAX_CHAR_COUNT} characters
-        </span>
-        {errors.description && (
-          <span className="text-red-500">
-            {(errors.description.message as string) || "Error"}
-          </span>
-        )}
-      </div>
-
-      <div className="flex flex-col">
-        <Label htmlFor="website">Website</Label>
-        <Input
-          type="text"
-          id="website"
-          placeholder="https://"
-          {...register("website")}
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <Label htmlFor="twitter">X profile</Label>
-        <Input type="text" id="twitter" placeholder="@" {...register("xUrl")} />
-      </div>
-
-      <div className="flex flex-col">
-        <Label htmlFor="telegram">Telegram</Label>
-        <Input
-          type="text"
-          id="telegram"
-          placeholder="@"
-          {...register("telegramUrl")}
-        />
-      </div>
-
-      <Button
-        type="submit"
-        disabled={isSubmitting}
-        className="btn bg-dexter-gradient-green/80 hover:bg-dexter-gradient-green
-        w-full self-center flex items-center text-2xl"
+    <div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-6 max-sm:max-w-72 font-[family-name:var(--font-josefin-sans)]"
       >
-        <HiMiniRocketLaunch />
-        <span className="ms-2 font-bold text-sm">Launch your token</span>
-      </Button>
-    </form>
+        <div className="flex flex-col">
+          <Label htmlFor="image">Image *</Label>
+          <Input
+            type="file"
+            id="image"
+            {...register("image")}
+            onChange={handleFileUpload} // Trigger upload on file selection
+          />
+          {errors.image && (
+            <span className="text-red-500">
+              {(errors.image.message as string) || "Error"}
+            </span>
+          )}
+        </div>
+
+        <div className="flex flex-col">
+          <Label htmlFor="name">Name *</Label>
+          <Input
+            type="text"
+            id="name"
+            placeholder="E.G.: Meme token"
+            {...register("name")}
+          />
+          {errors.name && (
+            <span className="text-red-500">
+              {(errors.name.message as string) || "Error"}
+            </span>
+          )}
+        </div>
+
+        <div className="flex flex-col">
+          <Label htmlFor="name">Ticker *</Label>
+          <Input
+            type="text"
+            id="symbol"
+            placeholder="E.G.: MEME"
+            {...register("ticker")}
+          />
+          {errors.ticker && (
+            <span className="text-red-500">
+              {(errors.ticker.message as string) || "Error"}
+            </span>
+          )}
+        </div>
+
+        <div className="flex flex-col">
+          <Label htmlFor="description">Description *</Label>
+          <Textarea
+            id="description"
+            placeholder="E.G.: A token created to celebrate the meme culture around the crypto world"
+            {...register("description")}
+            maxLength={MAX_CHAR_COUNT}
+          />
+          <span className="text-sm text-right text-white text-opacity-50">
+            {watch("description")?.length ?? 0}/{MAX_CHAR_COUNT} characters
+          </span>
+          {errors.description && (
+            <span className="text-red-500">
+              {(errors.description.message as string) || "Error"}
+            </span>
+          )}
+        </div>
+
+        <div className="flex flex-col">
+          <Label htmlFor="website">Website</Label>
+          <Input
+            type="text"
+            id="website"
+            placeholder="https://"
+            {...register("website")}
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <Label htmlFor="twitter">X profile</Label>
+          <Input
+            type="text"
+            id="twitter"
+            placeholder="@"
+            {...register("xUrl")}
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <Label htmlFor="telegram">Telegram</Label>
+          <Input
+            type="text"
+            id="telegram"
+            placeholder="@"
+            {...register("telegramUrl")}
+          />
+        </div>
+
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="btn bg-dexter-gradient-green/80 hover:bg-dexter-gradient-green
+            w-full self-center flex items-center text-2xl my-4"
+        >
+          <HiMiniRocketLaunch />
+          <span className="ms-2 font-bold text-sm">Launch your token</span>
+        </Button>
+      </form>
+      <SuccessModal newTokenAddress={newTokenAddress} />
+    </div>
   );
 };
 
 export default CreateCoinForm;
+
+const SuccessModal = ({ newTokenAddress }: { newTokenAddress: string }) => {
+  return (
+    <div>
+      <ProgModal>
+        <ModalTrigger tokenHasAddress={!!newTokenAddress} />
+        <ModalBody>
+          <ModalContent>
+            <div className="flex flex-col font-[family-name:var(--font-josefin-sans)">
+              <div>
+                <Image
+                  src={successRaccoon}
+                  alt="success-raccoon"
+                  width={600}
+                  height={600}
+                  className="animate-float"
+                />
+              </div>
+              <div>
+                <h4 className="text-xl md:text-6xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-2 mt-4 uppercase">
+                  Token created!
+                </h4>
+              </div>
+              <div className="flex justify-center max-auto mt-4 mb-4">
+                <Link
+                  href={`/token/${newTokenAddress}`}
+                  className="flex justify-center max-auto gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-8 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
+                >
+                  <span className="font-normal text-lg">
+                    Now pump your token!
+                  </span>
+                </Link>
+              </div>
+            </div>
+          </ModalContent>
+        </ModalBody>
+      </ProgModal>
+    </div>
+  );
+};
 
 /** Helpers */
 // create token TX
