@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
 import { fetchToken } from "@/app/_store/tokenSlice";
 import { useEffect } from "react";
 import Link from "next/link";
+import ChartOrInfo from "./PriceChart";
 
 type TProps = {
   tokenAddress: string;
@@ -111,7 +112,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
             </div>
           </div>
           <div className="flex justify-center items-center text-white">
-            Trading Chart
+            <Chart />
           </div>
           <div className="font-[family-name:var(--font-josefin-sans)]">
             <div className="">
@@ -174,3 +175,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
 };
 
 export default TokenDetails;
+
+const Chart = () => {
+  return <ChartOrInfo />;
+};
