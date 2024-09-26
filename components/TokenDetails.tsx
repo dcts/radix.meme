@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { buyTxManifest, sellTxManifest } from "@/utils/tx-utils";
 import { getRdtOrThrow } from "@/app/_store/subscriptions";
+import { useSearchParams } from "next/navigation";
 
 type TProps = {
   tokenAddress: string;
@@ -66,6 +67,7 @@ function OrderSideTab({ orderSide }: OrderSideTabProps): JSX.Element | null {
 }
 
 const TokenDetails = ({ tokenAddress }: TProps) => {
+  const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
 
   const {
@@ -78,6 +80,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
     buyAmount,
     sellAmount,
     userAddress,
+    // tokenDict,
   } = useAppSelector((state) => ({
     token: state.token.token,
     side: state.token.formInput.side,
@@ -88,6 +91,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
     buyAmount: state.token.formInput.buyAmount,
     sellAmount: state.token.formInput.sellAmount,
     userAddress: state.user.selectedAccount.address,
+    // tokenDict: state.tokenStore.tokens
   }));
 
   const [inputAmount, setInputAmount] = useState<string>("");
@@ -100,6 +104,10 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
     loadTokenData();
   }, [dispatch, tokenAddress]);
 
+  const componentAddress = searchParams.get("componentAddress") || "";
+
+  // const componentAddress = tokenDict[tokenAddress]?.componentAddress;
+  // console.log({componentAddress, tokenAddress});
   const handleBuy = async () => {
     if (!process.env.NEXT_PUBLIC_XRD_ADDRESS) {
       throw new Error(
@@ -111,7 +119,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
       transactionManifest: buyTxManifest(
         buyAmount?.toString() || "0",
         process.env.NEXT_PUBLIC_XRD_ADDRESS,
-        tokenAddress, // TODO_CRITICAL(dcts) replace this with component address of the memecoin
+        componentAddress,
         userAddress
       ),
     });
@@ -126,7 +134,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
     const manifest = sellTxManifest(
       sellAmount?.toString() || "0",
       tokenAddress,
-      tokenAddress, // TODO_CRITICAL(dcts) replace this with component address of the memecoin
+      componentAddress,
       userAddress
     );
     console.log(manifest);
