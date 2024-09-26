@@ -104,7 +104,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
     loadTokenData();
   }, [dispatch, tokenAddress]);
 
-  const componentAddress = searchParams.get("componentAddress") || "";
+  const componentAddress = searchParams.get("componentAddress") || "";
 
   // const componentAddress = tokenDict[tokenAddress]?.componentAddress;
   // console.log({componentAddress, tokenAddress});

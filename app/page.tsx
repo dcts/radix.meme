@@ -15,6 +15,7 @@ import {
   ModalFooter,
 } from "@/components/ui/animated-modal";
 import { BetaLabel } from "@/components/Navbar";
+import { LinkCta, LinkPrimary, LinkSecondary } from "@/components/custom-links";
 
 export default function Home() {
   return (
@@ -48,7 +49,6 @@ export default function Home() {
                 dynamic bonding curve.
               </p>
             </div>
-
             <div className="flex gap-8 items-center flex-col sm:flex-row font-[family-name:var(--font-josefin-sans)]">
               <Link
                 href="/launch"
@@ -59,6 +59,20 @@ export default function Home() {
               </Link>
               <ModalWrapper />
             </div>
+
+            <span className="mt-8">NEW BTNs</span>
+            <LinkCta
+              href="/launch"
+              icon={<HiMiniRocketLaunch />}
+              text="Launch your token"
+            />
+
+            <LinkPrimary
+              href="/launch"
+              icon={<HiMiniRocketLaunch />}
+              text="Launch your token"
+            />
+            <LinkSecondary href="/launch" text="Launch your token" />
           </div>
           <HeroImages />
         </div>
