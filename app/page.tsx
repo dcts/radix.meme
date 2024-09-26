@@ -68,7 +68,7 @@ export default function Home() {
 
         <div className="grid max-sm:grid-cols-[3rem_1fr_3rem] max-md:grid-cols-[6rem_1fr_6rem] md:grid-cols-[8rem_1fr_8rem] w-full h-full">
           <div className="bg-dexter-grey-dark h-full"></div>
-          <div className="flex flex-col items-center pt-8 pb-12">
+          <div className="flex flex-col items-center pt-8 pb-12 rounded-[20px] mb-5 border border-[#434343] ">
             <h3 className="max-sm:text-2xl sm:text-3xl font-[family-name:var(--font-londrina-solid)] opacity-90 tracking-widest mb-4">
               What are you waiting for?
             </h3>
