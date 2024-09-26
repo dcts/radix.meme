@@ -79,3 +79,32 @@
     --radix-connect-button-height: 40px;
   }
 }
+
+/* create coin form file input */
+input[type="file"] {
+  position: relative;
+  border: none;
+  color: rgb(82 82 82 / var(--tw-text-opacity)) /* #525252 */;
+  cursor: pointer;
+  height: 12rem;
+}
+
+input[type="file"]::after {
+  color: rgb(82 82 82 / var(--tw-text-opacity));
+  position: absolute;
+  content: "+";
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16rem;
+  pointer-events: none; /* Prevent interaction with the pseudo-element */
+}
+input[type="file"]:hover::after {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+input[type="file"]::file-selector-button {
+  display: none;
+}
