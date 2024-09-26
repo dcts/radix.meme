@@ -46,7 +46,7 @@ export const fetchTokens = createAsyncThunk<
     state: RootState;
   }
 >("tokenStore/fetchTokens", async () => {
-  const tokenStore = {};
+  const tokenStore: Record<string, TokenInfo> = {};
   // TODO(dcts): Fetch all created tokens and populate tokenStore
   return tokenStore;
 });
