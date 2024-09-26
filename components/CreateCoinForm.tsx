@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, forwardRef, InputHTMLAttributes } from "react";
+import { useState, forwardRef, InputHTMLAttributes, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +13,8 @@ import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 import { createPinataUrl } from "@/app/_actions/create-pinata-url";
 import { TokenInfo } from "@/app/_store/tokenStoreSlice";
 import { launchTokenTxManifest } from "@/utils/tx-utils";
+import { useAppSelector } from "@/app/_hooks/hooks";
+import { getRdtOrThrow } from "@/app/_store/subscriptions";
 
 // TODO set submit btn disabled state
 
@@ -25,22 +27,10 @@ const MAX_CHAR_COUNT = 140;
 const CreateCoinForm = () => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  React.useEffect(() => {
-    const createTokenProgramatically = async () => {
-      const tokenAddress = await createToken({
-        iconUrl: "https://cdn.sunpump.meme/public/logo/NINJA_TH9s5x_6JuBr85YPLLj.png",
-        name: "Ninja Tron",
-        symbol: "NINJA",
-        description: "Earn 5% daily with a 10-level affiliate bonus. Hold $NINJA to boost your interest to 10%! Built with love at ninja-tron.com 每天赚取5%的收益，还有10级推荐奖励。持有$NINJA，利率提升至10%！ 由ninja-tron.com倾心打造",
-        telegram: "https://t.me/ninjatoken",
-        x: "https://x.com/ninjatoken",
-        website: "https://ninja.token",
-      });
-      console.log(tokenAddress);
-    }
-    createTokenProgramatically();
-  }, []);
+  const tokenCreatorAddress = useAppSelector(
+    (state) => state.user.selectedAccount.address
+  );
+  const [imageUrl, setImageUrl] = useState("");
 
   const {
     watch,
@@ -53,45 +43,60 @@ const CreateCoinForm = () => {
   });
 
   async function onSubmit(data: FieldValues) {
-    const { image, name, ticker, description, telegramUrl, xUrl, website } =
-      data;
+    // Validate that user is logged in
+    if (!tokenCreatorAddress) {
+      alert("Please connect your wallet!");
+      return;
+    }
 
     setIsSubmitting(true);
-
     try {
-      /** upload img to pinata */
-      const imageUrl = (await uploadImage(image?.[0])) as string;
+      // TODO(important): currently the createToken function does not return the token
+      // address of the ressource. How can I get the token resource address?
+      const createdTokenAddress = await createToken(
+        {
+          name: data.name,
+          symbol: data.ticker,
+          iconUrl: imageUrl,
+          description: data.description,
+          telegram: data.telegramUrl,
+          x: data.xUrl,
+          website: data.website,
+        },
+        process.env.NEXT_PUBLIC_COMPONENT_ADDRESS || "",
+        tokenCreatorAddress
+      );
+      console.log(createdTokenAddress);
 
-      /** TODO notify user ? */
-      //toast.success("Image created successfully, creating coin...")
-
-      /** create TX */
-      const tokenAddress = await createToken({
-        iconUrl: imageUrl,
-        name,
-        symbol: ticker,
-        description,
-        telegram: telegramUrl,
-        x: xUrl,
-        website,
-      });
-
-      console.log(token);
-
-      /** TODO notify user ? */
-      //toast.success("Coin created successfully")
+      // notify user that coin was created!
+      // TODO: replace alert with fancy animated modal
+      alert(`AMAZING! You just created your token! ${data.name} $${data.ticker}`);
 
       /** navigate to token details page */
-      // TODO router.push(`/token/${token.address}`);
-      router.push(`/token/OX...`);
+      // TODO router.push(`/token/${createdTokenAddress}`);
+      // router.push(`/token/${createdTokenAddress}`);
     } catch (error) {
       console.log(error);
+      alert("Something went wrong, could not create token! Please try again.");
       /** TODO notify user ? */
       // toast.error(`Could not create token, please try again later`);
     } finally {
       setIsSubmitting(false);
     }
   }
+
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = event.target.files; // Get the selected file(s)
+    if (files && files.length > 0) {
+      const imageUrl = (await uploadImage(files[0])) as string; // upload the first file
+      console.log({ imageUrl });
+      setImageUrl(imageUrl);
+    } else {
+      console.log("No image selected");
+    }
+  };
 
   return (
     <form
@@ -100,7 +105,12 @@ const CreateCoinForm = () => {
     >
       <div className="flex flex-col">
         <Label htmlFor="image">Image *</Label>
-        <Input type="file" id="image" {...register("image")} />
+        <Input
+          type="file"
+          id="image"
+          {...register("image")}
+          onChange={handleFileUpload} // Trigger upload on file selection
+        />
         {errors.image && (
           <span className="text-red-500">
             {(errors.image.message as string) || "Error"}
@@ -181,9 +191,6 @@ const CreateCoinForm = () => {
         />
       </div>
 
-      <span className="text-white/80 text-xs my-2">
-        Attention: Coin data cannot be changed after creation
-      </span>
       <Button
         type="submit"
         disabled={isSubmitting}
@@ -201,10 +208,29 @@ export default CreateCoinForm;
 
 /** Helpers */
 // create token TX
-const createToken = async (token: TokenInfo): Promise<string> => {
-  console.log("token", token);
-  const launchTxManifest = launchTokenTxManifest();
-  return "";
+const createToken = async (
+  token: TokenInfo,
+  memetokensComponentAddress: string,
+  tokenCreator: string
+): Promise<string> => {
+  // Get transaction manifest
+  const launchTxManifest = launchTokenTxManifest(
+    token,
+    memetokensComponentAddress,
+    tokenCreator
+  );
+  // Creat TX and send to wallet
+  const rdt = getRdtOrThrow();
+  const transactionResult = await rdt.walletApi.sendTransaction({
+    transactionManifest: launchTxManifest,
+  });
+  if (!transactionResult.isOk()) {
+    throw new Error("Transaction failed");
+  }
+  // return generated token address
+  console.log("transactionResult");
+  console.log(transactionResult);
+  return "MISSING_TOKEN_RESSOURCE_ADDRESS";
 };
 
 // upload image to pinata/ipfs
