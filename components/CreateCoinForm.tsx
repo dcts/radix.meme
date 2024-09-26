@@ -11,9 +11,9 @@ import { HiMiniRocketLaunch } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 import { createPinataUrl } from "@/app/_actions/create-pinata-url";
-import { TokenInfo } from "@/app/_store/tokenStoreSlice";
+import { TokenInfo, tokenStoreSlice } from "@/app/_store/tokenStoreSlice";
 import { launchTokenTxManifest } from "@/utils/tx-utils";
-import { useAppSelector } from "@/app/_hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
 import {
   getGatewayApiClientFromScratchOrThrow,
   getRdtOrThrow,
@@ -24,6 +24,7 @@ const MAX_CHAR_COUNT = 140;
 
 const CreateCoinForm = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const tokenCreatorAddress = useAppSelector(
     (state) => state.user.selectedAccount.address
@@ -50,7 +51,7 @@ const CreateCoinForm = () => {
     setIsSubmitting(true);
     try {
       // Creates token, and returns the token resource address
-      const createdTokenAddress = await createToken(
+      const addMappingPayload = await createToken(
         {
           name: data.name,
           symbol: data.ticker,
@@ -63,7 +64,11 @@ const CreateCoinForm = () => {
         process.env.NEXT_PUBLIC_COMPONENT_ADDRESS || "",
         tokenCreatorAddress
       );
-      console.log(createdTokenAddress);
+      const resourceAddress = addMappingPayload.resourceAddress
+      console.log(resourceAddress);
+
+      // Dispatch event to store resource->component matching
+      dispatch(tokenStoreSlice.actions.addMapping(addMappingPayload));
 
       // notify user that coin was created!
       // TODO: replace toast with fancy animated modal
@@ -72,7 +77,7 @@ const CreateCoinForm = () => {
       );
 
       /** navigate to token details page */
-      router.push(`/token/${createdTokenAddress}`);
+      router.push(`/token/${resourceAddress}?componentAddress=${addMappingPayload.token.componentAddress}`);
     } catch (error) {
       console.log(error);
       toast.error(
@@ -204,13 +209,18 @@ const CreateCoinForm = () => {
 
 export default CreateCoinForm;
 
+interface ResourceComponentMapping {
+  resourceAddress: string;
+  token: TokenInfo;
+}
+
 /** Helpers */
 // create token TX
 const createToken = async (
   token: TokenInfo,
   memetokensComponentAddress: string,
   tokenCreator: string
-): Promise<string> => {
+): Promise<ResourceComponentMapping> => {
   // Get transaction manifest
   const launchTxManifest = launchTokenTxManifest(
     token,
@@ -231,6 +241,12 @@ const createToken = async (
   const txDetails = await gatewayApiClient.transaction.getCommittedDetails(
     txId
   );
+  console.log("txDetails");
+  console.log("txDetails");
+  console.log("txDetails");
+  console.log("txDetails");
+  console.log("txDetails");
+  console.log(txDetails);
   if (
     !txDetails.transaction.affected_global_entities ||
     txDetails.transaction.affected_global_entities.length <= 4
@@ -239,7 +255,14 @@ const createToken = async (
       "Invalid response from getCommitmentDetails API call: affected_global_entities not set or too few entities found."
     );
   }
-  return txDetails.transaction.affected_global_entities[4];
+  // Save resource -> component mapping in redux state
+  const resourceAddress = txDetails.transaction.affected_global_entities[4];
+  const componentAddress = txDetails.transaction.affected_global_entities[2];
+  token.componentAddress = componentAddress;
+  return {
+    resourceAddress,
+    token,
+  }
 };
 
 // upload image to pinata/ipfs
