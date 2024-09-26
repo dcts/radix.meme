@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../public/racoon-head.png";
-import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
+import { useAppDispatch } from "@/app/_hooks/hooks";
 import { useEffect, useRef } from "react";
 import { userSlice } from "@/app/_store/userSlice";
 
@@ -29,8 +29,8 @@ const Navbar = () => {
     };
   }, [dispatch]);
 
-  const { balances } = useAppSelector((state) => state.user);
-  const xrdBalance = balances[process.env.NEXT_PUBLIC_XRD_ADDRESS || ""] || -1;
+  // const { balances } = useAppSelector((state) => state.user);
+  // const xrdBalance = balances[process.env.NEXT_PUBLIC_XRD_ADDRESS || ""] || -1;
   return (
     <header className="w-full h-full flex items-center justify-between px-8">
       <Link href="/" className="flex justify-center items-center relative">
@@ -50,11 +50,11 @@ const Navbar = () => {
         <radix-connect-button
           ref={radixConnectButtonRef}
         ></radix-connect-button>
-        {xrdBalance >= 0 && (
+        {/* {xrdBalance >= 0 && (
           <p className="absolute text-sm pt-1 opacity-70">
             Balance: {xrdBalance.toLocaleString()} XRD
           </p>
-        )}
+        )} */}
       </div>
     </header>
   );

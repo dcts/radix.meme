@@ -9,6 +9,7 @@ import Link from "next/link";
 import { buyTxManifest, sellTxManifest } from "@/utils/tx-utils";
 import { getRdtOrThrow } from "@/app/_store/subscriptions";
 import { useSearchParams } from "next/navigation";
+import tradingChart from "../public/trading-chart.svg";
 
 type TProps = {
   tokenAddress: string;
@@ -104,7 +105,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
     loadTokenData();
   }, [dispatch, tokenAddress]);
 
-  const componentAddress = searchParams.get("componentAddress") || "";
+  const componentAddress = searchParams.get("componentAddress") || "";
 
   // const componentAddress = tokenDict[tokenAddress]?.componentAddress;
   // console.log({componentAddress, tokenAddress});
@@ -186,8 +187,14 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
               </div>
             </div>
           </div>
-          <div className="flex justify-center items-center text-white">
-            Trading Chart
+          <div className="flex justify-center text-white">
+            <Image
+              src={tradingChart}
+              alt="trading-chart"
+              width={500}
+              height={500}
+              className="rounded-xl h-[500px] w-[500px]"
+            />
           </div>
           <div className="font-[family-name:var(--font-josefin-sans)]">
             <div className="">
