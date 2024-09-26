@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { GalleryWithHover } from "@/components/ui/gallery-with-hover";
 import { SparklesCore } from "@/components/ui/sparkles";
-import heroRocket from "../public/hero-rocket.svg";
+import heroRocketRacoon from "../public/hero-rocket-racoon.svg";
 import bigCoin from "../public/big-filled-coin.png";
 import mediumCoin from "../public/medium-filled-coin.png";
 import smallCoin from "../public/small-filled-coin.png";
@@ -157,10 +157,10 @@ const HeroImages = () => {
         className="absolute bottom-24 -left-8 2xl:-left-12 animate-float"
       />
       <Image
-        src={heroRocket}
+        src={heroRocketRacoon}
         alt="rocket"
         height={475}
-        className="absolute animate-floatRocket top-10 left-6  "
+        className="absolute animate-floatRocket top-10 left-6"
       />
     </div>
   );
