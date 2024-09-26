@@ -48,7 +48,7 @@ export const ModalTrigger = ({
 
   useEffect(() => {
     setOpen(tokenHasAddress);
-  }, [tokenHasAddress]);
+  }, [setOpen, tokenHasAddress]);
 
   return <></>;
 };
