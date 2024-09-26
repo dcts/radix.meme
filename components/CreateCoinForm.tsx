@@ -18,6 +18,7 @@ import {
   getGatewayApiClientFromScratchOrThrow,
   getRdtOrThrow,
 } from "@/app/_store/subscriptions";
+import toast from "react-hot-toast";
 
 const MAX_CHAR_COUNT = 140;
 
@@ -42,7 +43,7 @@ const CreateCoinForm = () => {
   async function onSubmit(data: FieldValues) {
     // Validate that user is logged in
     if (!tokenCreatorAddress) {
-      alert("Please connect your wallet!");
+      toast.error("Please connect your wallet!");
       return;
     }
 
@@ -74,9 +75,10 @@ const CreateCoinForm = () => {
       router.push(`/token/${createdTokenAddress}`);
     } catch (error) {
       console.log(error);
+      toast.error(
+        "Something went wrong, could not create token! Please try again."
+      );
       alert("Something went wrong, could not create token! Please try again.");
-      /** TODO notify user ? */
-      // toast.error(`Could not create token, please try again later`);
     } finally {
       setIsSubmitting(false);
     }
@@ -227,7 +229,9 @@ const createToken = async (
   const txId = transactionResult.value.transactionIntentHash;
   // Get resource address from gateway API
   const gatewayApiClient = getGatewayApiClientFromScratchOrThrow();
-  const txDetails = await gatewayApiClient.transaction.getCommittedDetails(txId);
+  const txDetails = await gatewayApiClient.transaction.getCommittedDetails(
+    txId
+  );
   if (
     !txDetails.transaction.affected_global_entities ||
     txDetails.transaction.affected_global_entities.length <= 4
@@ -235,7 +239,7 @@ const createToken = async (
     throw new Error(
       "Invalid response from getCommitmentDetails API call: affected_global_entities not set or too few entities found."
     );
-  } 
+  }
   return txDetails.transaction.affected_global_entities[4];
 };
 
