@@ -87,7 +87,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
   return (
     <div>
       <div className="max-w-3xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-2 !grid-cols-[60%_40%]">
+        <div className="grid md:grid-cols-2 gap-2 lg:!grid-cols-[60%_40%]">
           <div className="flex justify-center">
             <Image
               src={token.iconUrl}
