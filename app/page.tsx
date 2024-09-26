@@ -31,7 +31,7 @@ export default function Home() {
         />
       </div>
       <main>
-        <div className="h-[calc(100lvh-20rem)] pt-16 flex justify-around items-center mx-16 xl:mx-[4.5rem] 2xl:mx-20 px-8 2xl:px-20 gap-x-32">
+        <div className="h-[calc(100lvh-20rem)] mt-16 pt-24 flex justify-around items-center mx-16 xl:mx-[4.5rem] 2xl:mx-20 px-8 2xl:px-20 gap-x-32">
           <div className="flex flex-col gap-8 items-center sm:items-start">
             <div className="list-inside list-decimal text-sm text-center sm:text-left ">
               <h1 className="relative font-[family-name:var(--font-londrina-solid)] text-8xl max-sm:text-6xl max-md:text-8xl md:text-8xl mb-4 font-black tracking-wider">
@@ -66,19 +66,23 @@ export default function Home() {
           <GalleryWithHover />
         </div>
 
-        <div className="w-full flex flex-col items-center justify-center mt-16 mb-8 gap-y-6">
-          <h3 className="text-3xl font-[family-name:var(--font-londrina-solid)] opacity-90 tracking-widest">
-            What are you waiting for?
-          </h3>
-          <Link
-            href="/launch"
-            className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-blur-dexter-green-OG hover:shadow-blur-dexter-gradient-green transition duration-300"
-          >
-            <HiMiniRocketLaunch className="text-3xl opacity-80" />
-            <span className="font-bold text-lg !font-[family-name:var(--font-josefin-sans)] tracking-wider opacity-80">
-              Launch your token
-            </span>
-          </Link>
+        <div className="grid max-sm:grid-cols-[3rem_1fr_3rem] max-md:grid-cols-[6rem_1fr_6rem] md:grid-cols-[8rem_1fr_8rem] w-full h-full">
+          <div className="bg-dexter-grey-dark h-full"></div>
+          <div className="flex flex-col items-center pt-8 pb-12">
+            <h3 className="max-sm:text-2xl sm:text-3xl font-[family-name:var(--font-londrina-solid)] opacity-90 tracking-widest mb-4">
+              What are you waiting for?
+            </h3>
+            <Link
+              href="/launch"
+              className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-blur-dexter-green-OG hover:shadow-blur-dexter-gradient-green transition duration-300"
+            >
+              <HiMiniRocketLaunch className="text-3xl opacity-80" />
+              <span className="font-bold text-lg !font-[family-name:var(--font-josefin-sans)] tracking-wider opacity-80">
+                Launch your token
+              </span>
+            </Link>
+          </div>
+          <div className="bg-dexter-grey-dark h-full"></div>
         </div>
       </main>
     </div>
