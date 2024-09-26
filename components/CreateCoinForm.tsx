@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, forwardRef, InputHTMLAttributes } from "react";
-import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateCoinFormSchema } from "@/app/_zod";
@@ -34,7 +33,6 @@ import Link from "next/link";
 const MAX_CHAR_COUNT = 140;
 
 const CreateCoinForm = () => {
-  const router = useRouter();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const tokenCreatorAddress = useAppSelector(
@@ -42,6 +40,7 @@ const CreateCoinForm = () => {
   );
   const [imageUrl, setImageUrl] = useState("");
   const [newTokenAddress, setNewTokenAddress] = useState("");
+  const [newComponentAddress, setNewComponentAddress] = useState("");
 
   const {
     watch,
@@ -77,23 +76,15 @@ const CreateCoinForm = () => {
         tokenCreatorAddress
       );
 
-      setNewTokenAddress(addMappingPayload.resourceAddress);
-      // => open success modal
-
-      const resourceAddress = addMappingPayload.resourceAddress
+      const resourceAddress = addMappingPayload.resourceAddress;
       console.log(resourceAddress);
 
       // Dispatch event to store resource->component matching
       dispatch(tokenStoreSlice.actions.addMapping(addMappingPayload));
 
-      // notify user that coin was created!
-      // TODO: replace toast with fancy animated modal
-      toast.success(
-        `AMAZING! You just created your token! ${data.name} $${data.ticker}`
-      );
-
-      /** navigate to token details page */
-      router.push(`/token/${resourceAddress}?componentAddress=${addMappingPayload.token.componentAddress}`);
+      // => open success modal
+      setNewComponentAddress(addMappingPayload.token.componentAddress || "");
+      setNewTokenAddress(addMappingPayload.resourceAddress);
     } catch (error) {
       console.log(error);
       toast.error(
@@ -220,20 +211,29 @@ const CreateCoinForm = () => {
           type="submit"
           disabled={isSubmitting}
           className="btn bg-dexter-gradient-green/80 hover:bg-dexter-gradient-green
-            w-full self-center flex items-center text-2xl my-4"
+                  w-full self-center flex items-center text-2xl my-4"
         >
           <HiMiniRocketLaunch />
           <span className="ms-2 font-bold text-sm">Launch your token</span>
         </Button>
       </form>
-      <SuccessModal newTokenAddress={newTokenAddress} />
+      <SuccessModal
+        newTokenAddress={newTokenAddress}
+        newComponentAddress={newComponentAddress}
+      />
     </div>
   );
 };
 
 export default CreateCoinForm;
 
-const SuccessModal = ({ newTokenAddress }: { newTokenAddress: string }) => {
+const SuccessModal = ({
+  newTokenAddress,
+  newComponentAddress,
+}: {
+  newTokenAddress: string;
+  newComponentAddress: string;
+}) => {
   return (
     <div>
       <ProgModal>
@@ -257,7 +257,7 @@ const SuccessModal = ({ newTokenAddress }: { newTokenAddress: string }) => {
               </div>
               <div className="flex justify-center max-auto mt-4 mb-4">
                 <Link
-                  href={`/token/${newTokenAddress}`}
+                  href={`/token/${newTokenAddress}?componentAddress=${newComponentAddress}`}
                   className="flex justify-center max-auto gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-8 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
                 >
                   <span className="font-normal text-lg">
@@ -326,7 +326,7 @@ const createToken = async (
   return {
     resourceAddress,
     token,
-  }
+  };
 };
 
 // upload image to pinata/ipfs
@@ -374,12 +374,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       <motion.div
         style={{
           background: useMotionTemplate`
-        radial-gradient(
-          ${visible ? radius + "px" : "0px"} circle at ${mouseX}px ${mouseY}px,
-          var(--blue-500),
-          transparent 80%
-        )
-      `,
+              radial-gradient(
+                ${
+                  visible ? radius + "px" : "0px"
+                } circle at ${mouseX}px ${mouseY}px,
+                var(--blue-500),
+                transparent 80%
+              )
+            `,
         }}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setVisible(true)}
@@ -390,12 +392,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           type={type}
           className={cn(
             `flex h-10 w-full border-none bg-gray-50 dark:bg-stone-800 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm  file:border-0 file:bg-transparent
-              file:text-sm file:font-medium placeholder:text-neutral-400 dark:placeholder-text-neutral-600
-              focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-600
-              disabled:cursor-not-allowed disabled:opacity-50
-              dark:shadow-[0px_0px_1px_1px_var(--neutral-700)]
-              group-hover/input:shadow-none transition duration-400
-           `,
+                    file:text-sm file:font-medium placeholder:text-neutral-400 dark:placeholder-text-neutral-600
+                    focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-600
+                    disabled:cursor-not-allowed disabled:opacity-50
+                    dark:shadow-[0px_0px_1px_1px_var(--neutral-700)]
+                    group-hover/input:shadow-none transition duration-400
+                 `,
             className
           )}
           ref={ref}
@@ -429,12 +431,14 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       <motion.div
         style={{
           background: useMotionTemplate`
-        radial-gradient(
-          ${visible ? radius + "px" : "0px"} circle at ${mouseX}px ${mouseY}px,
-          var(--blue-500),
-          transparent 80%
-        )
-      `,
+              radial-gradient(
+                ${
+                  visible ? radius + "px" : "0px"
+                } circle at ${mouseX}px ${mouseY}px,
+                var(--blue-500),
+                transparent 80%
+              )
+            `,
         }}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setVisible(true)}
@@ -444,12 +448,12 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         <textarea
           className={cn(
             `flex h-32 w-full border-none bg-gray-50 dark:bg-stone-800 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm  file:border-0 file:bg-transparent
-              file:text-sm file:font-medium placeholder:text-neutral-400 dark:placeholder-text-neutral-600
-              focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-600
-              disabled:cursor-not-allowed disabled:opacity-50
-              dark:shadow-[0px_0px_1px_1px_var(--neutral-700)]
-              group-hover/input:shadow-none transition duration-400
-           `,
+                    file:text-sm file:font-medium placeholder:text-neutral-400 dark:placeholder-text-neutral-600
+                    focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-600
+                    disabled:cursor-not-allowed disabled:opacity-50
+                    dark:shadow-[0px_0px_1px_1px_var(--neutral-700)]
+                    group-hover/input:shadow-none transition duration-400
+                 `,
             className
           )}
           ref={ref}
