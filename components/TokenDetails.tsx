@@ -4,7 +4,7 @@ import Image from "next/image";
 import { OrderSide, tokenSlice } from "@/app/_store/tokenSlice";
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
 import { fetchToken } from "@/app/_store/tokenSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 type TProps = {
@@ -76,6 +76,8 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
       available: state.token.available,
     }));
 
+  const [inputAmount, setInputAmount] = useState<string>("");
+
   // useEffect fetch token data
   useEffect(() => {
     async function loadTokenData() {
@@ -83,6 +85,33 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
     }
     loadTokenData();
   }, [dispatch, tokenAddress]);
+
+  const handleBuy = () => {
+    alert("Buy...!");
+  };
+
+  const handleSell = () => {
+    alert("Selling...!");
+  };
+
+  const handleAmountInput = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = ev.target;
+    // Regular expression to match the specified structure
+    const validPattern = /^[0-9]*[.,]?[0-9]*$/;
+    if (validPattern.test(value)) {
+      setInputAmount(value); // Set value if it matches the pattern
+      dispatch(
+        side === "BUY"
+        ? tokenSlice.actions.setBuyAmount(Number(value))
+        : tokenSlice.actions.setSellAmount(Number(value))
+      );
+    } else {
+      alert(
+        "Invalid format! Please use the format: number, followed by a dot or comma, followed by more numbers."
+      );
+      setInputAmount(value.slice(0, -1));
+    }
+  };
 
   return (
     <div>
@@ -128,22 +157,28 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
                   type="text"
                   className="text-sm grow w-full pl-2 bg-dexter-grey-dark rounded-lg h-10"
                   placeholder="0.00"
+                  onChange={handleAmountInput}
+                  value={inputAmount}
                 />
               </div>
               {side === "SELL" && ( // Check if the current order side is SELL
                 <Link
                   href=""
                   className="flex justify-center w-full mx-auto gap-2 bg-dexter-red-b hover:bg-dexter-red-c rounded-lg text-white px-4 py-3 max-lg:self-center shadow-md shadow-dexter-red-b transition duration-300 mt-4 mb-4"
+                  onClick={handleSell}
                 >
-                  <span className="font-bold text-sm">Sell Stonks!</span>
+                  <span className="font-bold text-sm">
+                    Sell ${token.symbol}
+                  </span>
                 </Link>
               )}
               {side === "BUY" && (
                 <Link
                   href=""
                   className="flex justify-center w-full mx-auto gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green rounded-lg text-dexter-grey-light px-4 py-3 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300 mt-4 mb-4"
+                  onClick={handleBuy}
                 >
-                  <span className="font-bold text-sm">Buy Stonks!</span>
+                  <span className="font-bold text-sm">Buy ${token.symbol}</span>
                 </Link>
               )}
             </div>
