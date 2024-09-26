@@ -32,7 +32,7 @@ export default function RootLayout({
       <body
         className={`${londrinaSolid.variable} ${josefinSans.variable} antialiased`}
       >
-        <div className="grid grid-rows-[6rem_1fr_4rem] items-center justify-items-center min-h-screen gap-16 font-[family-name:var(--font-londrinaSolid-sans)]">
+        <div className="grid grid-rows-[6rem_1fr_4rem] items-center justify-items-center min-h-screen font-[family-name:var(--font-londrinaSolid-sans)]">
           <StoreProvider>
             <Navbar />
             {children}
