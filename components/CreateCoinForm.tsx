@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, forwardRef, InputHTMLAttributes, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useState, forwardRef, InputHTMLAttributes } from "react";
+// import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateCoinFormSchema, type TCreateCoinForm } from "@/app/_zod";
+import { CreateCoinFormSchema } from "@/app/_zod";
 import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { HiMiniRocketLaunch } from "react-icons/hi2";
@@ -16,16 +16,10 @@ import { launchTokenTxManifest } from "@/utils/tx-utils";
 import { useAppSelector } from "@/app/_hooks/hooks";
 import { getRdtOrThrow } from "@/app/_store/subscriptions";
 
-// TODO set submit btn disabled state
-
 const MAX_CHAR_COUNT = 140;
 
-// type TCreateCoinInputTRX = Omit<TCreateCoinForm, "image"> & {
-//   imageUrl: string;
-// };
-
 const CreateCoinForm = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const tokenCreatorAddress = useAppSelector(
     (state) => state.user.selectedAccount.address
