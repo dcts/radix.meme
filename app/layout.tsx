@@ -4,6 +4,7 @@ import StoreProvider from "./_store/StoreProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Londrina_Solid, Josefin_Sans } from "next/font/google";
+import Toaster from "../components/Toaster";
 
 const londrinaSolid = Londrina_Solid({
   weight: ["100", "300", "400", "900"],
@@ -38,6 +39,7 @@ export default function RootLayout({
             {children}
             <Footer />
           </StoreProvider>
+          <Toaster />
         </div>
       </body>
     </html>
