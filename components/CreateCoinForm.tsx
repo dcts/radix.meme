@@ -66,8 +66,8 @@ const CreateCoinForm = () => {
       console.log(createdTokenAddress);
 
       // notify user that coin was created!
-      // TODO: replace alert with fancy animated modal
-      alert(
+      // TODO: replace toast with fancy animated modal
+      toast.success(
         `AMAZING! You just created your token! ${data.name} $${data.ticker}`
       );
 
@@ -78,7 +78,6 @@ const CreateCoinForm = () => {
       toast.error(
         "Something went wrong, could not create token! Please try again."
       );
-      alert("Something went wrong, could not create token! Please try again.");
     } finally {
       setIsSubmitting(false);
     }
