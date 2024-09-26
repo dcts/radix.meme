@@ -77,7 +77,7 @@ const CreateCoinForm = () => {
         tokenCreatorAddress
       );
 
-      setNewTokenAddress(createdTokenAddress);
+      setNewTokenAddress(addMappingPayload.resourceAddress);
       // => open success modal
 
       const resourceAddress = addMappingPayload.resourceAddress
