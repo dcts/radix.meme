@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
 import { fetchToken } from "@/app/_store/tokenSlice";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { buyTxManifest, sellTxManifest } from "@/utils/tx-utils";
+import { getRdtOrThrow } from "@/app/_store/subscriptions";
 
 type TProps = {
   tokenAddress: string;
@@ -66,15 +68,27 @@ function OrderSideTab({ orderSide }: OrderSideTabProps): JSX.Element | null {
 const TokenDetails = ({ tokenAddress }: TProps) => {
   const dispatch = useAppDispatch();
 
-  const { token, side, lastPrice, supply, readyToDexter, available } =
-    useAppSelector((state) => ({
-      token: state.token.token,
-      side: state.token.formInput.side,
-      lastPrice: state.token.lastPrice,
-      supply: state.token.supply,
-      readyToDexter: state.token.readyToDexter,
-      available: state.token.available,
-    }));
+  const {
+    token,
+    side,
+    lastPrice,
+    supply,
+    readyToDexter,
+    available,
+    buyAmount,
+    sellAmount,
+    userAddress,
+  } = useAppSelector((state) => ({
+    token: state.token.token,
+    side: state.token.formInput.side,
+    lastPrice: state.token.lastPrice,
+    supply: state.token.supply,
+    readyToDexter: state.token.readyToDexter,
+    available: state.token.available,
+    buyAmount: state.token.formInput.buyAmount,
+    sellAmount: state.token.formInput.sellAmount,
+    userAddress: state.user.selectedAccount.address,
+  }));
 
   const [inputAmount, setInputAmount] = useState<string>("");
 
@@ -86,11 +100,36 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
     loadTokenData();
   }, [dispatch, tokenAddress]);
 
-  const handleBuy = () => {
-    alert("Buy...!");
+  const handleBuy = async () => {
+    if (!process.env.NEXT_PUBLIC_XRD_ADDRESS) {
+      throw new Error(
+        "env variable process.env.NEXT_PUBLIC_XRD_ADDRESS not defined"
+      );
+    }
+    const rdt = getRdtOrThrow();
+    const transactionResult = await rdt.walletApi.sendTransaction({
+      transactionManifest: buyTxManifest(
+        buyAmount?.toString() || "0",
+        process.env.NEXT_PUBLIC_XRD_ADDRESS,
+        tokenAddress, // TODO_CRITICAL(dcts) replace this with component address of the memecoin
+        userAddress
+      ),
+    });
+    if (!transactionResult.isOk()) {
+      throw new Error("Transaction failed");
+    }
+    const txId = transactionResult.value.transactionIntentHash;
+    console.log("txId");
+    console.log(txId);
   };
-
   const handleSell = () => {
+    const manifest = sellTxManifest(
+      sellAmount?.toString() || "0",
+      tokenAddress,
+      tokenAddress, // TODO_CRITICAL(dcts) replace this with component address of the memecoin
+      userAddress
+    );
+    console.log(manifest);
     alert("Selling...!");
   };
 
@@ -102,8 +141,8 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
       setInputAmount(value); // Set value if it matches the pattern
       dispatch(
         side === "BUY"
-        ? tokenSlice.actions.setBuyAmount(Number(value))
-        : tokenSlice.actions.setSellAmount(Number(value))
+          ? tokenSlice.actions.setBuyAmount(Number(value))
+          : tokenSlice.actions.setSellAmount(Number(value))
       );
     } else {
       alert(
