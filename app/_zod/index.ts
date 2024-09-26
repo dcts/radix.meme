@@ -11,8 +11,8 @@ export const CreateCoinFormSchema = z.object({
     .max(12, { message: "Must be 12 characters or less" }),
   description: z
     .string()
-    .min(16, { message: "Must be at least 16 characters" })
-    .max(140, { message: "Must be 140 characters or less" }),
+    .min(4, { message: "Must be at least 4 characters" })
+    .max(400, { message: "Must be 400 characters or less" }),
   image: z
     .any()
     .refine((files) => files instanceof FileList && files.length > 0, {
