@@ -17,8 +17,8 @@ import {
   getGatewayApiClientFromScratchOrThrow,
   getRdtOrThrow,
 } from "@/app/_store/subscriptions";
-
 import toast from "react-hot-toast";
+import { revalidatePath } from "next/cache";
 
 import {
   ProgModal,
@@ -85,6 +85,9 @@ const CreateCoinForm = () => {
       // => open success modal
       setNewComponentAddress(addMappingPayload.token.componentAddress || "");
       setNewTokenAddress(addMappingPayload.resourceAddress);
+
+      // purge cached data on / page : https://nextjs.org/docs/app/api-reference/functions/revalidatePath
+      revalidatePath("/");
     } catch (error) {
       console.log(error);
       toast.error(
@@ -121,6 +124,7 @@ const CreateCoinForm = () => {
             id="image"
             {...register("image")}
             onChange={handleFileUpload} // Trigger upload on file selection
+            className="file-input-with-big-plus"
           />
           {errors.image && (
             <span className="text-red-500">
