@@ -1,36 +1,18 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hackathon Submission EBC Hackathon Radix 2024
 
-## Getting Started
+IMPORTANT: we forgot to add the scrypto code and scrypto video walkthrough in the submission (we only submitted the frontend), please look at these assets as well:
 
-First, run the development server:
+1. Scrypto repo:
+https://github.com/fliebenberg/token-curve-component
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. Scrypto code walkthrough video:
+https://youtu.be/vD-nUGNyx98
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+We added all videos in this playlist:
+https://www.youtube.com/playlist?list=PLZbTckODZW5d4DoZgwIwxm5oHM-nHN1tz
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# radix.meme
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Instantly launch your coin with unlimited liquidity using a dynamic bonding curve.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<img width="1339" alt="Bildschirmfoto 2024-09-26 um 21 17 34" src="https://github.com/user-attachments/assets/55da515f-ceff-4de1-8a95-484cbe8961c4">
