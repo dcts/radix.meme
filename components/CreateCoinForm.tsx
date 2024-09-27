@@ -121,6 +121,7 @@ const CreateCoinForm = () => {
             id="image"
             {...register("image")}
             onChange={handleFileUpload} // Trigger upload on file selection
+            className="file-input-with-big-plus"
           />
           {errors.image && (
             <span className="text-red-500">

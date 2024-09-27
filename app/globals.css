@@ -81,7 +81,7 @@
 }
 
 /* create coin form file input */
-input[type="file"] {
+input.file-input-with-big-plus[type="file"] {
   position: relative;
   border: none;
   color: rgb(82 82 82 / var(--tw-text-opacity)) /* #525252 */;
@@ -89,7 +89,7 @@ input[type="file"] {
   height: 12rem;
 }
 
-input[type="file"]::after {
+input.file-input-with-big-plus[type="file"]::after {
   color: rgb(82 82 82 / var(--tw-text-opacity));
   position: absolute;
   content: "+";
@@ -99,12 +99,12 @@ input[type="file"]::after {
   font-size: 16rem;
   pointer-events: none; /* Prevent interaction with the pseudo-element */
 }
-input[type="file"]:hover::after {
+input.file-input-with-big-plus[type="file"]:hover::after {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(1.05);
 }
 
-input[type="file"]::file-selector-button {
+input.file-input-with-big-plus[type="file"]::file-selector-button {
   display: none;
 }
