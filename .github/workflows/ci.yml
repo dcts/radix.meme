@@ -1,9 +1,6 @@
 name: CI - Test and Lint
 
 on:
-  push:
-    branches:
-      - "**" # Run the action on every branch push
   pull_request:
     branches:
       - main # Run the action when a PR is opened against the main branch
@@ -19,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16" # Adjust Node.js version to match your project
+          node-version: "20" # Adjust Node.js version to match your project
 
       - name: Install dependencies
         run: npm install
@@ -29,3 +26,4 @@ jobs:
 
       - name: Run Linter
         run: npm run lint
+
