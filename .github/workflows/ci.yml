@@ -1,9 +1,6 @@
 name: CI - Test and Lint
 
 on:
-  push:
-    branches:
-      - "**" # Run the action on every branch push
   pull_request:
     branches:
       - main # Run the action when a PR is opened against the main branch
@@ -29,3 +26,4 @@ jobs:
 
       - name: Run Linter
         run: npm run lint
+
