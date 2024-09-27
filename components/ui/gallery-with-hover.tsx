@@ -63,7 +63,7 @@ export const GalleryWithHover = ({ className }: TProps) => {
             })
           : coinsData.map((coin, idx) => (
               <Link
-                href={`/token/${coin?.address}`}
+                href={`/token/${coin?.address}?componentAddress=${coin.componentAddress}`}
                 key={coin?.address}
                 className="relative group block p-2 h-full w-fit"
                 onMouseEnter={() => setHoveredIndex(idx)}
