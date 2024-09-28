@@ -26,6 +26,7 @@ export async function getMainComponentState(
     throw new Error();
   } else {
     if (apiResult.data?.items?.length > 0) {
+      // TODO define stateFields type
       const stateFields = apiResult.data.items[0].details?.state?.fields;
       stateFields.forEach((fieldData: any) => {
         switch (fieldData.field_name) {
@@ -59,17 +60,18 @@ export async function getMainComponentState(
   }
   return result;
 }
+
 export async function getAllTokensData(
   kvsAddress: string
 ): Promise<TTokenData[]> {
-  const result: TTokenData[] = [];
   const tokenComponents = await getAllTokensComponents(kvsAddress);
-  for (const tokenComponent of tokenComponents) {
-    const tokenData = await getTokenData(tokenComponent);
-    if (tokenData.address) {
-      result.push(tokenData);
-    }
-  }
+
+  const result: TTokenData[] = await Promise.all(
+    tokenComponents?.map((tokenComponent) => {
+      return getTokenData(tokenComponent);
+    })
+  );
+
   return result;
 }
 
@@ -104,7 +106,7 @@ export async function getTokenData(
     progress: 0,
     name: "",
     symbol: "",
-    imageUrl: "",
+    iconUrl: "",
     description: "",
     telegramUrl: "",
     xUrl: "",
@@ -116,6 +118,7 @@ export async function getTokenData(
     addresses: [tokenComponent],
     aggregation_level: "Global",
   });
+
   if (apiResult.status != 200) {
     console.error(
       "Problem fetching component details for token component: " +
@@ -128,7 +131,7 @@ export async function getTokenData(
       const componentStateFields =
         apiResult.data.items[0].details?.state?.fields;
       for (const fieldData of componentStateFields) {
-        switch (fieldData.name) {
+        switch (fieldData.field_name) {
           case "token_manager": {
             result.address = fieldData.value;
             break;
@@ -181,10 +184,6 @@ export async function getTokenData(
                 }
                 case "icon_url": {
                   result.iconUrl = data.value.typed.value;
-                  break;
-                }
-                case "image_url": {
-                  result.imageUrl = data.value.typed.value;
                   break;
                 }
                 case "telegram": {
