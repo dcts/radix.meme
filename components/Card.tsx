@@ -10,8 +10,8 @@ export const Card = ({ coin }: { coin: TTokenData }) => {
         <div className="px-4 py-1">
           <figure>
             <Image
-              src={coin.imageUrl || ""}
-              alt={coin.name || ""}
+              src={coin.iconUrl || ""}
+              alt={coin.name || ""}
               width={175}
               height={175}
               className="object-cover w-full h-44 rounded-lg"

@@ -38,7 +38,7 @@ const CreateCoinForm = () => {
   const tokenCreatorAddress = useAppSelector(
     (state) => state.user.selectedAccount.address
   );
-  const [imageUrl, setImageUrl] = useState("");
+  const [iconUrl, setIconUrl] = useState("");
   const [newTokenAddress, setNewTokenAddress] = useState("");
   const [newComponentAddress, setNewComponentAddress] = useState("");
 
@@ -66,7 +66,7 @@ const CreateCoinForm = () => {
         {
           name: data.name,
           symbol: data.ticker,
-          iconUrl: imageUrl,
+          iconUrl,
           description: data.description,
           telegram: data.telegramUrl,
           x: data.xUrl,
@@ -105,7 +105,7 @@ const CreateCoinForm = () => {
     if (files && files.length > 0) {
       const imageUrl = (await uploadImage(files[0])) as string; // upload the first file
       console.log({ imageUrl });
-      setImageUrl(imageUrl);
+      setIconUrl(imageUrl);
     } else {
       console.log("No image selected");
     }
