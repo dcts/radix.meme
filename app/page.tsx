@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { GalleryWithHover } from "@/components/ui/gallery-with-hover";
 import { SparklesCore } from "@/components/ui/sparkles";
 import heroRocketRacoon from "../public/hero-rocket-racoon.svg";
 import bigCoin from "../public/big-filled-coin.png";
@@ -15,6 +14,7 @@ import {
   ModalFooter,
 } from "@/components/ui/animated-modal";
 import { BetaLabel } from "@/components/Navbar";
+import { AllCoinsGallery } from "@/components/AllCoinsGallery";
 
 export default function Home() {
   return (
@@ -63,7 +63,7 @@ export default function Home() {
           <HeroImages />
         </div>
         <div className="bg-dexter-grey-dark">
-          <GalleryWithHover />
+          <AllCoinsGallery />
         </div>
 
         <div className="grid max-sm:grid-cols-[3rem_1fr_3rem] max-md:grid-cols-[6rem_1fr_6rem] md:grid-cols-[8rem_1fr_8rem] w-full h-full">
