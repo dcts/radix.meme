@@ -59,17 +59,16 @@ export async function getMainComponentState(
   }
   return result;
 }
+
 export async function getAllTokensData(
   kvsAddress: string
 ): Promise<TTokenData[]> {
-  const result: TTokenData[] = [];
   const tokenComponents = await getAllTokensComponents(kvsAddress);
-  for (const tokenComponent of tokenComponents) {
-    const tokenData = await getTokenData(tokenComponent);
-    if (tokenData.address) {
-      result.push(tokenData);
-    }
-  }
+  const result: TTokenData[] = await Promise.all(
+    tokenComponents?.map((tokenComponent) => {
+      return getTokenData(tokenComponent);
+    })
+  );
   return result;
 }
 
@@ -128,7 +127,10 @@ export async function getTokenData(
       const componentStateFields =
         apiResult.data.items[0].details?.state?.fields;
       for (const fieldData of componentStateFields) {
-        switch (fieldData.name) {
+        if (!fieldData.field_name) {
+          throw new Error("fieldData.field_name does not exist!");
+        }
+        switch (fieldData.field_name) {
           case "token_manager": {
             result.address = fieldData.value;
             break;
