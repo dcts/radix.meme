@@ -86,8 +86,9 @@ const CreateCoinForm = () => {
       setNewComponentAddress(addMappingPayload.token.componentAddress || "");
       setNewTokenAddress(addMappingPayload.resourceAddress);
 
+      // TODO: learn more about this, not sure if this works currently as expected.
       // purge cached data on / page : https://nextjs.org/docs/app/api-reference/functions/revalidatePath
-      revalidatePath("/");
+      // revalidatePath("/");
     } catch (error) {
       console.log(error);
       toast.error(
