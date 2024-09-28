@@ -18,7 +18,6 @@ import {
   getRdtOrThrow,
 } from "@/app/_store/subscriptions";
 import toast from "react-hot-toast";
-import { revalidatePath } from "next/cache";
 
 import {
   ProgModal,
@@ -86,9 +85,6 @@ const CreateCoinForm = () => {
       setNewComponentAddress(addMappingPayload.token.componentAddress || "");
       setNewTokenAddress(addMappingPayload.resourceAddress);
 
-      // TODO: learn more about this, not sure if this works currently as expected.
-      // purge cached data on / page : https://nextjs.org/docs/app/api-reference/functions/revalidatePath
-      // revalidatePath("/");
     } catch (error) {
       console.log(error);
       toast.error(
