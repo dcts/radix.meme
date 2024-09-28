@@ -11,6 +11,7 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
   const radixConnectButtonRef = useRef<HTMLElement | null>(null);
 
+  // Reset state if user disconnects
   useEffect(() => {
     const handleDisconnect = () => {
       dispatch(userSlice.actions.reset());
@@ -39,6 +40,7 @@ const Navbar = () => {
           src={logo}
           width={50}
           height={50}
+          style={{ width: "auto", height: "auto" }}
           className="hover:animate-spin transition duration-1000"
         />
         <span className="max-sm:mx-2 sm:mx-3 font-[family-name:var(--font-londrina-solid)] text-xl font-black tracking-wider">

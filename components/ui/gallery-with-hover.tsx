@@ -19,11 +19,13 @@ export const GalleryWithHover = ({ className }: TProps) => {
   const [coinsData, setCoinsData] = useState<TTokenData[]>(devCoinsData);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   // fetch all coins on chain data
   const getCoinData = useCallback(async () => {}, []);
 
   useEffect(() => {
+    setHasMounted(true);
     (async () => {
       // TODO remove transient
       await wait(2000);
@@ -57,7 +59,7 @@ export const GalleryWithHover = ({ className }: TProps) => {
           className
         )}
       >
-        {isLoading
+        {isLoading && hasMounted
           ? Array.from({ length: 12 }, (_, idx) => {
               return <CardSkeleton key={idx} />;
             })
