@@ -14,7 +14,6 @@ export type TTokenData = {
   name?: string;
   symbol?: string;
   iconUrl?: string;
-  imageUrl?: string;
   description?: string;
   telegramUrl?: string;
   xUrl?: string;
