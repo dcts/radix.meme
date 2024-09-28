@@ -38,7 +38,7 @@ const CreateCoinForm = () => {
   const tokenCreatorAddress = useAppSelector(
     (state) => state.user.selectedAccount.address
   );
-  const [imageUrl, setImageUrl] = useState("");
+  const [iconUrl, setIconUrl] = useState("");
   const [newTokenAddress, setNewTokenAddress] = useState("");
   const [newComponentAddress, setNewComponentAddress] = useState("");
 
@@ -66,7 +66,7 @@ const CreateCoinForm = () => {
         {
           name: data.name,
           symbol: data.ticker,
-          iconUrl: imageUrl,
+          iconUrl,
           description: data.description,
           telegram: data.telegramUrl,
           x: data.xUrl,
@@ -103,9 +103,8 @@ const CreateCoinForm = () => {
   ) => {
     const files = event.target.files; // Get the selected file(s)
     if (files && files.length > 0) {
-      const imageUrl = (await uploadImage(files[0])) as string; // upload the first file
-      console.log({ imageUrl });
-      setImageUrl(imageUrl);
+      const iconUrl = (await uploadImage(files[0])) as string; // upload the first file
+      setIconUrl(iconUrl);
     } else {
       console.log("No image selected");
     }
@@ -309,12 +308,7 @@ const createToken = async (
   const txDetails = await gatewayApiClient.transaction.getCommittedDetails(
     txId
   );
-  console.log("txDetails");
-  console.log("txDetails");
-  console.log("txDetails");
-  console.log("txDetails");
-  console.log("txDetails");
-  console.log(txDetails);
+
   if (
     !txDetails.transaction.affected_global_entities ||
     txDetails.transaction.affected_global_entities.length <= 4
