@@ -6,8 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
 import { fetchToken } from "@/app/_store/tokenSlice";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { buyTxManifest, sellTxManifest } from "@/utils/tx-utils";
-import { getRdtOrThrow } from "@/app/_store/subscriptions";
+import { sellTxManifest } from "@/utils/tx-utils";
 import { useSearchParams } from "next/navigation";
 import tradingChart from "../public/trading-chart.svg";
 
@@ -93,26 +92,26 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
   const componentAddress = searchParams.get("componentAddress") || "";
 
   const handleBuy = async () => {
-    if (!process.env.NEXT_PUBLIC_XRD_ADDRESS) {
-      throw new Error(
-        "env variable process.env.NEXT_PUBLIC_XRD_ADDRESS not defined"
-      );
-    }
-    const rdt = getRdtOrThrow();
-    const transactionResult = await rdt.walletApi.sendTransaction({
-      transactionManifest: buyTxManifest(
-        buyAmount?.toString() || "0",
-        process.env.NEXT_PUBLIC_XRD_ADDRESS,
-        componentAddress,
-        userAddress
-      ),
-    });
-    if (!transactionResult.isOk()) {
-      throw new Error("Transaction failed");
-    }
-    const txId = transactionResult.value.transactionIntentHash;
-    console.log("txId");
-    console.log(txId);
+    alert(
+      `Trying to spend ${buyAmount} XRD. Not implemented yet, feature coming soon! Check back later!`
+    );
+    // if (!process.env.NEXT_PUBLIC_XRD_ADDRESS) {
+    //   throw new Error(
+    //     "env variable process.env.NEXT_PUBLIC_XRD_ADDRESS not defined"
+    //   );
+    // }
+    // const rdt = getRdtOrThrow();
+    // const transactionResult = await rdt.walletApi.sendTransaction({
+    //   transactionManifest: buyTxManifest(
+    //     buyAmount?.toString() || "0",
+    //     process.env.NEXT_PUBLIC_XRD_ADDRESS,
+    //     componentAddress,
+    //     userAddress
+    //   ),
+    // });
+    // if (!transactionResult.isOk()) {
+    //   throw new Error("Transaction failed");
+    // }
   };
   const handleSell = () => {
     const manifest = sellTxManifest(
@@ -122,7 +121,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
       userAddress
     );
     console.log(manifest);
-    alert("Selling...!");
+    alert("Not implemented yet, feature coming soon! Check back later!");
   };
 
   const handleAmountInput = (ev: React.ChangeEvent<HTMLInputElement>) => {
