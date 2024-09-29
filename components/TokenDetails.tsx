@@ -82,7 +82,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
     iconUrl,
     address,
   };
-  const { side, buyAmount, sellAmount } = useAppSelector(
+  const { side, sellAmount } = useAppSelector(
     (state) => state.token.formInput
   );
   const userAddress = useAppSelector(
@@ -93,7 +93,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
 
   const handleBuy = async () => {
     alert(
-      `Trying to spend ${buyAmount} XRD. Not implemented yet, feature coming soon! Check back later!`
+      `Not implemented yet, feature coming soon! Check back later!`
     );
     // if (!process.env.NEXT_PUBLIC_XRD_ADDRESS) {
     //   throw new Error(
