@@ -3,22 +3,18 @@
 import Image from "next/image";
 import { OrderSide, tokenSlice } from "@/app/_store/tokenSlice";
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
-import { fetchToken } from "@/app/_store/tokenSlice";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { sellTxManifest } from "@/utils/tx-utils";
-import { useSearchParams } from "next/navigation";
 import tradingChart from "../public/trading-chart.svg";
-
-type TProps = {
-  tokenAddress: string;
-};
+import { TTokenData } from "@/types";
 
 interface OrderSideTabProps {
   orderSide: OrderSide;
 }
 
-// SHortens radix wallet address
+// TODO(dcts): outsource to utils functions
+// Shortens radix wallet address
 function shortenWalletAddress(address: string): string {
   // minimal length is 35 chars
   if (address.length < 35) {
@@ -66,12 +62,26 @@ function OrderSideTab({ orderSide }: OrderSideTabProps): JSX.Element | null {
   );
 }
 
-const TokenDetails = ({ tokenAddress }: TProps) => {
-  const searchParams = useSearchParams();
+const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
   const dispatch = useAppDispatch();
-  const { token, lastPrice, available, supply, readyToDexter } = useAppSelector(
-    (state) => state.token
-  );
+  const {
+    address,
+    description,
+    name,
+    symbol,
+    iconUrl,
+    lastPrice,
+    maxSupply,
+    supply,
+    progress,
+  } = tokenData;
+  const token = {
+    name,
+    symbol,
+    description,
+    iconUrl,
+    address,
+  };
   const { side, buyAmount, sellAmount } = useAppSelector(
     (state) => state.token.formInput
   );
@@ -80,16 +90,6 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
   );
 
   const [inputAmount, setInputAmount] = useState<string>("");
-
-  // useEffect fetch token data
-  useEffect(() => {
-    async function loadTokenData() {
-      await dispatch(fetchToken(tokenAddress));
-    }
-    loadTokenData();
-  }, [dispatch, tokenAddress]);
-
-  const componentAddress = searchParams.get("componentAddress") || "";
 
   const handleBuy = async () => {
     alert(
@@ -116,8 +116,8 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
   const handleSell = () => {
     const manifest = sellTxManifest(
       sellAmount?.toString() || "0",
-      tokenAddress,
-      componentAddress,
+      tokenData.address,
+      tokenData.componentAddress || "",
       userAddress
     );
     console.log(manifest);
@@ -149,7 +149,7 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
         <div className="grid md:grid-cols-2 gap-2 lg:!grid-cols-[60%_40%]">
           <div className="flex justify-center">
             <Image
-              src={token.iconUrl}
+              src={token.iconUrl || ""}
               alt={`${token.name} token image`}
               width={400}
               height={150}
@@ -162,10 +162,10 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
             </div>
             <div className="font-[family-name:var(--font-josefin-sans)]">
               <div className="text-xs pt-2 pb-4 font-semibold">
-                Created by: {shortenWalletAddress(tokenAddress)}
+                Created by: {shortenWalletAddress(token.address || "")}
               </div>
               <div className="text-white text-opacity-40">
-                {token.description}
+                {token.description || ""}
               </div>
             </div>
           </div>
@@ -225,11 +225,11 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
               </div>
               <div className="flex flex-row justify-between mt-1">
                 <p>Available:</p>
-                <p>{available}</p>
+                <p>{maxSupply}</p>
               </div>
               <div className="flex flex-row justify-between mt-1">
                 <p>Ready to DeXter:</p>
-                <p>{readyToDexter}</p>
+                <p>{progress}</p>
               </div>
               <p className="text-white text-opacity-40 pt-4 leading-none">
                 When the market cap reaches 1,000 XRD all the liquidity from the
