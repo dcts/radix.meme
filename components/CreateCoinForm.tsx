@@ -80,7 +80,7 @@ const CreateCoinForm = () => {
       setNewTokenAddress(resourceAddress);
 
       // request to server to revalidate /
-      revalidateTwist("/");
+      await revalidateTwist("/");
     } catch (error) {
       console.log(error);
       toast.error(
