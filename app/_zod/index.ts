@@ -1,11 +1,9 @@
 import * as z from "zod";
 
-export const DESCRIPTION_MAX_CHAR_COUNT = 400;
-
 export const CreateCoinFormSchema = z.object({
   name: z
     .string()
-    .min(3, { message: "Must be at least 4 characters" })
+    .min(4, { message: "Must be at least 4 characters" })
     .max(42, { message: "Must be 42 characters or less" }),
   ticker: z
     .string()
@@ -13,7 +11,8 @@ export const CreateCoinFormSchema = z.object({
     .max(12, { message: "Must be 12 characters or less" }),
   description: z
     .string()
-    .max(DESCRIPTION_MAX_CHAR_COUNT, { message: "Must be 400 characters or less" }),
+    .min(4, { message: "Must be at least 4 characters" })
+    .max(400, { message: "Must be 400 characters or less" }),
   image: z
     .any()
     .refine((files) => files instanceof FileList && files.length > 0, {
