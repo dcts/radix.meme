@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { GalleryWithHover } from "@/components/ui/gallery-with-hover";
 import { SparklesCore } from "@/components/ui/sparkles";
 import heroRocketRacoon from "../public/hero-rocket-racoon.svg";
 import bigCoin from "../public/big-filled-coin.png";
@@ -15,6 +14,7 @@ import {
   ModalFooter,
 } from "@/components/ui/animated-modal";
 import { BetaLabel } from "@/components/Navbar";
+import { AllCoinsGallery } from "@/components/AllCoinsGallery";
 
 export default function Home() {
   return (
@@ -52,6 +52,7 @@ export default function Home() {
             <div className="flex gap-8 items-center flex-col sm:flex-row font-[family-name:var(--font-josefin-sans)]">
               <Link
                 href="/launch"
+                prefetch={true}
                 className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
               >
                 <HiMiniRocketLaunch className="text-3xl" />
@@ -63,7 +64,7 @@ export default function Home() {
           <HeroImages />
         </div>
         <div className="bg-dexter-grey-dark">
-          <GalleryWithHover />
+          <AllCoinsGallery />
         </div>
 
         <div className="grid max-sm:grid-cols-[3rem_1fr_3rem] max-md:grid-cols-[6rem_1fr_6rem] md:grid-cols-[8rem_1fr_8rem] w-full h-full">
@@ -74,6 +75,7 @@ export default function Home() {
             </h3>
             <Link
               href="/launch"
+              prefetch={true}
               className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-blur-dexter-green-OG hover:shadow-blur-dexter-gradient-green transition duration-300"
             >
               <HiMiniRocketLaunch className="text-3xl opacity-80" />
@@ -125,6 +127,7 @@ const ModalWrapper = () => {
         <ModalFooter className="gap-4 flex justify-center">
           <Link
             href="/launch"
+            prefetch={true}
             className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
           >
             <HiMiniRocketLaunch className="text-3xl" />

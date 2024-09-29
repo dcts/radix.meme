@@ -3,15 +3,15 @@ import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { TTokenData } from "@/types";
 
-export const Card = ({ coin }: { coin: TTokenData }) => {
+export const CoinCard = ({ coin }: { coin: TTokenData }) => {
   return (
     <div className="rounded-2xl w-[22rem] h-[29rem] p-4 overflow-hidden bg-dexter-grey-dark border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 mx-auto">
       <div className="relative z-50 h-full flex flex-col">
         <div className="px-4 py-1">
           <figure>
             <Image
-              src={coin.imageUrl || ""}
-              alt={coin.name || ""}
+              src={coin.iconUrl || ""}
+              alt={coin.name || ""}
               width={175}
               height={175}
               className="object-cover w-full h-44 rounded-lg"
@@ -66,7 +66,7 @@ export const Card = ({ coin }: { coin: TTokenData }) => {
   );
 };
 
-export const CardSkeleton = () => {
+export const CoinCardSkeleton = () => {
   const randomPercentage = Math.floor(Math.random() * 101);
 
   return (

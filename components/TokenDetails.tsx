@@ -70,30 +70,15 @@ function OrderSideTab({ orderSide }: OrderSideTabProps): JSX.Element | null {
 const TokenDetails = ({ tokenAddress }: TProps) => {
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
-
-  const {
-    token,
-    side,
-    lastPrice,
-    supply,
-    readyToDexter,
-    available,
-    buyAmount,
-    sellAmount,
-    userAddress,
-    // tokenDict,
-  } = useAppSelector((state) => ({
-    token: state.token.token,
-    side: state.token.formInput.side,
-    lastPrice: state.token.lastPrice,
-    supply: state.token.supply,
-    readyToDexter: state.token.readyToDexter,
-    available: state.token.available,
-    buyAmount: state.token.formInput.buyAmount,
-    sellAmount: state.token.formInput.sellAmount,
-    userAddress: state.user.selectedAccount.address,
-    // tokenDict: state.tokenStore.tokens
-  }));
+  const { token, lastPrice, available, supply, readyToDexter } = useAppSelector(
+    (state) => state.token
+  );
+  const { side, buyAmount, sellAmount } = useAppSelector(
+    (state) => state.token.formInput
+  );
+  const userAddress = useAppSelector(
+    (state) => state.user.selectedAccount.address
+  );
 
   const [inputAmount, setInputAmount] = useState<string>("");
 
@@ -107,8 +92,6 @@ const TokenDetails = ({ tokenAddress }: TProps) => {
 
   const componentAddress = searchParams.get("componentAddress") || "";
 
-  // const componentAddress = tokenDict[tokenAddress]?.componentAddress;
-  // console.log({componentAddress, tokenAddress});
   const handleBuy = async () => {
     if (!process.env.NEXT_PUBLIC_XRD_ADDRESS) {
       throw new Error(
