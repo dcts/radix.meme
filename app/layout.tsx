@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Londrina_Solid, Josefin_Sans } from "next/font/google";
 import Toaster from "../components/Toaster";
+import { Analytics } from "@vercel/analytics/react";
 
 const londrinaSolid = Londrina_Solid({
   weight: ["100", "300", "400", "900"],
@@ -41,6 +42,7 @@ export default function RootLayout({
           </StoreProvider>
           <Toaster />
         </div>
+        <Analytics />
       </body>
     </html>
   );
