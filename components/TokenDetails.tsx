@@ -8,7 +8,7 @@ import Link from "next/link";
 import { buyTxManifest, sellTxManifest } from "@/utils/tx-utils";
 import tradingChart from "../public/trading-chart.svg";
 import { TTokenData } from "@/types";
-import { shortenWalletAddress } from "@/utils";
+import { shortenString } from "@/utils";
 import { Skeleton } from "./ui/skeleton";
 import { getRdtOrThrow } from "@/app/_store/subscriptions";
 
@@ -145,7 +145,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
             </div>
             <div className="font-[family-name:var(--font-josefin-sans)]">
               <div className="text-xs pt-2 pb-4 font-semibold">
-                Created by: {shortenWalletAddress(token.address || "")}
+                Created by: {shortenString(token.address || "", 7, 4)}
               </div>
               <div className="text-white text-opacity-40">
                 {token.description || ""}

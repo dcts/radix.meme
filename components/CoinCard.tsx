@@ -5,20 +5,20 @@ import type { TTokenData } from "@/types";
 
 export const CoinCard = ({ coin }: { coin: TTokenData }) => {
   return (
-    <div className="rounded-2xl w-[22rem] h-[29rem] p-4 overflow-hidden bg-dexter-grey-dark border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 mx-auto">
+    <div className="rounded-2xl shadow-xl w-[285px] h-[450px] overflow-hidden bg-dexter-grey-dark border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 mx-auto">
       <div className="relative z-50 h-full flex flex-col">
-        <div className="px-4 py-1">
+        <div className="">
           <figure>
             <Image
               src={coin.iconUrl || ""}
               alt={coin.name || ""}
               width={175}
               height={175}
-              className="object-cover w-full h-44 rounded-lg"
+              className="object-cover w-full h-44 rounded-lg rounded-bl-none rounded-br-none"
             />
           </figure>
 
-          <div className="flex-grow">
+          <div className="flex-grow px-4">
             <h2 className="text-dexter-green max-sm:text-lg text-xl font-bold tracking-wide mt-4 flex items-center justify-between">
               <span className="inline-block text-dexter-green capitalize whitespace-nowrap max-w-32 truncate">
                 {coin.name}
@@ -28,7 +28,7 @@ export const CoinCard = ({ coin }: { coin: TTokenData }) => {
               </span>
             </h2>
 
-            <p className="text-stone-200">
+            <p className="text-stone-200 text-xs opacity-50">
               Created by: {coin.address.slice(0, 12)}...
             </p>
 
@@ -38,23 +38,23 @@ export const CoinCard = ({ coin }: { coin: TTokenData }) => {
           </div>
         </div>
 
-        <div className="mt-auto pt-2 px-4">
+        <div className="mt-auto pt-2 px-4 pb-4">
           <div className="flex items-center my-2">
-            <h2 className="max-sm:text-base text-lg">Last Price:</h2>
+            <h2 className="text-base">Last Price:</h2>
             <div className="ms-auto">
-              <span className="ms-4 p-1 max-sm:text-base text-lg">
-                0.002 XRD
+              <span className="ms-4 p-1 text-base">
+                {coin.lastPrice}
               </span>
             </div>
           </div>
 
           <div className="flex items-center my-2">
-            <h2 className="max-sm:text-base text-lg whitespace-nowrap">
+            <h2 className="text-base whitespace-nowrap">
               Sale progress:
             </h2>
             <div className="ms-auto">
-              <span className="text-dexter-green whitespace-nowrap">
-                {coin.progress?.toFixed(0)}k / 100k XRD
+              <span className="text-dexter-green whitespace-nowrap text-base">
+                {coin.progress?.toFixed(0)}k / 333k XRD
               </span>
             </div>
           </div>
