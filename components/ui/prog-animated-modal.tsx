@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import React, {
   ReactNode,
   createContext,
@@ -9,6 +10,9 @@ import React, {
   useRef,
   useState,
 } from "react";
+
+import successRaccoon from "../../public/success-raccoon.svg";
+import Link from "next/link";
 
 interface ModalContextType {
   open: boolean;
@@ -132,12 +136,14 @@ export const ModalBody = ({
 };
 
 export const ModalContent = ({
-  children,
+  href,
   className,
 }: {
-  children: ReactNode;
+  href: string;
   className?: string;
 }) => {
+  const { setOpen } = useModal();
+
   return (
     <div
       className={cn(
@@ -145,7 +151,31 @@ export const ModalContent = ({
         className
       )}
     >
-      {children}
+      <div className="flex flex-col font-[family-name:var(--font-josefin-sans)">
+        <div>
+          <Image
+            src={successRaccoon}
+            alt="success-raccoon"
+            width={600}
+            height={600}
+            className="animate-float"
+          />
+        </div>
+        <div>
+          <h4 className="text-xl md:text-6xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-2 mt-4 uppercase">
+            Token created!
+          </h4>
+        </div>
+        <div className="flex justify-center max-auto mt-4 mb-4">
+          <Link
+            onClick={() => setOpen(false)}
+            href={href}
+            className="flex justify-center max-auto gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-8 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
+          >
+            <span className="font-normal text-lg">Now pump your token!</span>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };
