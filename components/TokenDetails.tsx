@@ -8,21 +8,11 @@ import Link from "next/link";
 import { sellTxManifest } from "@/utils/tx-utils";
 import tradingChart from "../public/trading-chart.svg";
 import { TTokenData } from "@/types";
+import { shortenWalletAddress } from "@/utils";
+import { Skeleton } from "./ui/skeleton";
 
 interface OrderSideTabProps {
   orderSide: OrderSide;
-}
-
-// TODO(dcts): outsource to utils functions
-// Shortens radix wallet address
-function shortenWalletAddress(address: string): string {
-  // minimal length is 35 chars
-  if (address.length < 35) {
-    return address;
-  }
-  const firstPart = address.slice(0, 8);
-  const lastPart = address.slice(-20);
-  return `${firstPart}...${lastPart}`;
 }
 
 function OrderSideTabs() {
@@ -253,3 +243,98 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
 };
 
 export default TokenDetails;
+
+export const TokenDetailsSkeleton = () => {
+  return (
+    <div>
+      <div className="max-w-3xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-4 lg:!grid-cols-[60%_40%]">
+          <div className="flex justify-center">
+            <Skeleton className="w-full h-64 rounded-xl bg-dexter-green/55" />
+          </div>
+
+          <div className="p-4">
+            <div className="font-[family-name:var(--font-londrina-solid)] text-4xl text-dexter-green-OG/90">
+              <Skeleton className="w-full h-full rounded-xl" />
+            </div>
+            <div className="font-[family-name:var(--font-josefin-sans)]">
+              {/* coin name */}
+              <Skeleton className="w-28 h-10 mb-2 rounded-xl bg-dexter-green/55" />
+
+              <div className="text-xs pt-2 pb-4 font-semibold flex items-center gap-x-2 w-full">
+                <span className="whitespace-nowrap">Created by:</span>
+                <Skeleton className="w-full h-4 rounded-xl" />
+              </div>
+              <Skeleton className="ms-2 w-full h-32 rounded-xl bg-stone-400/55" />
+            </div>
+          </div>
+
+          {/* chart */}
+          <Skeleton className="w-full h-[96%] rounded-xl" />
+
+          <div className="font-[family-name:var(--font-josefin-sans)]">
+            <div className="flex">
+              {/* OrderSideTabs */}
+              <div
+                className={`w-1/2 flex justify-center items-center cursor-pointer hover:opacity-100 border rounded-tl-sm rounded-tr-sm
+                  bg-dexter-gray-dark text-dexter-green bg-dexter-gray-c
+                }`}
+              >
+                <p className="font-bold h-fit py-2 text-sm tracking-[.1px] select-none uppercase">
+                  buy
+                </p>
+              </div>
+              <div
+                className={`w-1/2 flex justify-center items-center cursor-pointer hover:opacity-100 border rounded-tl-sm rounded-tr-sm
+                  opacity-50
+                }`}
+              >
+                <p className="font-bold h-fit py-2 text-sm tracking-[.1px] select-none uppercase">
+                  sell
+                </p>
+              </div>
+            </div>
+            <div className="border border-white-1 p-6 rounded-bl-sm rounded-br-sm bg-dexter-gray-c">
+              <div className="flex justify-between mt-3 items-center">
+                <span className="whitespace-nowrap">Last Price:</span>
+                <Skeleton className="w-8 h-2 rounded-xl bg-slate-50" />
+              </div>
+              <p className="mt-4">Amount</p>
+              <div className="mt-2">
+                {/* input */}
+                <Skeleton className="grow w-full pl-2 bg-dexter-grey-dark rounded-lg h-12 flex flex-col justify-center">
+                  <Skeleton className="w-8 h-2 rounded-xl bg-slate-50" />
+                </Skeleton>
+              </div>
+
+              <div className="flex justify-center w-full mx-auto gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green rounded-lg text-dexter-grey-light px-4 py-3 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300 mt-4 mb-4">
+                <span className="font-bold text-sm">
+                  Buy <Skeleton className="w-full h-2 rounded-lg" />
+                </span>
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between mt-8  items-center">
+                <span>Supply:</span>
+                <Skeleton className="w-8 h-2 rounded-xl bg-slate-50" />
+              </div>
+              <div className="flex justify-between mt-1 items-center">
+                <span>Available:</span>
+                <Skeleton className="w-12 h-2 rounded-xl bg-slate-50" />
+              </div>
+              <div className="flex justify-between mt-1 items-center">
+                <p className="whitespace-nowrap">Ready to DeXter:</p>
+                <Skeleton className="w-16 h-2 rounded-xl bg-slate-50" />
+              </div>
+              <p className="text-white text-opacity-40 pt-4 leading-none">
+                When the market cap reaches 1,000 XRD all the liquidity from the
+                bonding curve will be deposited into DeXter and burned.
+                progression increases as the price goes up.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

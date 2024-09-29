@@ -1,6 +1,7 @@
-import TokenDetails from "@/components/TokenDetails";
-import { getTokenData } from "@/utils/api-calls";
 import { Metadata } from "next";
+import { Suspense } from "react";
+import TokenDetailsGetDataWrapper from "@/components/TokenDetailsGetDataWrapper";
+import { TokenDetailsSkeleton } from "@/components/TokenDetails";
 
 type TProps = {
   params: {
@@ -15,21 +16,13 @@ export const metadata: Metadata = {
 };
 
 // Server component
-const tokenDetails = async ({ searchParams }: TProps) => {
-  const componentAddressSearchParam = searchParams?.componentAddress;
-
-  const componentAddress = Array.isArray(componentAddressSearchParam)
-    ? componentAddressSearchParam[0]
-    : componentAddressSearchParam;
-  if (!componentAddress) {
-    throw new Error("Invalid component address");
-  }
-  const tokenData = await getTokenData(componentAddress);
-
+const tokenDetails = ({ searchParams }: TProps) => {
   return (
     <div className="px-8 sm:px-20">
-      {/* Client component */}
-      <TokenDetails tokenData={tokenData} />
+      <Suspense fallback={<TokenDetailsSkeleton />}>
+        {/* Server component */}
+        <TokenDetailsGetDataWrapper searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 };
