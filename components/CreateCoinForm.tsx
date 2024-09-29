@@ -3,7 +3,7 @@
 import { useState, forwardRef, InputHTMLAttributes } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateCoinFormSchema } from "@/app/_zod";
+import { CreateCoinFormSchema, DESCRIPTION_MAX_CHAR_COUNT } from "@/app/_zod";
 import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { HiMiniRocketLaunch } from "react-icons/hi2";
@@ -29,8 +29,6 @@ import successRaccoon from "../public/success-raccoon.svg";
 import Image from "next/image";
 import Link from "next/link";
 
-const MAX_CHAR_COUNT = 140;
-
 const CreateCoinForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const tokenCreatorAddress = useAppSelector(
@@ -47,7 +45,7 @@ const CreateCoinForm = () => {
     handleSubmit,
   } = useForm({
     resolver: zodResolver(CreateCoinFormSchema),
-    mode: "onChange",
+    mode: "onSubmit",
   });
 
   async function onSubmit(data: FieldValues) {
@@ -79,7 +77,6 @@ const CreateCoinForm = () => {
       const componentAddress = addMappingPayload.token.componentAddress || "";
       setNewComponentAddress(componentAddress);
       setNewTokenAddress(resourceAddress);
-
     } catch (error) {
       console.log(error);
       toast.error(
@@ -110,13 +107,27 @@ const CreateCoinForm = () => {
       >
         <div className="flex flex-col">
           <Label htmlFor="image">Image *</Label>
-          <Input
-            type="file"
-            id="image"
-            {...register("image")}
-            onChange={handleFileUpload} // Trigger upload on file selection
-            className="file-input-with-big-plus"
-          />
+          <div className="relative">
+            <Input
+              type="file"
+              id="image"
+              {...register("image")}
+              onChange={handleFileUpload} // Trigger upload on file selection
+              className="file-input-with-big-plus"
+            />
+            {iconUrl && (
+              <>
+                <Image
+                  src={iconUrl}
+                  alt={""}
+                  width={120}
+                  height={120}
+                  style={{ width: "auto", height: "auto" }}
+                  className={"absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"}
+                />
+              </>
+            )}
+          </div>
           {errors.image && (
             <span className="text-red-500">
               {(errors.image.message as string) || "Error"}
@@ -155,15 +166,16 @@ const CreateCoinForm = () => {
         </div>
 
         <div className="flex flex-col">
-          <Label htmlFor="description">Description *</Label>
+          <Label htmlFor="description">Description (optional)</Label>
           <Textarea
             id="description"
             placeholder="E.G.: A token created to celebrate the meme culture around the crypto world"
             {...register("description")}
-            maxLength={MAX_CHAR_COUNT}
+            maxLength={DESCRIPTION_MAX_CHAR_COUNT}
           />
           <span className="text-sm text-right text-white text-opacity-50">
-            {watch("description")?.length ?? 0}/{MAX_CHAR_COUNT} characters
+            {watch("description")?.length ?? 0}/{DESCRIPTION_MAX_CHAR_COUNT}{" "}
+            characters
           </span>
           {errors.description && (
             <span className="text-red-500">
@@ -173,7 +185,7 @@ const CreateCoinForm = () => {
         </div>
 
         <div className="flex flex-col">
-          <Label htmlFor="website">Website</Label>
+          <Label htmlFor="website">Website (optional)</Label>
           <Input
             type="text"
             id="website"
@@ -183,21 +195,21 @@ const CreateCoinForm = () => {
         </div>
 
         <div className="flex flex-col">
-          <Label htmlFor="twitter">X profile</Label>
+          <Label htmlFor="twitter">X profile (optional)</Label>
           <Input
             type="text"
             id="twitter"
-            placeholder="@"
+            placeholder="https://x.com/your-token"
             {...register("xUrl")}
           />
         </div>
 
         <div className="flex flex-col">
-          <Label htmlFor="telegram">Telegram</Label>
+          <Label htmlFor="telegram">Telegram (optional)</Label>
           <Input
             type="text"
             id="telegram"
-            placeholder="@"
+            placeholder="https://t.me/your-token"
             {...register("telegramUrl")}
           />
         </div>
