@@ -28,6 +28,7 @@ import {
 import successRaccoon from "../public/success-raccoon.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { revalidateTwist } from "@/app/_actions/revalidate-twist";
 
 const CreateCoinForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -72,11 +73,14 @@ const CreateCoinForm = () => {
         tokenCreatorAddress
       );
 
-      // => open success modal
       const resourceAddress = addMappingPayload.resourceAddress;
       const componentAddress = addMappingPayload.token.componentAddress || "";
       setNewComponentAddress(componentAddress);
+      // => open success modal
       setNewTokenAddress(resourceAddress);
+
+      // request to server to revalidate /
+      await revalidateTwist("/");
     } catch (error) {
       console.log(error);
       toast.error(
