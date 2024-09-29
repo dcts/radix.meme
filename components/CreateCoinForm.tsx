@@ -25,7 +25,6 @@ import {
   ModalTrigger,
 } from "@/components/ui/prog-animated-modal";
 import Image from "next/image";
-import Link from "next/link";
 import { revalidateTwist } from "@/app/_actions/revalidate-twist";
 
 const CreateCoinForm = () => {
