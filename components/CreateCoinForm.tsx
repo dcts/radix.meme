@@ -107,7 +107,7 @@ const CreateCoinForm = () => {
     <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-6 max-sm:max-w-72 font-[family-name:var(--font-josefin-sans)]"
+        className="relative flex flex-col gap-6 max-sm:max-w-72 font-[family-name:var(--font-josefin-sans)]"
       >
         <div className="flex flex-col">
           <Label htmlFor="image">Image *</Label>
@@ -123,13 +123,10 @@ const CreateCoinForm = () => {
               <>
                 <Image
                   src={iconUrl}
-                  alt={""}
-                  width={120}
-                  height={120}
-                  style={{ width: "auto", height: "auto" }}
-                  className={
-                    "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                  }
+                  alt={"uploaded image"}
+                  width={144}
+                  height={144}
+                  className="absolute z-50 bg-stone-800 bg-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-[44%]"
                 />
               </>
             )}
@@ -140,7 +137,6 @@ const CreateCoinForm = () => {
             </span>
           )}
         </div>
-
         <div className="flex flex-col">
           <Label htmlFor="name">Name *</Label>
           <Input
@@ -155,7 +151,6 @@ const CreateCoinForm = () => {
             </span>
           )}
         </div>
-
         <div className="flex flex-col">
           <Label htmlFor="name">Ticker *</Label>
           <Input
@@ -170,7 +165,6 @@ const CreateCoinForm = () => {
             </span>
           )}
         </div>
-
         <div className="flex flex-col">
           <Label htmlFor="description">Description (optional)</Label>
           <Textarea
@@ -189,7 +183,6 @@ const CreateCoinForm = () => {
             </span>
           )}
         </div>
-
         <div className="flex flex-col">
           <Label htmlFor="website">Website (optional)</Label>
           <Input
@@ -199,7 +192,6 @@ const CreateCoinForm = () => {
             {...register("website")}
           />
         </div>
-
         <div className="flex flex-col">
           <Label htmlFor="twitter">X profile (optional)</Label>
           <Input
@@ -209,7 +201,6 @@ const CreateCoinForm = () => {
             {...register("xUrl")}
           />
         </div>
-
         <div className="flex flex-col">
           <Label htmlFor="telegram">Telegram (optional)</Label>
           <Input
@@ -219,7 +210,6 @@ const CreateCoinForm = () => {
             {...register("telegramUrl")}
           />
         </div>
-
         <Button
           type="submit"
           disabled={isSubmitting}
