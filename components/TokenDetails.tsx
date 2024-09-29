@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { OrderSide, tokenSlice } from "@/app/_store/tokenSlice";
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { sellTxManifest } from "@/utils/tx-utils";
 import tradingChart from "../public/trading-chart.svg";
@@ -76,18 +76,6 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
   const userAddress = useAppSelector(
     (state) => state.user.selectedAccount.address
   );
-
-  // DUCKTAPE FIX
-  // TODO: we should remove this code. But if we do, we have this issue:
-  // -> token gets created -> success popup shows up (and blocks scrolling)
-  // -> after redirect to token details -> blocking is still active...
-  // -> this fix prevents this!
-  useEffect(() => {
-    const body = document.querySelector("body");
-    if (body && body.style) {
-      body.style.overflow = "";
-    }
-  }, []);
 
   const [inputAmount, setInputAmount] = useState<string>("");
 
