@@ -10,9 +10,9 @@ import { HiMiniRocketLaunch } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 import { createPinataUrl } from "@/app/_actions/create-pinata-url";
-import { TokenInfo, tokenStoreSlice } from "@/app/_store/tokenStoreSlice";
+import { TokenInfo } from "@/app/_store/tokenStoreSlice";
 import { launchTokenTxManifest } from "@/utils/tx-utils";
-import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
+import { useAppSelector } from "@/app/_hooks/hooks";
 import {
   getGatewayApiClientFromScratchOrThrow,
   getRdtOrThrow,
@@ -32,7 +32,6 @@ import Link from "next/link";
 const MAX_CHAR_COUNT = 140;
 
 const CreateCoinForm = () => {
-  const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const tokenCreatorAddress = useAppSelector(
     (state) => state.user.selectedAccount.address
@@ -75,15 +74,11 @@ const CreateCoinForm = () => {
         tokenCreatorAddress
       );
 
-      const resourceAddress = addMappingPayload.resourceAddress;
-      console.log(resourceAddress);
-
-      // Dispatch event to store resource->component matching
-      dispatch(tokenStoreSlice.actions.addMapping(addMappingPayload));
-
       // => open success modal
-      setNewComponentAddress(addMappingPayload.token.componentAddress || "");
-      setNewTokenAddress(addMappingPayload.resourceAddress);
+      const resourceAddress = addMappingPayload.resourceAddress;
+      const componentAddress = addMappingPayload.token.componentAddress || "";
+      setNewComponentAddress(componentAddress);
+      setNewTokenAddress(resourceAddress);
 
     } catch (error) {
       console.log(error);
