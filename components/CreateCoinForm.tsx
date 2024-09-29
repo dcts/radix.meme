@@ -18,16 +18,13 @@ import {
   getRdtOrThrow,
 } from "@/app/_store/subscriptions";
 import toast from "react-hot-toast";
-
 import {
   ProgModal,
   ModalBody,
   ModalContent,
   ModalTrigger,
 } from "@/components/ui/prog-animated-modal";
-import successRaccoon from "../public/success-raccoon.svg";
 import Image from "next/image";
-import Link from "next/link";
 import { revalidateTwist } from "@/app/_actions/revalidate-twist";
 
 const CreateCoinForm = () => {
@@ -252,34 +249,9 @@ const SuccessModal = ({
       <ProgModal>
         <ModalTrigger tokenHasAddress={!!newTokenAddress} />
         <ModalBody>
-          <ModalContent>
-            <div className="flex flex-col font-[family-name:var(--font-josefin-sans)">
-              <div>
-                <Image
-                  src={successRaccoon}
-                  alt="success-raccoon"
-                  width={600}
-                  height={600}
-                  className="animate-float"
-                />
-              </div>
-              <div>
-                <h4 className="text-xl md:text-6xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-2 mt-4 uppercase">
-                  Token created!
-                </h4>
-              </div>
-              <div className="flex justify-center max-auto mt-4 mb-4">
-                <Link
-                  href={`/token/${newTokenAddress}?componentAddress=${newComponentAddress}`}
-                  className="flex justify-center max-auto gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-8 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
-                >
-                  <span className="font-normal text-lg">
-                    Now pump your token!
-                  </span>
-                </Link>
-              </div>
-            </div>
-          </ModalContent>
+          <ModalContent
+            href={`/token/${newTokenAddress}?componentAddress=${newComponentAddress}`}
+          />
         </ModalBody>
       </ProgModal>
     </div>
