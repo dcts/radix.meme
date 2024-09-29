@@ -5,11 +5,12 @@ import { OrderSide, tokenSlice } from "@/app/_store/tokenSlice";
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
 import { useState } from "react";
 import Link from "next/link";
-import { sellTxManifest } from "@/utils/tx-utils";
+import { buyTxManifest, sellTxManifest } from "@/utils/tx-utils";
 import tradingChart from "../public/trading-chart.svg";
 import { TTokenData } from "@/types";
 import { shortenWalletAddress } from "@/utils";
 import { Skeleton } from "./ui/skeleton";
+import { getRdtOrThrow } from "@/app/_store/subscriptions";
 
 interface OrderSideTabProps {
   orderSide: OrderSide;
@@ -56,6 +57,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
   const dispatch = useAppDispatch();
   const {
     address,
+    componentAddress,
     description,
     name,
     symbol,
@@ -72,7 +74,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
     iconUrl,
     address,
   };
-  const { side, sellAmount } = useAppSelector((state) => state.token.formInput);
+  const { side, sellAmount, buyAmount } = useAppSelector((state) => state.token.formInput);
   const userAddress = useAppSelector(
     (state) => state.user.selectedAccount.address
   );
@@ -80,25 +82,20 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
   const [inputAmount, setInputAmount] = useState<string>("");
 
   const handleBuy = async () => {
-    alert(`Not implemented yet, feature coming soon! Check back later!`);
-    // if (!process.env.NEXT_PUBLIC_XRD_ADDRESS) {
-    //   throw new Error(
-    //     "env variable process.env.NEXT_PUBLIC_XRD_ADDRESS not defined"
-    //   );
-    // }
-    // const rdt = getRdtOrThrow();
-    // const transactionResult = await rdt.walletApi.sendTransaction({
-    //   transactionManifest: buyTxManifest(
-    //     buyAmount?.toString() || "0",
-    //     process.env.NEXT_PUBLIC_XRD_ADDRESS,
-    //     componentAddress,
-    //     userAddress
-    //   ),
-    // });
-    // if (!transactionResult.isOk()) {
-    //   throw new Error("Transaction failed");
-    // }
+    const rdt = getRdtOrThrow();
+    const transactionResult = await rdt.walletApi.sendTransaction({
+      transactionManifest: buyTxManifest(
+        buyAmount?.toString() || "0",
+        process.env.NEXT_PUBLIC_XRD_ADDRESS || "",
+        componentAddress || "",
+        userAddress
+      ),
+    });
+    if (!transactionResult.isOk()) {
+      throw new Error("Transaction failed");
+    }
   };
+  
   const handleSell = () => {
     const manifest = sellTxManifest(
       sellAmount?.toString() || "0",
