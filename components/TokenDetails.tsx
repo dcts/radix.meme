@@ -2,8 +2,12 @@
 
 import Image from "next/image";
 import { OrderSide, tokenSlice } from "@/app/_store/tokenSlice";
-import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
-import { useState } from "react";
+import {
+  useAppDispatch,
+  useAppSelector,
+  usePrevious,
+} from "@/app/_hooks/hooks";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { buyTxManifest, sellTxManifest } from "@/utils/tx-utils";
 import tradingChart from "../public/trading-chart.svg";
@@ -73,26 +77,62 @@ function OrderSideTab({
 }
 
 const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
+  const componentAddress = tokenData.componentAddress;
+  const tokenAddress = tokenData.address;
+  // const resourceAddress = tokenData.address;
+
   const dispatch = useAppDispatch();
-  const {
-    address,
-    componentAddress,
-    description,
-    name,
-    symbol,
-    iconUrl,
-    lastPrice,
-    maxSupply,
-    supply,
-    progress,
-  } = tokenData;
-  const token = {
-    name,
-    symbol,
-    description,
-    iconUrl,
-    address,
-  };
+  useEffect(() => {
+    dispatch(tokenSlice.actions.setTTokenData(tokenData));
+  }, [dispatch, tokenData]);
+  // const {
+  //   address,
+  //   componentAddress,
+  //   description,
+  //   name,
+  //   symbol,
+  //   iconUrl,
+  //   maxSupply,
+  //   supply,
+  //   progress,
+  // } = tokenData;
+  // const token = {
+  //   name,
+  //   symbol,
+  //   description,
+  //   iconUrl,
+  //   address,
+  // };
+
+  const { token, maxSupply, supply, progress } = useAppSelector(
+    (state) => state.token
+  );
+  const { lastPrice } = useAppSelector((state) => state.token);
+  const previousPrice = usePrevious(lastPrice);
+
+  useEffect(() => {
+    if (
+      previousPrice === undefined ||
+      lastPrice === undefined ||
+      previousPrice === lastPrice ||
+      previousPrice < 0 // empty
+    ) {
+      return;
+    }
+    if (lastPrice > previousPrice) {
+      console.log("flashing green!");
+      console.log({ lastPrice, previousPrice });
+      setFlashState("flash-green");
+    } else if (lastPrice < previousPrice) {
+      setFlashState("flash-red");
+    } else {
+      setFlashState("flash-none");
+    }
+    setTimeout(() => {
+      setFlashState("flash-none");
+    }, 1000);
+  }, [lastPrice, previousPrice]);
+
   const { side, sellAmount, buyAmount } = useAppSelector(
     (state) => state.token.formInput
   );
@@ -108,8 +148,10 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
   );
 
   const [inputAmount, setInputAmount] = useState<string>("");
+  const [flashState, setFlashState] = useState<string>("flash-none");
 
   const handleBuy = async () => {
+    console.log("Handle Buy");
     const rdt = getRdtOrThrow();
     const transactionResult = await rdt.walletApi.sendTransaction({
       transactionManifest: buyTxManifest(
@@ -119,9 +161,11 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
         userAddress
       ),
     });
+    console.log("finished transaction");
     if (!transactionResult.isOk()) {
       throw new Error("Transaction failed");
     }
+    await updateTradeData();
   };
 
   const handleSell = async () => {
@@ -137,6 +181,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
     if (!transactionResult.isOk()) {
       throw new Error("Transaction failed");
     }
+    await updateTradeData();
   };
 
   const handleAmountInput = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -161,6 +206,21 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
   const hasLastPrice = !!lastPrice;
   const resetInput = () => setInputAmount("");
 
+  const updateTradeData = async () => {
+    console.log("inside updateTradeData()");
+    const response = await fetch(`/api/token/${componentAddress}`, {
+      headers: {
+        Accept: "application/json",
+        method: "GET",
+      },
+    });
+    console.log({ response });
+    if (response) {
+      const tTokenData = await response.json();
+      dispatch(tokenSlice.actions.updateTradeData(tTokenData));
+    }
+  };
+
   return (
     <div>
       <div className="max-w-3xl mx-auto">
@@ -178,9 +238,15 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
             <div className="font-[family-name:var(--font-londrina-solid)] text-4xl text-dexter-green-OG/90">
               {token.name}
             </div>
+            {/* <button
+              className="bg-white text-black px-4 py-1 rounded-full"
+              onClick={testingApi}
+            >
+              TEST
+            </button> */}
             <div className="font-[family-name:var(--font-josefin-sans)]">
               <div className="text-xs pt-2 pb-4 font-semibold">
-                Created by: {shortenString(token.address || "", 7, 4)}
+                Created by: {shortenString(tokenAddress || "", 7, 4)}
               </div>
               <div className="text-white text-opacity-40">
                 {token.description || ""}
@@ -208,7 +274,13 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
                     hasLastPrice ? "" : "opacity-50"
                   } w-full text-right`}
                 >
-                  {hasLastPrice ? `${lastPrice.toFixed(6)} XRD` : "no trades"}
+                  <span className={`${flashState} px-1 py-1`}>
+                    {hasLastPrice
+                      ? lastPrice === -1
+                        ? ""
+                        : `${lastPrice.toFixed(6)} XRD`
+                      : "no trades"}
+                  </span>
                 </p>
               </div>
               <div className="w-full flex content-between px-1 mt-4">
@@ -234,7 +306,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
               <div className="mt-2">
                 <input
                   type="text"
-                  className="text-sm grow w-full pl-2 bg-dexter-grey-dark rounded-lg h-10 text-right pr-5 border border-solid border-[#4a4a4a] focus:outline-none"
+                  className="text-base grow w-full pl-2 bg-dexter-grey-dark rounded-lg h-10 text-right pr-5 border border-solid border-[#4a4a4a] focus:outline-none"
                   placeholder="0.00"
                   onChange={handleAmountInput}
                   value={inputAmount}
@@ -255,7 +327,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
                 <Link
                   href=""
                   className="flex justify-center w-full mx-auto gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green rounded-lg text-dexter-grey-light px-4 py-3 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300 mt-4 mb-4"
-                  onClick={handleBuy}
+                  onClick={async () => await handleBuy()}
                 >
                   <span className="font-bold text-sm">Buy ${token.symbol}</span>
                 </Link>
@@ -271,7 +343,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
                 <p>{maxSupply}</p>
               </div>
               <div className="flex flex-row justify-between mt-1">
-                <p>Ready to DeXter:</p>
+                <p>Bonding curve progress:</p>
                 <p>{progress}</p>
               </div>
               <p className="text-white text-opacity-40 pt-4 leading-none">
