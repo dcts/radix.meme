@@ -1,3 +1,8 @@
+// Add global variables
+export const XRD_FEE_ALLOWANCE = 3;
+export const XRD_AMOUNT_PRECISION = 2;
+export const MEMECOIN_AMOUNT_PRECISION = 4;
+
 // transient
 export const wait = (duration: number) =>
   new Promise((res) => {
@@ -21,4 +26,29 @@ export function shortenString(
       (showEnd > 0 ? seperator + fullStr.slice(-showEnd) : "")
     );
   }
+}
+
+export function truncateWithPrecision(num: number, precision: number): number {
+  const split = num.toString().split(".");
+  if (split.length !== 2) {
+    return num;
+  }
+  const [part1, part2] = split;
+  return Number(`${part1}.${part2.substring(0, precision)}`);
+}
+
+// // Gets amount precision for XRD and MEMECOINS
+// // Note: currently we set precision for XRD to be 2, while
+// // precision for the memecoin is set to 2 as well.
+// export function getPrecision(input: string): number {
+//   return (
+//     {
+//       XRD: 2,
+//     }[input.toUpperCase()] || 2
+//   );
+// }
+
+
+export function displayNumber(value: number): string {
+  return value.toLocaleString("en").replaceAll(",", "'")
 }
