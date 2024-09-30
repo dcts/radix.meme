@@ -8,28 +8,46 @@ import Link from "next/link";
 import { buyTxManifest, sellTxManifest } from "@/utils/tx-utils";
 import tradingChart from "../public/trading-chart.svg";
 import { TTokenData } from "@/types";
-import { shortenString } from "@/utils";
+import {
+  displayNumber,
+  MEMECOIN_AMOUNT_PRECISION,
+  shortenString,
+  truncateWithPrecision,
+  XRD_AMOUNT_PRECISION,
+  XRD_FEE_ALLOWANCE,
+} from "@/utils";
 import { Skeleton } from "./ui/skeleton";
 import { getRdtOrThrow } from "@/app/_store/subscriptions";
 
 interface OrderSideTabProps {
   orderSide: OrderSide;
+  resetInput: () => void;
+}
+interface OrderSideTabsProps {
+  resetInput: () => void;
 }
 
-function OrderSideTabs() {
+function OrderSideTabs({ resetInput }: OrderSideTabsProps) {
   return (
     <div
       // OUTSIDE_CONTAINER_MAX_WIDTH
       className={`h-[40px] flex w-full`}
     >
       {[OrderSide.BUY, OrderSide.SELL].map((currentSide, indx) => (
-        <OrderSideTab orderSide={currentSide} key={indx} />
+        <OrderSideTab
+          orderSide={currentSide}
+          key={indx}
+          resetInput={resetInput}
+        />
       ))}
     </div>
   );
 }
 
-function OrderSideTab({ orderSide }: OrderSideTabProps): JSX.Element | null {
+function OrderSideTab({
+  orderSide,
+  resetInput,
+}: OrderSideTabProps): JSX.Element | null {
   const side = useAppSelector((state) => state.token.formInput.side);
   const dispatch = useAppDispatch();
 
@@ -44,6 +62,7 @@ function OrderSideTab({ orderSide }: OrderSideTabProps): JSX.Element | null {
       }`}
       onClick={() => {
         dispatch(tokenSlice.actions.setOrderSide(orderSide));
+        resetInput();
       }}
     >
       <p className="font-bold text-sm tracking-[.1px] select-none uppercase">
@@ -74,9 +93,18 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
     iconUrl,
     address,
   };
-  const { side, sellAmount, buyAmount } = useAppSelector((state) => state.token.formInput);
+  const { side, sellAmount, buyAmount } = useAppSelector(
+    (state) => state.token.formInput
+  );
   const userAddress = useAppSelector(
     (state) => state.user.selectedAccount.address
+  );
+  const xrdBalance = useAppSelector(
+    (state) =>
+      state.user.balances[process.env.NEXT_PUBLIC_XRD_ADDRESS || 0] || 0
+  );
+  const tokenBalance = useAppSelector(
+    (state) => state.user.balances[token.symbol || ""] || 0
   );
 
   const [inputAmount, setInputAmount] = useState<string>("");
@@ -86,8 +114,8 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
     const transactionResult = await rdt.walletApi.sendTransaction({
       transactionManifest: buyTxManifest(
         buyAmount?.toString() || "0",
-        process.env.NEXT_PUBLIC_XRD_ADDRESS || "",
-        componentAddress || "",
+        process.env.NEXT_PUBLIC_XRD_ADDRESS || "",
+        componentAddress || "",
         userAddress
       ),
     });
@@ -95,7 +123,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
       throw new Error("Transaction failed");
     }
   };
-  
+
   const handleSell = async () => {
     const rdt = getRdtOrThrow();
     const transactionResult = await rdt.walletApi.sendTransaction({
@@ -129,6 +157,9 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
       setInputAmount(value.slice(0, -1));
     }
   };
+
+  const hasLastPrice = !!lastPrice;
+  const resetInput = () => setInputAmount("");
 
   return (
     <div>
@@ -167,18 +198,43 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
           </div>
           <div className="font-[family-name:var(--font-josefin-sans)]">
             <div className="">
-              <OrderSideTabs />
+              <OrderSideTabs resetInput={resetInput} />
             </div>
             <div className="border border-white-1 p-6 rounded-bl-sm rounded-br-sm bg-dexter-gray-c">
-              <div className="flex flex-row justify-between mt-3">
-                <p>Last Price:</p>
-                <p>{lastPrice}</p>
+              <div className="flex flex-row justify-between mt-3 text-base px-1">
+                <p className="w-full">Last Price:</p>
+                <p
+                  className={`${
+                    hasLastPrice ? "" : "opacity-50"
+                  } w-full text-right`}
+                >
+                  {hasLastPrice ? `${lastPrice.toFixed(6)} XRD` : "no trades"}
+                </p>
               </div>
-              <p className="mt-4">Amount</p>
+              <div className="w-full flex content-between px-1 mt-4">
+                <p className="">Amount</p>
+                <SecondaryLabel
+                  label="Available"
+                  currency={side === "BUY" ? "XRD" : token.symbol || ""}
+                  precision={
+                    side === "BUY"
+                      ? XRD_AMOUNT_PRECISION
+                      : MEMECOIN_AMOUNT_PRECISION
+                  }
+                  value={side === "BUY" ? xrdBalance : tokenBalance}
+                  onClickHandler={(value) => {
+                    if (value === 0) {
+                      setInputAmount("");
+                      return;
+                    }
+                    setInputAmount((value - XRD_FEE_ALLOWANCE).toString());
+                  }}
+                />
+              </div>
               <div className="mt-2">
                 <input
                   type="text"
-                  className="text-sm grow w-full pl-2 bg-dexter-grey-dark rounded-lg h-10"
+                  className="text-sm grow w-full pl-2 bg-dexter-grey-dark rounded-lg h-10 text-right pr-5 border border-solid border-[#4a4a4a] focus:outline-none"
                   placeholder="0.00"
                   onChange={handleAmountInput}
                   value={inputAmount}
@@ -219,9 +275,9 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
                 <p>{progress}</p>
               </div>
               <p className="text-white text-opacity-40 pt-4 leading-none">
-                When the market cap reaches 1,000 XRD all the liquidity from the
-                bonding curve will be deposited into DeXter and burned.
-                progression increases as the price goes up.
+                When the total inflows reach 333,000 XRD all the liquidity from
+                the bonding curve will be deposited into an AMM dex and the
+                bonding curve disabled.
               </p>
             </div>
           </div>
@@ -316,9 +372,9 @@ export const TokenDetailsSkeleton = () => {
                 <Skeleton className="w-16 h-2 rounded-xl bg-slate-50" />
               </div>
               <p className="text-white text-opacity-40 pt-4 leading-none">
-                When the market cap reaches 1,000 XRD all the liquidity from the
-                bonding curve will be deposited into DeXter and burned.
-                progression increases as the price goes up.
+                When the total inflows reach 333,000 XRD all the liquidity from
+                the bonding curve will be deposited into an AMM dex and the
+                bonding curve disabled.
               </p>
             </div>
           </div>
@@ -327,3 +383,36 @@ export const TokenDetailsSkeleton = () => {
     </div>
   );
 };
+
+interface SecondaryLabelProps {
+  disabled?: boolean;
+  label: string;
+  currency: string;
+  precision: number;
+  value: number;
+  onClickHandler: (value: number) => void;
+}
+
+// Secondary label (displayed on the right) of an input field
+// can be used for showing "available" balances above the input field
+function SecondaryLabel({
+  disabled,
+  label,
+  currency,
+  precision,
+  value,
+  onClickHandler,
+}: SecondaryLabelProps): JSX.Element | null {
+  return disabled ? (
+    <></>
+  ) : (
+    <p
+      className="text-xs w-full font-medium text-white underline cursor-pointer tracking-[0.1px] text-right opacity-50 mt-2"
+      onClick={() => onClickHandler(value)}
+    >
+      {label}:{" "}
+      {value === 0 ? 0 : displayNumber(truncateWithPrecision(value, precision))}{" "}
+      {currency}
+    </p>
+  );
+}
