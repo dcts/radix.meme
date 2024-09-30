@@ -97,7 +97,6 @@ export function initializeSubscriptions(store: AppStore) {
         throw new Error("NEXT_PUBLIC_XRD_ADDRESS env variable not defined!");
       }
       if (data.accounts.length > 0) {
-        console.log("triggering fetchBalance");
         store.dispatch(fetchBalance(process.env.NEXT_PUBLIC_XRD_ADDRESS || ""));
       }
     })

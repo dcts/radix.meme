@@ -3,36 +3,31 @@
 import { useState, forwardRef, InputHTMLAttributes } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateCoinFormSchema } from "@/app/_zod";
+import { CreateCoinFormSchema, DESCRIPTION_MAX_CHAR_COUNT } from "@/app/_zod";
 import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { HiMiniRocketLaunch } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 import { createPinataUrl } from "@/app/_actions/create-pinata-url";
-import { TokenInfo, tokenStoreSlice } from "@/app/_store/tokenStoreSlice";
+import { TokenInfo } from "@/app/_store/tokenStoreSlice";
 import { launchTokenTxManifest } from "@/utils/tx-utils";
-import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
+import { useAppSelector } from "@/app/_hooks/hooks";
 import {
   getGatewayApiClientFromScratchOrThrow,
   getRdtOrThrow,
 } from "@/app/_store/subscriptions";
 import toast from "react-hot-toast";
-
 import {
   ProgModal,
   ModalBody,
   ModalContent,
   ModalTrigger,
 } from "@/components/ui/prog-animated-modal";
-import successRaccoon from "../public/success-raccoon.svg";
 import Image from "next/image";
-import Link from "next/link";
-
-const MAX_CHAR_COUNT = 140;
+import { revalidateTwist } from "@/app/_actions/revalidate-twist";
 
 const CreateCoinForm = () => {
-  const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const tokenCreatorAddress = useAppSelector(
     (state) => state.user.selectedAccount.address
@@ -48,7 +43,7 @@ const CreateCoinForm = () => {
     handleSubmit,
   } = useForm({
     resolver: zodResolver(CreateCoinFormSchema),
-    mode: "onChange",
+    mode: "onSubmit",
   });
 
   async function onSubmit(data: FieldValues) {
@@ -76,15 +71,13 @@ const CreateCoinForm = () => {
       );
 
       const resourceAddress = addMappingPayload.resourceAddress;
-      console.log(resourceAddress);
-
-      // Dispatch event to store resource->component matching
-      dispatch(tokenStoreSlice.actions.addMapping(addMappingPayload));
-
+      const componentAddress = addMappingPayload.token.componentAddress || "";
+      setNewComponentAddress(componentAddress);
       // => open success modal
-      setNewComponentAddress(addMappingPayload.token.componentAddress || "");
-      setNewTokenAddress(addMappingPayload.resourceAddress);
+      setNewTokenAddress(resourceAddress);
 
+      // request to server to revalidate /
+      await revalidateTwist("/");
     } catch (error) {
       console.log(error);
       toast.error(
@@ -115,13 +108,29 @@ const CreateCoinForm = () => {
       >
         <div className="flex flex-col">
           <Label htmlFor="image">Image *</Label>
-          <Input
-            type="file"
-            id="image"
-            {...register("image")}
-            onChange={handleFileUpload} // Trigger upload on file selection
-            className="file-input-with-big-plus"
-          />
+          <div className="relative">
+            <Input
+              type="file"
+              id="image"
+              {...register("image")}
+              onChange={handleFileUpload} // Trigger upload on file selection
+              className="file-input-with-big-plus"
+            />
+            {iconUrl && (
+              <>
+                <Image
+                  src={iconUrl}
+                  alt={""}
+                  width={120}
+                  height={120}
+                  style={{ width: "auto", height: "auto" }}
+                  className={
+                    "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  }
+                />
+              </>
+            )}
+          </div>
           {errors.image && (
             <span className="text-red-500">
               {(errors.image.message as string) || "Error"}
@@ -160,15 +169,16 @@ const CreateCoinForm = () => {
         </div>
 
         <div className="flex flex-col">
-          <Label htmlFor="description">Description *</Label>
+          <Label htmlFor="description">Description (optional)</Label>
           <Textarea
             id="description"
             placeholder="E.G.: A token created to celebrate the meme culture around the crypto world"
             {...register("description")}
-            maxLength={MAX_CHAR_COUNT}
+            maxLength={DESCRIPTION_MAX_CHAR_COUNT}
           />
           <span className="text-sm text-right text-white text-opacity-50">
-            {watch("description")?.length ?? 0}/{MAX_CHAR_COUNT} characters
+            {watch("description")?.length ?? 0}/{DESCRIPTION_MAX_CHAR_COUNT}{" "}
+            characters
           </span>
           {errors.description && (
             <span className="text-red-500">
@@ -178,7 +188,7 @@ const CreateCoinForm = () => {
         </div>
 
         <div className="flex flex-col">
-          <Label htmlFor="website">Website</Label>
+          <Label htmlFor="website">Website (optional)</Label>
           <Input
             type="text"
             id="website"
@@ -188,21 +198,21 @@ const CreateCoinForm = () => {
         </div>
 
         <div className="flex flex-col">
-          <Label htmlFor="twitter">X profile</Label>
+          <Label htmlFor="twitter">X profile (optional)</Label>
           <Input
             type="text"
             id="twitter"
-            placeholder="@"
+            placeholder="https://x.com/your-token"
             {...register("xUrl")}
           />
         </div>
 
         <div className="flex flex-col">
-          <Label htmlFor="telegram">Telegram</Label>
+          <Label htmlFor="telegram">Telegram (optional)</Label>
           <Input
             type="text"
             id="telegram"
-            placeholder="@"
+            placeholder="https://t.me/your-token"
             {...register("telegramUrl")}
           />
         </div>
@@ -239,34 +249,9 @@ const SuccessModal = ({
       <ProgModal>
         <ModalTrigger tokenHasAddress={!!newTokenAddress} />
         <ModalBody>
-          <ModalContent>
-            <div className="flex flex-col font-[family-name:var(--font-josefin-sans)">
-              <div>
-                <Image
-                  src={successRaccoon}
-                  alt="success-raccoon"
-                  width={600}
-                  height={600}
-                  className="animate-float"
-                />
-              </div>
-              <div>
-                <h4 className="text-xl md:text-6xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-2 mt-4 uppercase">
-                  Token created!
-                </h4>
-              </div>
-              <div className="flex justify-center max-auto mt-4 mb-4">
-                <Link
-                  href={`/token/${newTokenAddress}?componentAddress=${newComponentAddress}`}
-                  className="flex justify-center max-auto gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-8 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
-                >
-                  <span className="font-normal text-lg">
-                    Now pump your token!
-                  </span>
-                </Link>
-              </div>
-            </div>
-          </ModalContent>
+          <ModalContent
+            href={`/token/${newTokenAddress}?componentAddress=${newComponentAddress}`}
+          />
         </ModalBody>
       </ProgModal>
     </div>
