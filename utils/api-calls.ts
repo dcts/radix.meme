@@ -116,7 +116,7 @@ export async function getTokenData(
     addresses: [tokenComponent],
     aggregation_level: "Global",
   });
-  // Validate
+  // Validate and throw if request was not successfull
   if (getComponentApiResult.status != 200) {
     throw new Error(
       `Problem fetching component details for token component: ${tokenComponent}. API Result: ${JSON.stringify(
@@ -132,7 +132,9 @@ export async function getTokenData(
     getComponentApiResult.data.items[0].details?.state?.fields;
   for (const fieldData of componentStateFields) {
     if (!fieldData.field_name) {
-      throw new Error("fieldData.field_name does not exist!");
+      console.error("fieldData.field_name does not exist for fieldData:");
+      console.error(fieldData);
+      continue;  // skip to next field
     }
     switch (fieldData.field_name) {
       case "token_manager": {
@@ -169,11 +171,12 @@ export async function getTokenData(
   );
   // Validate
   if (getResourceApiResult.status != 200) {
-    throw new Error(
+    console.error(
       `Problem fetching metadata for token: ${
         result.address
       }. API Result: ${JSON.stringify(getResourceApiResult)}`
     );
+    return result;
   }
   // If no items exist, do not continue
   if (!getResourceApiResult.data.items) {
@@ -181,6 +184,11 @@ export async function getTokenData(
   }
   // Extract metadata from resource
   for (const data of getResourceApiResult.data.items) {
+    if (!data.key) {
+      console.error("data.key does not exist for data:");
+      console.error(data);
+      continue;  // skip to next data field
+    }
     switch (data.key) {
       case "name": {
         result.name = data.value.typed.value;
