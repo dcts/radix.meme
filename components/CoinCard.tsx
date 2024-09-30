@@ -43,7 +43,7 @@ export const CoinCard = ({ coin }: { coin: TTokenData }) => {
             <h2 className="text-base">Last Price:</h2>
             <div className="ms-auto">
               <span className="ms-4 p-1 text-base">
-                {coin.lastPrice}
+                {coin.lastPrice?.toFixed(6)}
               </span>
             </div>
           </div>
@@ -54,12 +54,12 @@ export const CoinCard = ({ coin }: { coin: TTokenData }) => {
             </h2>
             <div className="ms-auto">
               <span className="text-dexter-green whitespace-nowrap text-base">
-                {coin.progress?.toFixed(0)}k / 333k XRD
+                {coin.progress ? (coin.progress * 1000).toFixed(0) : 0}k / 1M {coin.symbol}
               </span>
             </div>
           </div>
 
-          <Progress value={coin.progress} className="h-4" />
+          <Progress value={(coin?.progress || 0) * 100} className="h-4" />
         </div>
       </div>
     </div>
