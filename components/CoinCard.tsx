@@ -14,7 +14,7 @@ export const CoinCard = ({ coin }: { coin: TTokenData }) => {
               alt={coin.name || ""}
               width={175}
               height={175}
-              className="object-cover w-full h-44 rounded-lg rounded-bl-none rounded-br-none"
+              className="object-cover w-full h-48 rounded-lg rounded-bl-none rounded-br-none"
             />
           </figure>
 
