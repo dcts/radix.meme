@@ -40,7 +40,7 @@ export default function Home() {
                   <span className="text-[20px] tracking-[2px] text-dexter-green-OG/80">
                     By DeXter
                   </span>{" "}
-                  <BetaLabel additionalClasses="!text-[20px]" />
+                  <BetaLabel text="STOKENET" additionalClasses="!text-[20px]" />
                 </span>
               </h1>
               <p className="font-[family-name:var(--font-josefin-sans)] text-2xl max-sm:text-l max-md:text-2xl md:text-2xl mb-6 max-w-lg sm:max-w-sm md:max-w-md font-normal !leading-8">

@@ -46,7 +46,7 @@ const Navbar = () => {
         <span className="max-sm:mx-2 sm:mx-3 font-[family-name:var(--font-londrina-solid)] text-xl font-black tracking-wider">
           RADIX.MEME
         </span>
-        <BetaLabel />
+        <BetaLabel text="STOKENET"/>
       </Link>
       <div className="h-full flex items-center">
         <radix-connect-button
@@ -64,8 +64,10 @@ const Navbar = () => {
 
 export const BetaLabel = ({
   additionalClasses,
+  text
 }: {
   additionalClasses?: string;
+  text?: string;
 }) => {
   return (
     <span
@@ -73,7 +75,7 @@ export const BetaLabel = ({
         additionalClasses || ""
       }`}
     >
-      BETA
+      {text || "BETA"}
     </span>
   );
 };
