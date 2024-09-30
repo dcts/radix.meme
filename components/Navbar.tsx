@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../public/racoon-head.png";
-import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
+import { useAppDispatch } from "@/app/_hooks/hooks";
 import { useEffect, useRef } from "react";
 import { userSlice } from "@/app/_store/userSlice";
 
@@ -11,6 +11,7 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
   const radixConnectButtonRef = useRef<HTMLElement | null>(null);
 
+  // Reset state if user disconnects
   useEffect(() => {
     const handleDisconnect = () => {
       dispatch(userSlice.actions.reset());
@@ -29,8 +30,8 @@ const Navbar = () => {
     };
   }, [dispatch]);
 
-  const { balances } = useAppSelector((state) => state.user);
-  const xrdBalance = balances[process.env.NEXT_PUBLIC_XRD_ADDRESS || ""] || -1;
+  // const { balances } = useAppSelector((state) => state.user);
+  // const xrdBalance = balances[process.env.NEXT_PUBLIC_XRD_ADDRESS || ""] || -1;
   return (
     <header className="w-full h-full flex items-center justify-between px-8">
       <Link href="/" className="flex justify-center items-center relative">
@@ -39,22 +40,23 @@ const Navbar = () => {
           src={logo}
           width={50}
           height={50}
+          style={{ width: "auto", height: "auto" }}
           className="hover:animate-spin transition duration-1000"
         />
         <span className="max-sm:mx-2 sm:mx-3 font-[family-name:var(--font-londrina-solid)] text-xl font-black tracking-wider">
           RADIX.MEME
         </span>
-        <BetaLabel />
+        <BetaLabel text="STOKENET"/>
       </Link>
       <div className="h-full flex items-center">
         <radix-connect-button
           ref={radixConnectButtonRef}
         ></radix-connect-button>
-        {xrdBalance >= 0 && (
+        {/* {xrdBalance >= 0 && (
           <p className="absolute text-sm pt-1 opacity-70">
             Balance: {xrdBalance.toLocaleString()} XRD
           </p>
-        )}
+        )} */}
       </div>
     </header>
   );
@@ -62,8 +64,10 @@ const Navbar = () => {
 
 export const BetaLabel = ({
   additionalClasses,
+  text
 }: {
   additionalClasses?: string;
+  text?: string;
 }) => {
   return (
     <span
@@ -71,7 +75,7 @@ export const BetaLabel = ({
         additionalClasses || ""
       }`}
     >
-      BETA
+      {text || "BETA"}
     </span>
   );
 };

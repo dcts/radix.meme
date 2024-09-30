@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { RootState } from "./store";
 
@@ -15,29 +15,19 @@ export interface TokenInfo {
   telegram: string;
   x: string;
   website: string;
-  componentAddress?: string;  // the component_address
+  componentAddress?: string; // the component_address
 }
 
 const initialState: TokenStoreState = {
   tokens: {},
 };
 
-interface AddMappingPayload {
-  resourceAddress: string;
-  token: TokenInfo;
-}
-
 export const tokenStoreSlice = createSlice({
   name: "tokenStore",
   initialState,
 
   // synchronous reducers
-  reducers: {
-    addMapping: (state: TokenStoreState, action: PayloadAction<AddMappingPayload>) => {
-      const { resourceAddress, token} = action.payload;
-      state.tokens[resourceAddress] = token;
-    },
-  },
+  reducers: {},
 
   // Async thunk are handled by extra reducers
   extraReducers: (builder) => {

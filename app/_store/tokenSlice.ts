@@ -74,12 +74,9 @@ export const tokenSlice = createSlice({
   // Async thunk are handled by extra reducers
   extraReducers: (builder) => {
     builder.addCase(fetchToken.fulfilled, (state, action) => {
-      console.log("fetchToken FULFILLED reached");
-      console.log(action.payload);
       state.token = action.payload;
     });
     builder.addCase(fetchToken.rejected, (_state, action) => {
-      console.log("fetchToken REJECTED reached");
       const errorMessage = action.error?.message || "An unknown error occurred";
       console.error("fetchTokens failed:", errorMessage);
     });
