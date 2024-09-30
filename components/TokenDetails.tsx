@@ -96,15 +96,19 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
     }
   };
   
-  const handleSell = () => {
-    const manifest = sellTxManifest(
-      sellAmount?.toString() || "0",
-      tokenData.address,
-      tokenData.componentAddress || "",
-      userAddress
-    );
-    console.log(manifest);
-    alert("Not implemented yet, feature coming soon! Check back later!");
+  const handleSell = async () => {
+    const rdt = getRdtOrThrow();
+    const transactionResult = await rdt.walletApi.sendTransaction({
+      transactionManifest: sellTxManifest(
+        sellAmount?.toString() || "0",
+        tokenData.address,
+        tokenData.componentAddress || "",
+        userAddress
+      ),
+    });
+    if (!transactionResult.isOk()) {
+      throw new Error("Transaction failed");
+    }
   };
 
   const handleAmountInput = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -136,7 +140,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
               alt={`${token.name} token image`}
               width={400}
               height={150}
-              className="object-cover rounded-xl h-64"
+              className="object-cover rounded-xl h-64 w-full"
             />
           </div>
           <div className="p-4">
