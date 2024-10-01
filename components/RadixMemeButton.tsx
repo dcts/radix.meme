@@ -22,6 +22,7 @@ const sharedClasses = `
   font-bold
   rounded-lg
   transition duration-300 transition-all
+  font-bold text-lg transition duration-100 active:translate-y-1
 `;
 
 const extraClasses = {
@@ -41,6 +42,7 @@ const extraClasses = {
     shadow-[0px_4px_40px_2px_#CBEF63]`,
   warning: `
     bg-dexter-red-b 
+    border-dexter-red-darker
     hover:bg-dexter-red-c 
     text-white`,
 };
