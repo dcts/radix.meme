@@ -25,9 +25,9 @@ export enum OrderSide {
 }
 
 interface FormInput {
+  side: OrderSide;
   buyAmount?: number; // in XRD
   sellAmount?: number; // in MEMECOIN
-  side: OrderSide;
 }
 
 const initialState: TokenState = {
@@ -42,16 +42,15 @@ const initialState: TokenState = {
   maxSupply: 1000000,
   holderDistributionTable: {},  // TODO
   formInput: {
+    side: OrderSide.BUY,
     buyAmount: undefined,
     sellAmount: undefined,
-    side: OrderSide.BUY,
   },
 };
 
 export const tokenSlice = createSlice({
   name: "token",
   initialState,
-  // initialState,
 
   // synchronous reducers
   reducers: {
@@ -89,6 +88,7 @@ export const tokenSlice = createSlice({
       state.maxSupply = action.payload.maxSupply;
     },
   },
+
   // Async thunk are handled by extra reducers
   extraReducers: (builder) => {
     builder.addCase(fetchToken.fulfilled, (state, action) => {
@@ -101,6 +101,7 @@ export const tokenSlice = createSlice({
   },
 });
 
+// TODO: remove deprecated function includinc extra reducers
 export const fetchToken = createAsyncThunk<
   TokenInfo, // Return type of the payload creator
   string, // Argument type (function input: tokenAddress)
