@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, forwardRef, InputHTMLAttributes } from "react";
+import React, { useState, forwardRef, InputHTMLAttributes } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateCoinFormSchema, DESCRIPTION_MAX_CHAR_COUNT } from "@/app/_zod";
-import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { HiMiniRocketLaunch } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
@@ -26,6 +25,7 @@ import {
 } from "@/components/ui/prog-animated-modal";
 import Image from "next/image";
 import { revalidateTwist } from "@/app/_actions/revalidate-twist";
+import RadixMemeButton from "./RadixMemeButton";
 
 const CreateCoinForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -91,12 +91,16 @@ const CreateCoinForm = () => {
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const files = event.target.files; // Get the selected file(s)
-    if (files && files.length > 0) {
-      const iconUrl = (await uploadImage(files[0])) as string; // upload the first file
-      setIconUrl(iconUrl);
-    } else {
-      console.log("No image selected");
+    try {
+      const files = event.target.files; // Get the selected file(s)
+      if (files && files.length > 0) {
+        const iconUrl = (await uploadImage(files[0])) as string; // upload the first file
+        setIconUrl(iconUrl);
+      } else {
+        console.log("No image selected");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -117,18 +121,14 @@ const CreateCoinForm = () => {
               className="file-input-with-big-plus"
             />
             {iconUrl && (
-              <>
-                <Image
-                  src={iconUrl}
-                  alt={""}
-                  width={120}
-                  height={120}
-                  style={{ width: "auto", height: "auto" }}
-                  className={
-                    "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                  }
-                />
-              </>
+              <Image
+                src={iconUrl}
+                alt={"uploaded image"}
+                width={144}
+                height={144}
+                className="absolute z-50 bg-stone-800 bg-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-[44%]"
+                style={{ width: "144px", height: "144px" }}
+              />
             )}
           </div>
           {errors.image && (
@@ -137,7 +137,6 @@ const CreateCoinForm = () => {
             </span>
           )}
         </div>
-
         <div className="flex flex-col">
           <Label htmlFor="name">Name *</Label>
           <Input
@@ -152,7 +151,6 @@ const CreateCoinForm = () => {
             </span>
           )}
         </div>
-
         <div className="flex flex-col">
           <Label htmlFor="name">Ticker *</Label>
           <Input
@@ -167,7 +165,6 @@ const CreateCoinForm = () => {
             </span>
           )}
         </div>
-
         <div className="flex flex-col">
           <Label htmlFor="description">Description (optional)</Label>
           <Textarea
@@ -186,7 +183,6 @@ const CreateCoinForm = () => {
             </span>
           )}
         </div>
-
         <div className="flex flex-col">
           <Label htmlFor="website">Website (optional)</Label>
           <Input
@@ -196,7 +192,6 @@ const CreateCoinForm = () => {
             {...register("website")}
           />
         </div>
-
         <div className="flex flex-col">
           <Label htmlFor="twitter">X profile (optional)</Label>
           <Input
@@ -206,7 +201,6 @@ const CreateCoinForm = () => {
             {...register("xUrl")}
           />
         </div>
-
         <div className="flex flex-col">
           <Label htmlFor="telegram">Telegram (optional)</Label>
           <Input
@@ -216,16 +210,13 @@ const CreateCoinForm = () => {
             {...register("telegramUrl")}
           />
         </div>
-
-        <Button
+        <RadixMemeButton
           type="submit"
           disabled={isSubmitting}
-          className="btn bg-dexter-gradient-green/80 hover:bg-dexter-gradient-green
-                  w-full self-center flex items-center text-2xl my-4"
-        >
-          <HiMiniRocketLaunch />
-          <span className="ms-2 font-bold text-sm">Launch your token</span>
-        </Button>
+          text="Launch your token!"
+          icon={<HiMiniRocketLaunch />}
+          className="my-4"
+        />
       </form>
       <SuccessModal
         newTokenAddress={newTokenAddress}

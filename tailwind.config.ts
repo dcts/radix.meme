@@ -29,12 +29,14 @@ const config = {
         "dexter-red": "#D22D2D",
         "dexter-red-b": "#D80B0B",
         "dexter-red-c": "#FD2F2F",
+        "dexter-red-darker": "#7A1D1D",
         "dexter-grey-dark": "#141414",
         "dexter-grey-light": "#191B1D",
         "content-dark": "#212A09",
         "dexter-gray": "#474C52",
         "dexter-gray-b": "#212426",
         "dexter-gray-c": "#181818",
+        "dexter-green-faded": "#637E17",
 
         // aceternity
         border: "hsl(var(--border))",
