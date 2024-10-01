@@ -56,6 +56,7 @@ export default function Home() {
                 text="Launch your token"
                 icon={<HiMiniRocketLaunch />}
                 className="mr-3"
+                variant="cta"
               />
               <ModalWrapper />
             </div>
@@ -77,7 +78,6 @@ export default function Home() {
               href="/launch"
               text="Launch your token"
               icon={<HiMiniRocketLaunch />}
-              className="font-bold text-lg"
             />
           </div>
           <div className="bg-dexter-grey-dark h-full"></div>
@@ -130,7 +130,6 @@ const ModalWrapper = () => {
             href="/launch"
             text="I'm ready to pump!"
             icon={<HiMiniRocketLaunch />}
-            className="font-bold text-lg"
           />
         </ModalFooter>
       </ModalBody>
