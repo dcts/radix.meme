@@ -94,12 +94,16 @@ const CreateCoinForm = () => {
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const files = event.target.files; // Get the selected file(s)
-    if (files && files.length > 0) {
-      const iconUrl = (await uploadImage(files[0])) as string; // upload the first file
-      setIconUrl(iconUrl);
-    } else {
-      console.log("No image selected");
+    try {
+      const files = event.target.files; // Get the selected file(s)
+      if (files && files.length > 0) {
+        const iconUrl = (await uploadImage(files[0])) as string; // upload the first file
+        setIconUrl(iconUrl);
+      } else {
+        console.log("No image selected");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -107,7 +111,7 @@ const CreateCoinForm = () => {
     <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="relative flex flex-col gap-6 max-sm:max-w-72 font-[family-name:var(--font-josefin-sans)]"
+        className="flex flex-col gap-6 max-sm:max-w-72 font-[family-name:var(--font-josefin-sans)]"
       >
         <div className="flex flex-col">
           <Label htmlFor="image">Image *</Label>
@@ -120,15 +124,14 @@ const CreateCoinForm = () => {
               className="file-input-with-big-plus"
             />
             {iconUrl && (
-              <>
-                <Image
-                  src={iconUrl}
-                  alt={"uploaded image"}
-                  width={144}
-                  height={144}
-                  className="absolute z-50 bg-stone-800 bg-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-[44%]"
-                />
-              </>
+              <Image
+                src={iconUrl}
+                alt={"uploaded image"}
+                width={144}
+                height={144}
+                className="absolute z-50 bg-stone-800 bg-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-[44%]"
+                style={{ width: "144px", height: "144px" }}
+              />
             )}
           </div>
           {errors.image && (
