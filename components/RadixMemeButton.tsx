@@ -39,7 +39,7 @@ const extraClasses = {
     text-dexter-grey-light
     bg-dexter-green 
     border-dexter-green-faded  
-    shadow-[0px_4px_40px_2px_#CBEF63]`,
+    shadow-[0px_4px_40px_2px_#CBEF6380]`,
   warning: `
     bg-dexter-red-b 
     border-dexter-red-darker
