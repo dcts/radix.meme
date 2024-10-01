@@ -49,13 +49,13 @@ export default function Home() {
                 dynamic bonding curve.
               </p>
             </div>
-            <div className="flex gap-8 items-center flex-col sm:flex-row font-[family-name:var(--font-josefin-sans)]">
+            <div className="flex items-center flex-col sm:flex-row font-[family-name:var(--font-josefin-sans)]">
               <RadixMemeButton
                 as={Link}
                 href="/launch"
                 text="Launch your token"
                 icon={<HiMiniRocketLaunch />}
-                className="font-bold text-lg"
+                className="mr-3"
               />
               <ModalWrapper />
             </div>
@@ -95,7 +95,6 @@ const ModalWrapper = () => {
           as="span"
           text="How does it work ?"
           variant="secondary"
-          className="font-bold text-lg transition duration-100 active:translate-y-1"
         />
       </ModalTrigger>
       <ModalBody>
