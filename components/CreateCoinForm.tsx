@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, forwardRef, InputHTMLAttributes } from "react";
+import React, { useState, forwardRef, InputHTMLAttributes } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateCoinFormSchema, DESCRIPTION_MAX_CHAR_COUNT } from "@/app/_zod";
-import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { HiMiniRocketLaunch } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
@@ -26,6 +25,7 @@ import {
 } from "@/components/ui/prog-animated-modal";
 import Image from "next/image";
 import { revalidateTwist } from "@/app/_actions/revalidate-twist";
+import RadixMemeButton from "./RadixMemeButton";
 
 const CreateCoinForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -210,15 +210,13 @@ const CreateCoinForm = () => {
             {...register("telegramUrl")}
           />
         </div>
-        <Button
+        <RadixMemeButton
           type="submit"
           disabled={isSubmitting}
-          className="btn bg-dexter-gradient-green/80 hover:bg-dexter-gradient-green
-                  w-full self-center flex items-center text-2xl my-4"
-        >
-          <HiMiniRocketLaunch />
-          <span className="ms-2 font-bold text-sm">Launch your token</span>
-        </Button>
+          text="Launch your token!"
+          icon={<HiMiniRocketLaunch />}
+          className="my-4"
+        />
       </form>
       <SuccessModal
         newTokenAddress={newTokenAddress}

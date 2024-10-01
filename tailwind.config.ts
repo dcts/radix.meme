@@ -35,6 +35,7 @@ const config = {
         "dexter-gray": "#474C52",
         "dexter-gray-b": "#212426",
         "dexter-gray-c": "#181818",
+        "dexter-green-faded": "#637E17",
 
         // aceternity
         border: "hsl(var(--border))",

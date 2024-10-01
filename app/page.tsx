@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/animated-modal";
 import { BetaLabel } from "@/components/Navbar";
 import { AllCoinsGallery } from "@/components/AllCoinsGallery";
+import RadixMemeButton from "@/components/RadixMemeButton";
 
 export default function Home() {
   return (
@@ -48,16 +49,14 @@ export default function Home() {
                 dynamic bonding curve.
               </p>
             </div>
-
             <div className="flex gap-8 items-center flex-col sm:flex-row font-[family-name:var(--font-josefin-sans)]">
-              <Link
+              <RadixMemeButton
+                as={Link}
                 href="/launch"
-                prefetch={true}
-                className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
-              >
-                <HiMiniRocketLaunch className="text-3xl" />
-                <span className="font-bold text-lg">Launch your token</span>
-              </Link>
+                text="Launch your token"
+                icon={<HiMiniRocketLaunch />}
+                className="font-bold text-lg"
+              />
               <ModalWrapper />
             </div>
           </div>
@@ -73,16 +72,13 @@ export default function Home() {
             <h3 className="max-sm:text-2xl sm:text-3xl font-[family-name:var(--font-londrina-solid)] opacity-90 tracking-widest mb-4">
               What are you waiting for?
             </h3>
-            <Link
+            <RadixMemeButton
+              as={Link}
               href="/launch"
-              prefetch={true}
-              className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-blur-dexter-green-OG hover:shadow-blur-dexter-gradient-green transition duration-300"
-            >
-              <HiMiniRocketLaunch className="text-3xl opacity-80" />
-              <span className="font-bold text-lg !font-[family-name:var(--font-josefin-sans)] tracking-wider opacity-80">
-                Launch your token
-              </span>
-            </Link>
+              text="Launch your token"
+              icon={<HiMiniRocketLaunch />}
+              className="font-bold text-lg"
+            />
           </div>
           <div className="bg-dexter-grey-dark h-full"></div>
         </div>
@@ -94,8 +90,13 @@ export default function Home() {
 const ModalWrapper = () => {
   return (
     <Modal>
-      <ModalTrigger className="flex items-center border-b-[3px] border-b-white bg-dexter-grey-dark w-fit rounded-lg text-white px-4 py-3 max-lg:self-center shadow-md hover:shadow-lg ring-1 ring-white shadow-white hover:shadow-white transition duration-100 active:translate-y-1">
-        <span className="font-bold text-lg ">How does it work ?</span>
+      <ModalTrigger>
+        <RadixMemeButton
+          as="span"
+          text="How does it work ?"
+          variant="secondary"
+          className="font-bold text-lg transition duration-100 active:translate-y-1"
+        />
       </ModalTrigger>
       <ModalBody>
         <ModalContent>
@@ -125,14 +126,13 @@ const ModalWrapper = () => {
           </ul>
         </ModalContent>
         <ModalFooter className="gap-4 flex justify-center">
-          <Link
+          <RadixMemeButton
+            as={Link}
             href="/launch"
-            prefetch={true}
-            className="flex items-center gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-4 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
-          >
-            <HiMiniRocketLaunch className="text-3xl" />
-            <span className="font-bold text-l">I&apos;m ready to pump!</span>
-          </Link>
+            text="I'm ready to pump!"
+            icon={<HiMiniRocketLaunch />}
+            className="font-bold text-lg"
+          />
         </ModalFooter>
       </ModalBody>
     </Modal>

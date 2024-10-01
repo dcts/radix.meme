@@ -4,13 +4,13 @@ import Image from "next/image";
 import { OrderSide, tokenSlice } from "@/app/_store/tokenSlice";
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/hooks";
 import { useState } from "react";
-import Link from "next/link";
 import { buyTxManifest, sellTxManifest } from "@/utils/tx-utils";
 import tradingChart from "../public/trading-chart.svg";
 import { TTokenData } from "@/types";
 import { shortenString } from "@/utils";
 import { Skeleton } from "./ui/skeleton";
 import { getRdtOrThrow } from "@/app/_store/subscriptions";
+import RadixMemeButton from "./RadixMemeButton";
 
 interface OrderSideTabProps {
   orderSide: OrderSide;
@@ -74,7 +74,9 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
     iconUrl,
     address,
   };
-  const { side, sellAmount, buyAmount } = useAppSelector((state) => state.token.formInput);
+  const { side, sellAmount, buyAmount } = useAppSelector(
+    (state) => state.token.formInput
+  );
   const userAddress = useAppSelector(
     (state) => state.user.selectedAccount.address
   );
@@ -86,8 +88,8 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
     const transactionResult = await rdt.walletApi.sendTransaction({
       transactionManifest: buyTxManifest(
         buyAmount?.toString() || "0",
-        process.env.NEXT_PUBLIC_XRD_ADDRESS || "",
-        componentAddress || "",
+        process.env.NEXT_PUBLIC_XRD_ADDRESS || "",
+        componentAddress || "",
         userAddress
       ),
     });
@@ -95,7 +97,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
       throw new Error("Transaction failed");
     }
   };
-  
+
   const handleSell = async () => {
     const rdt = getRdtOrThrow();
     const transactionResult = await rdt.walletApi.sendTransaction({
@@ -185,24 +187,19 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
                 />
               </div>
               {side === "SELL" && ( // Check if the current order side is SELL
-                <Link
-                  href=""
-                  className="flex justify-center w-full mx-auto gap-2 bg-dexter-red-b hover:bg-dexter-red-c rounded-lg text-white px-4 py-3 max-lg:self-center shadow-md shadow-dexter-red-b transition duration-300 mt-4 mb-4"
+                <RadixMemeButton
+                  variant="warning"
+                  text={`Sell ${token.symbol}`}
                   onClick={handleSell}
-                >
-                  <span className="font-bold text-sm">
-                    Sell ${token.symbol}
-                  </span>
-                </Link>
+                  className="w-full mx-auto"
+                />
               )}
               {side === "BUY" && (
-                <Link
-                  href=""
-                  className="flex justify-center w-full mx-auto gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green rounded-lg text-dexter-grey-light px-4 py-3 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300 mt-4 mb-4"
+                <RadixMemeButton
+                  text={`Buy ${token.symbol}`}
                   onClick={handleBuy}
-                >
-                  <span className="font-bold text-sm">Buy ${token.symbol}</span>
-                </Link>
+                  className="w-full mx-auto"
+                />
               )}
             </div>
             <div>
