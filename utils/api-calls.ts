@@ -164,11 +164,14 @@ export async function getTokenData(
   const componentFungibleResources =
     getComponentApiResult.data.items[0].fungible_resources?.items;
   if (componentFungibleResources.length > 0) {
-    result.xrdAmount = componentFungibleResources[0].amount; // better would be to look up the xrd resource address, but this works for now as xrd is the only fungible resource in the component
+    const xrdResource = componentFungibleResources.find(
+      (resObj: { resource_address: string | undefined }) =>
+        resObj.resource_address === process.env.NEXT_PUBLIC_XRD_ADDRESS
+    );
+    if (xrdResource && typeof xrdResource.amount === "number") {
+      result.xrdAmount = xrdResource.amount;
+    }
   }
-  // if (result.supply && result.maxSupply) {
-  //   result.progress = result.supply / result.maxSupply;
-  // }
   if (result.xrdAmount && result.maxXrdAmount) {
     result.progress = result.xrdAmount / result.maxXrdAmount;
   }
