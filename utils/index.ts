@@ -37,18 +37,6 @@ export function truncateWithPrecision(num: number, precision: number): number {
   return Number(`${part1}.${part2.substring(0, precision)}`);
 }
 
-// // Gets amount precision for XRD and MEMECOINS
-// // Note: currently we set precision for XRD to be 2, while
-// // precision for the memecoin is set to 2 as well.
-// export function getPrecision(input: string): number {
-//   return (
-//     {
-//       XRD: 2,
-//     }[input.toUpperCase()] || 2
-//   );
-// }
-
-
 export function displayNumber(value: number): string {
   return value.toLocaleString("en").replaceAll(",", "'")
 }
