@@ -302,14 +302,19 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
                   }}
                 />
               </div>
-              <div className="mt-2">
+              <div className="mt-2 flex">
                 <input
                   type="text"
-                  className="text-base w-full pl-2 bg-dexter-grey-dark rounded-lg h-10 text-right pr-5 border border-solid border-[#4a4a4a] focus:outline-none"
+                  className="text-base grow pl-2 bg-dexter-grey-dark h-10 text-right border border-solid border-[#4a4a4a] rounded-l-lg border-r-0 focus:outline-none"
                   placeholder="0.00"
                   onChange={handleAmountInput}
                   value={inputAmount}
                 />
+                <div className="!bg-dexter-grey-dark h-10 px-4 border border-solid border-[#4a4a4a] rounded-r-lg border-l-0 focus:outline-none flex justify-center items-center">
+                  <p className="text-base opacity-50">
+                    {side === "BUY" ? "XRD" : token.symbol}{" "}
+                  </p>
+                </div>
               </div>
               {side === OrderSide.BUY && (
                 <RadixMemeButton
