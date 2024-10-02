@@ -5,7 +5,6 @@ import type { TTokenData } from "@/types";
 
 export const CoinCard = ({ coin }: { coin: TTokenData }) => {
   const hasLastPrice = !!coin.lastPrice;
-  const hasXrdValues = !!coin.maxXrdAmount && !!coin.xrdAmount;
 
   return (
     <div className="rounded-2xl shadow-xl w-[285px] h-[450px] overflow-hidden bg-dexter-grey-dark border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 mx-auto">

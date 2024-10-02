@@ -25,7 +25,6 @@ import { getRdtOrThrow } from "@/app/_store/subscriptions";
 import RadixMemeButton from "./RadixMemeButton";
 import toast from "react-hot-toast";
 import { fetchBalance } from "@/app/_store/userSlice";
-import { Progress } from "@radix-ui/react-progress";
 
 interface OrderSideTabProps {
   orderSide: OrderSide;
