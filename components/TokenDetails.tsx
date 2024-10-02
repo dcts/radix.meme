@@ -13,6 +13,7 @@ import tradingChart from "../public/trading-chart.svg";
 import { TTokenData } from "@/types";
 import {
   displayNumber,
+  displayNumberWithPrecision,
   MEMECOIN_AMOUNT_PRECISION,
   shortenString,
   truncateWithPrecision,
@@ -257,23 +258,23 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
               <OrderSideTabs resetInput={resetInput} />
             </div>
             <div className="border border-white-1 p-6 rounded-bl-sm rounded-br-sm bg-dexter-gray-c">
-              <div className="flex flex-row justify-between mt-3 text-base px-1">
-                <p className="w-full">Last Price:</p>
+              <div className="flex justify-between mt-3 text-base px-1">
+                <p>Price:</p>
                 <p
                   className={`${
                     hasLastPrice ? "" : "opacity-50"
-                  } w-full text-right`}
+                  } w-full text-right grow`}
                 >
                   <span className={`${flashState} px-1 py-1`}>
                     {hasLastPrice
                       ? lastPrice === -1
                         ? ""
                         : `${lastPrice.toFixed(6)} XRD`
-                      : "no trades"}
+                      : "no tokens issued"}
                   </span>
                 </p>
               </div>
-              <div className="w-full flex content-between px-1 mt-4">
+              <div className="flex content-between px-1 mt-4">
                 <p className="">Amount</p>
                 <SecondaryLabel
                   label="Available"
@@ -335,15 +336,15 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
             <div>
               <div className="flex flex-row justify-between mt-8">
                 <p>Supply:</p>
-                <p>{supply}</p>
+                <p>{displayNumberWithPrecision(supply || 0, 0)} {token.symbol}</p>
               </div>
               <div className="flex flex-row justify-between mt-1">
                 <p>Available:</p>
-                <p>{maxSupply}</p>
+                <p>{displayNumberWithPrecision(maxSupply || 0)} {token.symbol}</p>
               </div>
               <div className="flex flex-row justify-between mt-1">
-                <p>Bonding curve progress:</p>
-                <p>{progress}</p>
+                <p>Sale progress:</p>
+                <p>{((progress || 0) * 100).toFixed(0)} %</p>
               </div>
               <p className="text-white text-opacity-40 pt-4 leading-none">
                 When the total inflows reach 333,000 XRD all the liquidity from
@@ -412,7 +413,7 @@ export const TokenDetailsSkeleton = () => {
             </div>
             <div className="border border-white-1 p-6 rounded-bl-sm rounded-br-sm bg-dexter-gray-c">
               <div className="flex justify-between mt-3 items-center">
-                <span className="whitespace-nowrap">Last Price:</span>
+                <span className="whitespace-nowrap">Price:</span>
                 <Skeleton className="w-8 h-2 rounded-xl bg-slate-50" />
               </div>
               <p className="mt-4">Amount</p>
