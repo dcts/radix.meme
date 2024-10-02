@@ -289,13 +289,15 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
                       setInputAmount("");
                       return;
                     }
-                    const valueFinal =
-                      side === "BUY" ? value - XRD_FEE_ALLOWANCE : value;
+                    const valueFinal = Math.max(
+                      side === "BUY" ? value - XRD_FEE_ALLOWANCE : value,
+                      0
+                    );
                     setInputAmount(valueFinal.toString());
                     dispatch(
                       side === "BUY"
                         ? tokenSlice.actions.setBuyAmount(Number(valueFinal))
-                        : tokenSlice.actions.setSellAmount(Number(value))
+                        : tokenSlice.actions.setSellAmount(Number(valueFinal))
                     );
                   }}
                 />
