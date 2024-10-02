@@ -4,6 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import type { TTokenData } from "@/types";
 
 export const CoinCard = ({ coin }: { coin: TTokenData }) => {
+  const hasLastPrice = !!coin.lastPrice;
   return (
     <div className="rounded-2xl shadow-xl w-[285px] h-[450px] overflow-hidden bg-dexter-grey-dark border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 mx-auto">
       <div className="relative z-50 h-full flex flex-col">
@@ -42,8 +43,8 @@ export const CoinCard = ({ coin }: { coin: TTokenData }) => {
           <div className="flex items-center my-2">
             <h2 className="text-base">Last Price:</h2>
             <div className="ms-auto">
-              <span className="ms-4 p-1 text-base">
-                {coin.lastPrice?.toFixed(6)}
+              <span className={`ms-4 p-1 text-base ${hasLastPrice ? "" : "opacity-50"}`}>
+                {hasLastPrice ? coin.lastPrice?.toFixed(6) : "no trades"}
               </span>
             </div>
           </div>

@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { TokenInfo } from "./tokenStoreSlice";
 import { getGatewayApiClientFromScratchOrThrow } from "./subscriptions";
+import { TTokenData } from "@/types";
 
 export interface TokenState {
   token: TokenInfo;
@@ -11,14 +12,11 @@ export interface TokenState {
   change24h?: number;
   change7d?: number;
   lastPrice?: number;
-  formInput: FormInput;
-  bondingCurveProgress?: number;
-  availableSupply?: number;
+  progress?: number;
+  supply?: number;
   maxSupply?: number;
   holderDistributionTable: Record<string, number>;
-  available: number;
-  supply: number;
-  readyToDexter: number;
+  formInput: FormInput;
 }
 
 export enum OrderSide {
@@ -27,36 +25,32 @@ export enum OrderSide {
 }
 
 interface FormInput {
+  side: OrderSide;
   buyAmount?: number; // in XRD
   sellAmount?: number; // in MEMECOIN
-  side: OrderSide;
 }
 
 const initialState: TokenState = {
   token: {} as TokenInfo,
-  vol24h: 15000,
-  vol7d: 100000,
-  change24h: 5.2,
-  change7d: -2.1,
-  lastPrice: 0.45,
+  vol24h: 15000,  // TODO
+  vol7d: 100000,  // TODO
+  change24h: 5.2,  // TODO
+  change7d: -2.1,  // TODO
+  lastPrice: -1,
+  progress: undefined,
+  supply: 0,
+  maxSupply: 1000000,
+  holderDistributionTable: {},  // TODO
   formInput: {
+    side: OrderSide.BUY,
     buyAmount: undefined,
     sellAmount: undefined,
-    side: OrderSide.BUY,
   },
-  bondingCurveProgress: undefined,
-  availableSupply: undefined,
-  maxSupply: undefined,
-  holderDistributionTable: {},
-  supply: 5000000,
-  readyToDexter: 100000,
-  available: 3643900,
 };
 
 export const tokenSlice = createSlice({
   name: "token",
   initialState,
-  // initialState,
 
   // synchronous reducers
   reducers: {
@@ -68,6 +62,33 @@ export const tokenSlice = createSlice({
     },
     setSellAmount: (state: TokenState, action: PayloadAction<number>) => {
       state.formInput.sellAmount = action.payload;
+    },
+    setLastPrice: (state: TokenState, action: PayloadAction<number>) => {
+      state.lastPrice = action.payload;
+    },
+    setTTokenData: (state: TokenState, action: PayloadAction<TTokenData>) => {
+      state.token = {
+        componentAddress: action.payload.componentAddress || "",
+        name: action.payload.name || "",
+        symbol: action.payload.symbol || "",
+        description: action.payload.description || "",
+        iconUrl: action.payload.iconUrl || "",
+        telegram: action.payload.telegramUrl || "",
+        x: action.payload.xUrl || "",
+        website: action.payload.website || "",
+      };
+      state.supply = action.payload.supply || 0;
+      state.maxSupply = action.payload.maxSupply || 0;
+      state.lastPrice = action.payload.lastPrice;
+    },
+    resetLastPrice: (state: TokenState) => {
+      state.lastPrice = -1;
+    },
+    updateTradeData: (state: TokenState, action: PayloadAction<TTokenData>) => {
+      state.lastPrice = action.payload.lastPrice;
+      state.progress = action.payload.progress;
+      state.supply = action.payload.supply;
+      state.maxSupply = action.payload.maxSupply;
     },
   },
 
@@ -83,6 +104,7 @@ export const tokenSlice = createSlice({
   },
 });
 
+// TODO: remove deprecated function includinc extra reducers
 export const fetchToken = createAsyncThunk<
   TokenInfo, // Return type of the payload creator
   string, // Argument type (function input: tokenAddress)
