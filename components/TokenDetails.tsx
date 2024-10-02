@@ -294,7 +294,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
                     setInputAmount(valueFinal.toString());
                     dispatch(
                       side === "BUY"
-                        ? tokenSlice.actions.setBuyAmount(Number(value))
+                        ? tokenSlice.actions.setBuyAmount(Number(valueFinal))
                         : tokenSlice.actions.setSellAmount(Number(value))
                     );
                   }}
