@@ -110,6 +110,8 @@ export async function getTokenData(
     website: "",
     supply: 0,
     maxSupply: 0,
+    xrdAmount: 0,
+    maxXrdAmount: 0,
   };
   // First API call to get component's metadata
   const getComponentApiResult = await getRadixApiValue("state/entity/details", {
@@ -134,7 +136,7 @@ export async function getTokenData(
     if (!fieldData.field_name) {
       console.error("fieldData.field_name does not exist for fieldData:");
       console.error(fieldData);
-      continue;  // skip to next field
+      continue; // skip to next field
     }
     switch (fieldData.field_name) {
       case "token_manager": {
@@ -153,10 +155,22 @@ export async function getTokenData(
         result.lastPrice = Number(fieldData.value);
         break;
       }
+      case "max_xrd": {
+        result.maxXrdAmount = Number(fieldData.value);
+        break;
+      }
     }
   }
-  if (result.supply && result.maxSupply) {
-    result.progress = result.supply / result.maxSupply;
+  const componentFungibleResources =
+    getComponentApiResult.data.items[0].fungible_resources?.items;
+  if (componentFungibleResources.length > 0) {
+    result.xrdAmount = componentFungibleResources[0].amount; // better would be to look up the xrd resource address, but this works for now as xrd is the only fungible resource in the component
+  }
+  // if (result.supply && result.maxSupply) {
+  //   result.progress = result.supply / result.maxSupply;
+  // }
+  if (result.xrdAmount && result.maxXrdAmount) {
+    result.progress = result.xrdAmount / result.maxXrdAmount;
   }
   // If no resource address found, do not continue
   if (!result.address) {
@@ -187,7 +201,7 @@ export async function getTokenData(
     if (!data.key) {
       console.error("data.key does not exist for data:");
       console.error(data);
-      continue;  // skip to next data field
+      continue; // skip to next data field
     }
     switch (data.key) {
       case "name": {
