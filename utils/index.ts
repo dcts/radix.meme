@@ -29,7 +29,7 @@ export function shortenString(
 }
 
 export function truncateWithPrecision(num: number, precision: number): number {
-  const split = num.toString().split(".");
+  const split = num.toFixed(18).split(".");
   if (split.length !== 2) {
     return num;
   }

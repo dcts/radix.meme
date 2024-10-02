@@ -81,6 +81,9 @@ export const tokenSlice = createSlice({
       state.maxSupply = action.payload.maxSupply || 0;
       state.lastPrice = action.payload.lastPrice;
     },
+    resetLastPrice: (state: TokenState) => {
+      state.lastPrice = -1;
+    },
     updateTradeData: (state: TokenState, action: PayloadAction<TTokenData>) => {
       state.lastPrice = action.payload.lastPrice;
       state.progress = action.payload.progress;

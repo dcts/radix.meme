@@ -22,6 +22,8 @@ import {
 import { Skeleton } from "./ui/skeleton";
 import { getRdtOrThrow } from "@/app/_store/subscriptions";
 import RadixMemeButton from "./RadixMemeButton";
+import toast from "react-hot-toast";
+import { fetchBalance } from "@/app/_store/userSlice";
 
 interface OrderSideTabProps {
   orderSide: OrderSide;
@@ -79,30 +81,13 @@ function OrderSideTab({
 const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
   const componentAddress = tokenData.componentAddress;
   const tokenAddress = tokenData.address;
-  // const resourceAddress = tokenData.address;
 
   const dispatch = useAppDispatch();
   useEffect(() => {
+    dispatch(tokenSlice.actions.resetLastPrice());
     dispatch(tokenSlice.actions.setTTokenData(tokenData));
-  }, [dispatch, tokenData]);
-  // const {
-  //   address,
-  //   componentAddress,
-  //   description,
-  //   name,
-  //   symbol,
-  //   iconUrl,
-  //   maxSupply,
-  //   supply,
-  //   progress,
-  // } = tokenData;
-  // const token = {
-  //   name,
-  //   symbol,
-  //   description,
-  //   iconUrl,
-  //   address,
-  // };
+    dispatch(fetchBalance(tokenAddress));
+  }, [dispatch, tokenAddress, tokenData]);
 
   const { token, maxSupply, supply, progress } = useAppSelector(
     (state) => state.token
@@ -144,44 +129,49 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
       state.user.balances[process.env.NEXT_PUBLIC_XRD_ADDRESS || 0] || 0
   );
   const tokenBalance = useAppSelector(
-    (state) => state.user.balances[token.symbol || ""] || 0
+    (state) => state.user.balances[tokenAddress || ""] || 0
   );
 
   const [inputAmount, setInputAmount] = useState<string>("");
   const [flashState, setFlashState] = useState<string>("flash-none");
 
-  const handleBuy = async () => {
-    console.log("Handle Buy");
-    const rdt = getRdtOrThrow();
-    const transactionResult = await rdt.walletApi.sendTransaction({
-      transactionManifest: buyTxManifest(
-        buyAmount?.toString() || "0",
-        process.env.NEXT_PUBLIC_XRD_ADDRESS || "",
-        componentAddress || "",
-        userAddress
-      ),
-    });
-    console.log("finished transaction");
-    if (!transactionResult.isOk()) {
-      throw new Error("Transaction failed");
-    }
+  const handleTrade = async (side: OrderSide) => {
+    const txManifest =
+      side === OrderSide.BUY
+        ? buyTxManifest(
+            buyAmount?.toString() || "0",
+            process.env.NEXT_PUBLIC_XRD_ADDRESS || "",
+            componentAddress || "",
+            userAddress
+          )
+        : sellTxManifest(
+            sellAmount?.toString() || "0",
+            tokenData.address,
+            tokenData.componentAddress || "",
+            userAddress
+          );
+    await toast.promise(
+      (async () => {
+        const rdt = getRdtOrThrow();
+        const transactionResult = await rdt.walletApi.sendTransaction({
+          transactionManifest: txManifest,
+        });
+        if (!transactionResult.isOk()) {
+          throw new Error("Transaction failed");
+        }
+      })(),
+      {
+        loading: "waiting for confirmation",
+        success: "transaction success",
+        error: "transaction failed",
+      }
+    );
+    // Update live traade data (flash red or green)
     await updateTradeData();
-  };
-
-  const handleSell = async () => {
-    const rdt = getRdtOrThrow();
-    const transactionResult = await rdt.walletApi.sendTransaction({
-      transactionManifest: sellTxManifest(
-        sellAmount?.toString() || "0",
-        tokenData.address,
-        tokenData.componentAddress || "",
-        userAddress
-      ),
-    });
-    if (!transactionResult.isOk()) {
-      throw new Error("Transaction failed");
-    }
-    await updateTradeData();
+    // TODO: Update balances
+    // await updateBalances();
+    dispatch(fetchBalance(process.env.NEXT_PUBLIC_XRD_ADDRESS || ""));
+    dispatch(fetchBalance(tokenAddress));
   };
 
   const handleAmountInput = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -299,32 +289,39 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
                       setInputAmount("");
                       return;
                     }
-                    setInputAmount((value - XRD_FEE_ALLOWANCE).toString());
+                    const valueFinal =
+                      side === "BUY" ? value - XRD_FEE_ALLOWANCE : value;
+                    setInputAmount(valueFinal.toString());
+                    dispatch(
+                      side === "BUY"
+                        ? tokenSlice.actions.setBuyAmount(Number(value))
+                        : tokenSlice.actions.setSellAmount(Number(value))
+                    );
                   }}
                 />
               </div>
               <div className="mt-2">
                 <input
                   type="text"
-                  className="text-base grow w-full pl-2 bg-dexter-grey-dark rounded-lg h-10 text-right pr-5 border border-solid border-[#4a4a4a] focus:outline-none"
+                  className="text-base w-full pl-2 bg-dexter-grey-dark rounded-lg h-10 text-right pr-5 border border-solid border-[#4a4a4a] focus:outline-none"
                   placeholder="0.00"
                   onChange={handleAmountInput}
                   value={inputAmount}
                 />
               </div>
-              {side === "SELL" && ( // Check if the current order side is SELL
+              {side === OrderSide.BUY && (
+                <RadixMemeButton
+                  text={`Buy ${token.symbol}`}
+                  onClick={() => handleTrade(side)}
+                  className="w-full mx-auto mt-2"
+                />
+              )}
+              {side === OrderSide.SELL && (
                 <RadixMemeButton
                   variant="warning"
                   text={`Sell ${token.symbol}`}
-                  onClick={handleSell}
-                  className="w-full mx-auto"
-                />
-              )}
-              {side === "BUY" && (
-                <RadixMemeButton
-                  text={`Buy ${token.symbol}`}
-                  onClick={handleBuy}
-                  className="w-full mx-auto"
+                  onClick={() => handleTrade(side)}
+                  className="w-full mx-auto mt-2"
                 />
               )}
             </div>
