@@ -168,8 +168,8 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
     );
     // Update live traade data (flash red or green)
     await updateTradeData();
-    // TODO: Update balances
-    // await updateBalances();
+    // Clear form + fetch balances
+    setInputAmount("");
     dispatch(fetchBalance(process.env.NEXT_PUBLIC_XRD_ADDRESS || ""));
     dispatch(fetchBalance(tokenAddress));
   };
