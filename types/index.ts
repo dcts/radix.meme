@@ -21,5 +21,7 @@ export type TTokenData = {
   website?: string;
   supply?: number;
   maxSupply?: number;
+  xrdAmount?: number;
+  maxXrdAmount?: number;
   lastPrice?: number;
 };
