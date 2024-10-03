@@ -55,7 +55,7 @@ export default function Home() {
                 href="/launch"
                 text="Launch your token"
                 icon={<HiMiniRocketLaunch />}
-                className="mr-3"
+                className="md:mr-3 sm:mr-0 lg:mr-3"
                 variant="cta"
               />
               <ModalWrapper />
