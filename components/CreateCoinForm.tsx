@@ -156,7 +156,7 @@ const CreateCoinForm = () => {
                 alt={"uploaded image"}
                 width={144}
                 height={144}
-                className="absolute z-50 bg-stone-800 bg-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-[42%]"
+                className="absolute z-50 bg-stone-800 bg-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-[42%] object-cover"
                 style={{ width: "144px", height: "144px" }}
               />
             )}
