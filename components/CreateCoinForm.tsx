@@ -141,7 +141,7 @@ const CreateCoinForm = () => {
                 after:-translate-x-1/2
                 after:-translate-y-[42%]
                 after:text-[16rem]
-                
+
                 hover:after:scale-105
               `}
             />
@@ -166,6 +166,9 @@ const CreateCoinForm = () => {
               {(errors.image.message as string) || "Error"}
             </span>
           )}
+          <p className="text-xs font-light mt-1">
+            Only .jpeg, .jpg, and .png are allowed.
+          </p>
         </div>
         <div className="flex flex-col">
           <Label htmlFor="name">Name *</Label>
