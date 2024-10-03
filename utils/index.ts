@@ -38,12 +38,14 @@ export function truncateWithPrecision(num: number, precision: number): number {
 }
 
 export function displayNumber(value: number): string {
-  return value.toLocaleString("en").replaceAll(",", "'");
+  return value.toLocaleString("en").replaceAll(",", ".");
 }
 
 export function displayNumberWithPrecision(
   value: number,
   precision: number = 0
 ): string {
-  return Number(value.toFixed(precision)).toLocaleString("en").replaceAll(",","'");
+  return Number(value.toFixed(precision))
+    .toLocaleString("en")
+    .replaceAll(",", ".");
 }
