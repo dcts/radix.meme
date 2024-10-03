@@ -2,9 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { SparklesCore } from "@/components/ui/sparkles";
 import heroRocketRacoon from "../public/hero-rocket-racoon.svg";
-import bigCoin from "../public/big-filled-coin.png";
-import mediumCoin from "../public/medium-filled-coin.png";
-import smallCoin from "../public/small-filled-coin.png";
+import bigCoin from "../public/big-filled-coin.svg";
+import mediumCoin from "../public/medium-filled-coin.svg";
+import smallCoin from "../public/small-filled-coin.svg";
 import { HiMiniRocketLaunch } from "react-icons/hi2";
 import {
   Modal,
