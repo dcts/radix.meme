@@ -26,9 +26,11 @@ import {
 import Image from "next/image";
 import { revalidateTwist } from "@/app/_actions/revalidate-twist";
 import RadixMemeButton from "./RadixMemeButton";
+import Loading from "./Loading";
 
 const CreateCoinForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imageIsUploading, setImageIsUploading] = useState(false);
   const tokenCreatorAddress = useAppSelector(
     (state) => state.user.selectedAccount.address
   );
@@ -92,6 +94,7 @@ const CreateCoinForm = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     try {
+      setImageIsUploading(true);
       const files = event.target.files; // Get the selected file(s)
       if (files && files.length > 0) {
         const iconUrl = (await uploadImage(files[0])) as string; // upload the first file
@@ -101,6 +104,8 @@ const CreateCoinForm = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setImageIsUploading(false);
     }
   };
 
@@ -118,15 +123,40 @@ const CreateCoinForm = () => {
               id="image"
               {...register("image")}
               onChange={handleFileUpload} // Trigger upload on file selection
-              className="file-input-with-big-plus"
+              className={`
+                relative
+                border-none
+                cursor-pointer
+                h-48
+
+                after:absolute
+                after:content-['+']
+                ${
+                  imageIsUploading
+                    ? "after:text-transparent"
+                    : "after:text-neutral-600"
+                }
+                after:top-1/2
+                after:left-1/2
+                after:-translate-x-1/2
+                after:-translate-y-[42%]
+                after:text-[16rem]
+                
+                hover:after:scale-105
+              `}
             />
-            {iconUrl && (
+            {imageIsUploading && (
+              <div className="absolute z-[9999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-[42%]">
+                <Loading />
+              </div>
+            )}
+            {!imageIsUploading && iconUrl && (
               <Image
                 src={iconUrl}
                 alt={"uploaded image"}
                 width={144}
                 height={144}
-                className="absolute z-50 bg-stone-800 bg-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-[44%]"
+                className="absolute z-50 bg-stone-800 bg-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-[42%]"
                 style={{ width: "144px", height: "144px" }}
               />
             )}
