@@ -5,6 +5,7 @@ import type { TTokenData } from "@/types";
 
 export const CoinCard = ({ coin }: { coin: TTokenData }) => {
   const hasLastPrice = !!coin.lastPrice;
+
   return (
     <div className="rounded-2xl shadow-xl w-[285px] h-[450px] overflow-hidden bg-dexter-grey-dark border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 mx-auto">
       <div className="relative z-50 h-full flex flex-col">
@@ -41,26 +42,30 @@ export const CoinCard = ({ coin }: { coin: TTokenData }) => {
 
         <div className="mt-auto pt-2 px-4 pb-4">
           <div className="flex items-center my-2">
-            <h2 className="text-base">Last Price:</h2>
+            <h2 className="text-base">Price:</h2>
             <div className="ms-auto">
-              <span className={`ms-4 p-1 text-base ${hasLastPrice ? "" : "opacity-50"}`}>
-                {hasLastPrice ? coin.lastPrice?.toFixed(6) : "no trades"}
+              <span
+                className={`ms-4 p-1 text-base ${
+                  hasLastPrice ? "" : "opacity-50"
+                }`}
+              >
+                {hasLastPrice ? coin.lastPrice?.toFixed(6) : "no trades"}
               </span>
             </div>
           </div>
 
           <div className="flex items-center my-2">
-            <h2 className="text-base whitespace-nowrap">
-              Sale progress:
-            </h2>
+            <h2 className="text-base whitespace-nowrap">Sale progress:</h2>
             <div className="ms-auto">
-              <span className="text-dexter-green whitespace-nowrap text-base">
-                {coin.progress ? (coin.progress * 1000).toFixed(0) : 0}k / 1M {coin.symbol}
-              </span>
+              {!!coin.maxXrdAmount && !!coin.xrdAmount && (
+                <span className="text-dexter-green whitespace-nowrap text-base">
+                  {(coin.xrdAmount/1000).toFixed(0)}k / {(coin.maxXrdAmount/1000).toFixed(0)}k XRD
+                </span>
+              )}
             </div>
           </div>
 
-          <Progress value={(coin?.progress || 0) * 100} className="h-4" />
+          <Progress value={(coin?.progress || 0) * 100} className="h-4" />
         </div>
       </div>
     </div>
@@ -90,7 +95,7 @@ export const CoinCardSkeleton = () => {
 
           <div className="flex items-center my-2">
             <h2 className="max-sm:text-base text-lg text-stone-200/55">
-              Last Price:
+              Price:
             </h2>
             <div className="ms-auto flex items-center">
               <Skeleton className="ms-4 w-20 h-8 rounded-xl bg-dexter-gray-b/55" />
