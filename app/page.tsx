@@ -1,10 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import { SparklesCore } from "@/components/ui/sparkles";
+
 import heroRocketRacoon from "../public/hero-rocket-racoon.svg";
 import bigCoin from "../public/big-filled-coin.svg";
 import mediumCoin from "../public/medium-filled-coin.svg";
 import smallCoin from "../public/small-filled-coin.svg";
+import noRugPull from "../public/no-rug-pull.svg";
+import noTeamAllocation from "../public/no-team-allocation.svg";
+import noPreSale from "../public/no-pre-sale.svg";
+
 import { HiMiniRocketLaunch } from "react-icons/hi2";
 import {
   Modal,
@@ -95,34 +100,64 @@ const ModalWrapper = () => {
           as="span"
           text="How does it work ?"
           variant="secondary"
+          className="mx-auto"
         />
       </ModalTrigger>
       <ModalBody>
         <ModalContent>
-          <div className="space-y-4 rounded-md text-center py-4 pb-8 sm:text-lg -mx-4">
+          <div className="space-y-4 rounded-md text-center mx-auto sm:mx-0">
+            <div className="font-[family-name:var(--font-londrina-solid)] text-3xl font-bold pb-3">
+              How does it work?
+            </div>
+            <div className="justify-center md:gap-1 lg:gap-1 sm:gap-2 gap-2 grid md:grid-cols-3">
+              <div className="border rounded-md p-4 bg-dexter-grey-dark">
+                <div className="flex justify-center mx-auto pt-4">
+                  <Image src={noRugPull} alt="no rug pull" width={50}></Image>
+                </div>
+                <p className="text-dexter-green font-bold text-md p-4">
+                  No
+                  <br />
+                  rug pull
+                </p>
+              </div>
+              <div className="border rounded-md p-4 bg-dexter-grey-dark">
+                <div className="flex justify-center mx-auto pt-4">
+                  <Image src={noPreSale} alt="no pre-sale" width={50}></Image>
+                </div>
+                <p className="text-dexter-green font-bold text-md p-4">
+                  No
+                  <br />
+                  pre-sale
+                </p>
+              </div>
+              <div className="border rounded-md p-4 bg-dexter-grey-dark">
+                <div className="flex justify-center mx-auto pt-4">
+                  <Image
+                    src={noTeamAllocation}
+                    alt="no team allocation"
+                    width={50}
+                  ></Image>
+                </div>
+                <p className="text-dexter-green font-bold text-md p-4">
+                  No team allocation
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="font-bold pl-6">
+            <ol className="mx-auto list-decimal sm:text-lg mt-6">
+              <li>Pick a coin that you like (or launch your own!)</li>
+              <li>Buy the coin on the bonding curve</li>
+              <li>Sell at any time to lock in your profits or losses</li>
+            </ol>
+          </div>
+          <div className="mt-6 font-light">
             <p>
-              <span className="text-dexter-green-OG">RADIX.MEME </span>
-              prevents rugs by making sure that all created tokens are safe.{" "}
-            </p>
-            <p>
-              Each coin on{" "}
-              <span className="text-dexter-green-OG">RADIX.MEME </span>
-              is a fair-launch with no presale and no team allocation.
+              When enough people buy on the bonding curve it reaches a market
+              cap of $69k, $12k of liquidity is then deposited in ociswap to
+              enable further trading.
             </p>
           </div>
-          <ul className="text-justify flex flex-col gap-y-4 items-start justify-start max-w-sm mx-auto list-disc sm:text-lg">
-            <li>pick a coin that you like (or launch your own!)</li>
-            <li>buy the coin on the bonding curve</li>
-            <li>sell at any time to lock in your profits or losses</li>
-            <li>
-              when enough people buy on the bonding curve it reaches a market
-              cap of $69k
-            </li>
-            <li>
-              $12k of liquidity is then deposited in ociswap to enable further
-              trading.
-            </li>
-          </ul>
         </ModalContent>
         <ModalFooter className="gap-4 flex justify-center">
           <RadixMemeButton
