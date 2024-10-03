@@ -44,6 +44,7 @@ const CreateCoinForm = () => {
   const [newTokenAddress, setNewTokenAddress] = useState("");
   const [newComponentAddress, setNewComponentAddress] = useState("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [showSocials, setShowSocials] = useState(false);
 
   const {
     watch,
@@ -121,6 +122,10 @@ const CreateCoinForm = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+  };
+
+  const handleSocials = () => {
+    setShowSocials((prev) => !prev);
   };
 
   return (
@@ -241,39 +246,53 @@ const CreateCoinForm = () => {
             </span>
           )}
         </div>
-        <div className="flex flex-col">
-          <Label htmlFor="website">Website (optional)</Label>
-          <Input
-            type="text"
-            id="website"
-            placeholder="https://"
-            {...register("website")}
-          />
-        </div>
-        <div className="flex flex-col">
-          <Label htmlFor="twitter">X profile (optional)</Label>
-          <Input
-            type="text"
-            id="twitter"
-            placeholder="https://x.com/your-token"
-            {...register("xUrl")}
-          />
-        </div>
-        <div className="flex flex-col">
-          <Label htmlFor="telegram">Telegram (optional)</Label>
-          <Input
-            type="text"
-            id="telegram"
-            placeholder="https://t.me/your-token"
-            {...register("telegramUrl")}
-          />
-        </div>
+
+        <button
+          type="button"
+          className="flex text-center justify-center gap-x-2 px-8 py-2 sm:h-11 border border-b-2 rounded-lg bg-stone-800 font-bold mt-0"
+          onClick={handleSocials}
+        >
+          Add social links
+        </button>
+
+        {showSocials && (
+          <div className="space-y-6">
+            <div className="flex flex-col">
+              <Label htmlFor="website">Website (optional)</Label>
+              <Input
+                type="text"
+                id="website"
+                placeholder="https://"
+                {...register("website")}
+              />
+            </div>
+            <div className="flex flex-col">
+              <Label htmlFor="twitter">X profile (optional)</Label>
+              <Input
+                type="text"
+                id="twitter"
+                placeholder="https://x.com/your-token"
+                {...register("xUrl")}
+              />
+            </div>
+            <div className="flex flex-col">
+              <Label htmlFor="telegram">Telegram (optional)</Label>
+              <Input
+                type="text"
+                id="telegram"
+                placeholder="https://t.me/your-token"
+                {...register("telegramUrl")}
+              />
+            </div>
+          </div>
+        )}
+
         <RadixMemeButton
           type="submit"
           disabled={isSubmitting}
           text="Launch your token!"
           icon={<HiMiniRocketLaunch />}
-          className="my-4"
+          className="my-4 mt-8"
         />
       </form>
       <SuccessModal
