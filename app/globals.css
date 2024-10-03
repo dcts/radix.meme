@@ -170,3 +170,8 @@ input.file-input-with-big-plus[type="file"]::file-selector-button {
     background-color: rgba(0, 0, 0, 0);
   }
 }
+
+/* To hide the 'Choose file' label on the Create your token page as it's not customizable  */
+#image::-webkit-file-upload-button {
+  display: none;
+}

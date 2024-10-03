@@ -1,6 +1,11 @@
 "use client";
 
-import React, { useState, forwardRef, InputHTMLAttributes } from "react";
+import React, {
+  useState,
+  forwardRef,
+  InputHTMLAttributes,
+  useRef,
+} from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateCoinFormSchema, DESCRIPTION_MAX_CHAR_COUNT } from "@/app/_zod";
@@ -27,6 +32,7 @@ import Image from "next/image";
 import { revalidateTwist } from "@/app/_actions/revalidate-twist";
 import RadixMemeButton from "./RadixMemeButton";
 import Loading from "./Loading";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 const CreateCoinForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,6 +43,7 @@ const CreateCoinForm = () => {
   const [iconUrl, setIconUrl] = useState("");
   const [newTokenAddress, setNewTokenAddress] = useState("");
   const [newComponentAddress, setNewComponentAddress] = useState("");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const {
     watch,
@@ -109,6 +116,13 @@ const CreateCoinForm = () => {
     }
   };
 
+  const handleCloseIconClick = () => {
+    setIconUrl("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   return (
     <div>
       <form
@@ -123,6 +137,7 @@ const CreateCoinForm = () => {
               id="image"
               {...register("image")}
               onChange={handleFileUpload} // Trigger upload on file selection
+              ref={fileInputRef}
               className={`
                 relative
                 border-none
@@ -145,6 +160,16 @@ const CreateCoinForm = () => {
                 hover:after:scale-105
               `}
             />
+
+            {iconUrl && (
+              <button
+                className="absolute top-2 right-2 p-1 rounded-full shadow-md"
+                onClick={handleCloseIconClick}
+              >
+                <FaRegTrashAlt />
+              </button>
+            )}
+
             {imageIsUploading && (
               <div className="absolute z-[9999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-[42%]">
                 <Loading />
