@@ -131,7 +131,7 @@ const CreateCoinForm = () => {
       >
         <div className="flex flex-col">
           <Label htmlFor="image">Image *</Label>
-          <div className="relative">
+          <div className="relative z-50">
             <Input
               type="file"
               id="image"
@@ -163,7 +163,7 @@ const CreateCoinForm = () => {
 
             {iconUrl && (
               <button
-                className="absolute top-2 right-2 p-1 rounded-full shadow-md"
+                className="absolute top-2 right-2 p-1 rounded-full shadow-md z-50"
                 onClick={handleCloseIconClick}
               >
                 <FaRegTrashAlt />
@@ -179,10 +179,10 @@ const CreateCoinForm = () => {
               <Image
                 src={iconUrl}
                 alt={"uploaded image"}
-                width={144}
-                height={144}
-                className="absolute z-50 bg-stone-800 bg-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-[42%] object-cover"
-                style={{ width: "144px", height: "144px" }}
+                width={500}
+                height={170}
+                className="absolute bg-stone-800 top-1/2 left-1/2 -translate-x-1/2 -translate-y-[50%] object-cover border rounded-md z-0"
+                style={{ width: "500px", height: "200px" }}
               />
             )}
           </div>
