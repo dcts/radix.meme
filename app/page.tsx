@@ -32,7 +32,7 @@ export default function Home() {
         />
       </div>
       <main>
-        <div className="h-[calc(100lvh-20rem)] mt-16 pt-24 flex justify-around items-center mx-16 xl:mx-[4.5rem] 2xl:mx-20 px-8 2xl:px-20 gap-x-32">
+        <div className="h-[calc(100lvh-20rem)] mt-16 md:pt-24 lg:pt-24 sm:pt-18 flex justify-around items-center mx-16 xl:mx-[4.5rem] 2xl:mx-20 px-8 2xl:px-20 gap-x-32">
           <div className="flex flex-col gap-8 items-center sm:items-start">
             <div className="list-inside list-decimal text-sm text-center sm:text-left ">
               <h1 className="relative font-[family-name:var(--font-londrina-solid)] text-8xl max-sm:text-6xl max-md:text-8xl md:text-8xl mb-4 font-black tracking-wider">
@@ -40,11 +40,11 @@ export default function Home() {
                 <span className="absolute -top-6 right-0 text-base flex gap-x-2">
                   <span className="text-[20px] tracking-[2px] text-dexter-green-OG/80">
                     By DeXter
-                  </span>{" "}
+                  </span>
                   <BetaLabel text="STOKENET" additionalClasses="!text-[20px]" />
                 </span>
               </h1>
-              <p className="font-[family-name:var(--font-josefin-sans)] text-2xl max-sm:text-l max-md:text-2xl md:text-2xl mb-6 max-w-lg sm:max-w-sm md:max-w-md font-normal !leading-8">
+              <p className="font-[family-name:var(--font-josefin-sans)] text-2xl max-sm:text-l max-md:text-2xl md:text-2xl md:mb-6 lg:mb-6 sm:mb-2 max-w-lg sm:max-w-sm md:max-w-md font-normal !leading-8">
                 Instantly launch your coin with unlimited liquidity using a
                 dynamic bonding curve.
               </p>
