@@ -14,6 +14,7 @@ import {
   ModalBody,
   ModalContent,
   ModalTrigger,
+  ModalFooter,
 } from "@/components/ui/animated-modal";
 import { BetaLabel } from "@/components/Navbar";
 import { AllCoinsGallery } from "@/components/AllCoinsGallery";
@@ -156,6 +157,14 @@ const ModalWrapper = () => {
             </p>
           </div>
         </ModalContent>
+        <ModalFooter className="gap-4 flex justify-center">
+          <RadixMemeButton
+            as={Link}
+            href="/launch"
+            text="I'm ready to pump!"
+            icon={<HiMiniRocketLaunch />}
+          />
+        </ModalFooter>
       </ModalBody>
     </Modal>
   );
