@@ -109,41 +109,64 @@ input.file-input-with-big-plus[type="file"]::file-selector-button {
   display: none;
 }
 
-
 .flash-red {
   -webkit-animation-name: animateRedBg; /* Safari 4.0 - 8.0 */
   -webkit-animation-duration: 2s; /* Safari 4.0 - 8.0 */
   animation-name: animateRedBg;
-  animation-duration: .3s;
-}	
+  animation-duration: 0.3s;
+}
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes animateRedBg {
-  0%   {background-color: rgba(0, 0, 0, 0);}
-  50%  {background-color: #D80B0C;}
-  100% {background-color: rgba(0, 0, 0, 0);}
+  0% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  50% {
+    background-color: #d80b0c;
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 0);
+  }
 }
 /* Standard syntax */
 @keyframes animateRedBg {
-  0%   {background-color: rgba(0, 0, 0, 0);}
-  50%  {background-color: #D80B0C;}
-  100% {background-color: rgba(0, 0, 0, 0);}
+  0% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  50% {
+    background-color: #d80b0c;
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 0);
+  }
 }
 
 .flash-green {
   -webkit-animation-name: animateGreenBg; /* Safari 4.0 - 8.0 */
   -webkit-animation-duration: 2s; /* Safari 4.0 - 8.0 */
   animation-name: animateGreenBg;
-  animation-duration: .3s;
-}	
+  animation-duration: 0.3s;
+}
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes animateGreenBg {
-  0%   {background-color: rgba(0, 0, 0, 0);}
-  50%  {background-color: #8eb12d;}
-  100% {background-color: rgba(0, 0, 0, 0);}
+  0% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  50% {
+    background-color: #8eb12d;
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 0);
+  }
 }
 /* Standard syntax */
 @keyframes animateGreenBg {
-  0%   {background-color: rgba(0, 0, 0, 0);}
-  50%  {background-color: #8eb12d;}
-  100% {background-color: rgba(0, 0, 0, 0);}
+  0% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  50% {
+    background-color: #8eb12d;
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 0);
+  }
 }

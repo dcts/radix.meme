@@ -10,7 +10,7 @@ type TProps = {
 // server-component
 export const AllCoinsGallery = ({ className }: TProps) => {
   return (
-    <div className="mt-[10rem] py-12">
+    <div className="mt-[8rem] sm:mt-[8rem] lg:mt-[10rem] md:mt-[10rem] py-12">
       <h1 className="font-[family-name:var(--font-londrina-solid)] text-6xl flex justify-center">
         Last Tokens
       </h1>
