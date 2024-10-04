@@ -11,9 +11,9 @@ export const CreateCoinFormSchema = z.object({
     .string()
     .min(3, { message: "Must be at least 3 characters" })
     .max(12, { message: "Must be 12 characters or less" }),
-  description: z
-    .string()
-    .max(DESCRIPTION_MAX_CHAR_COUNT, { message: "Must be 400 characters or less" }),
+  description: z.string().max(DESCRIPTION_MAX_CHAR_COUNT, {
+    message: "Must be 400 characters or less",
+  }),
   image: z
     .any()
     .refine((files) => files instanceof FileList && files.length > 0, {
@@ -21,9 +21,10 @@ export const CreateCoinFormSchema = z.object({
     })
     .refine(
       (files) => {
+        if (!files || files.length === 0) return false;
         const file = files[0];
         const validTypes = ["image/jpeg", "image/jpg", "image/png"];
-        return file ? validTypes.includes(file.type) : true;
+        return validTypes.includes(file.type);
       },
       {
         message: "Only jpeg, jpg, and png are allowed.",
@@ -31,6 +32,7 @@ export const CreateCoinFormSchema = z.object({
     )
     .refine(
       (files) => {
+        if (!files || files.length === 0) return true;
         return files?.[0] ? files[0].size <= 2 * 1024 * 1024 : true;
       },
       {

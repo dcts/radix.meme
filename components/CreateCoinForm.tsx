@@ -1,6 +1,11 @@
 "use client";
 
-import React, { useState, forwardRef, InputHTMLAttributes } from "react";
+import React, {
+  useState,
+  forwardRef,
+  InputHTMLAttributes,
+  useRef,
+} from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateCoinFormSchema, DESCRIPTION_MAX_CHAR_COUNT } from "@/app/_zod";
@@ -27,6 +32,7 @@ import Image from "next/image";
 import { revalidateTwist } from "@/app/_actions/revalidate-twist";
 import RadixMemeButton from "./RadixMemeButton";
 import Loading from "./Loading";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 const CreateCoinForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,6 +43,8 @@ const CreateCoinForm = () => {
   const [iconUrl, setIconUrl] = useState("");
   const [newTokenAddress, setNewTokenAddress] = useState("");
   const [newComponentAddress, setNewComponentAddress] = useState("");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [showSocials, setShowSocials] = useState(false);
 
   const {
     watch,
@@ -109,6 +117,17 @@ const CreateCoinForm = () => {
     }
   };
 
+  const handleCloseIconClick = () => {
+    setIconUrl("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleSocials = () => {
+    setShowSocials((prev) => !prev);
+  };
+
   return (
     <div>
       <form
@@ -117,12 +136,16 @@ const CreateCoinForm = () => {
       >
         <div className="flex flex-col">
           <Label htmlFor="image">Image *</Label>
-          <div className="relative">
+          <div className="relative z-50">
             <Input
               type="file"
               id="image"
               {...register("image")}
               onChange={handleFileUpload} // Trigger upload on file selection
+              ref={(e) => {
+                fileInputRef.current = e;
+                register("image").ref(e);
+              }}
               className={`
                 relative
                 border-none
@@ -141,10 +164,18 @@ const CreateCoinForm = () => {
                 after:-translate-x-1/2
                 after:-translate-y-[42%]
                 after:text-[16rem]
-                
+
                 hover:after:scale-105
               `}
             />
+            {iconUrl && (
+              <button
+                className="absolute top-2 right-2 p-1 rounded-full shadow-md z-50"
+                onClick={handleCloseIconClick}
+              >
+                <FaRegTrashAlt />
+              </button>
+            )}
             {imageIsUploading && (
               <div className="absolute z-[9999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-[42%]">
                 <Loading />
@@ -154,18 +185,22 @@ const CreateCoinForm = () => {
               <Image
                 src={iconUrl}
                 alt={"uploaded image"}
-                width={144}
-                height={144}
-                className="absolute z-50 bg-stone-800 bg-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-[42%]"
-                style={{ width: "144px", height: "144px" }}
+                width={500}
+                height={200}
+                className="absolute bg-stone-800 top-1/2 left-1/2 -translate-x-1/2 -translate-y-[50%] object-cover border rounded-md z-0"
+                style={{ width: "500px", height: "200px" }}
               />
             )}
           </div>
+
           {errors.image && (
             <span className="text-red-500">
               {(errors.image.message as string) || "Error"}
             </span>
           )}
+          <p className="text-xs font-light mt-1">
+            Only .jpeg, .jpg, and .png are allowed.
+          </p>
         </div>
         <div className="flex flex-col">
           <Label htmlFor="name">Name *</Label>
@@ -213,39 +248,52 @@ const CreateCoinForm = () => {
             </span>
           )}
         </div>
-        <div className="flex flex-col">
-          <Label htmlFor="website">Website (optional)</Label>
-          <Input
-            type="text"
-            id="website"
-            placeholder="https://"
-            {...register("website")}
-          />
-        </div>
-        <div className="flex flex-col">
-          <Label htmlFor="twitter">X profile (optional)</Label>
-          <Input
-            type="text"
-            id="twitter"
-            placeholder="https://x.com/your-token"
-            {...register("xUrl")}
-          />
-        </div>
-        <div className="flex flex-col">
-          <Label htmlFor="telegram">Telegram (optional)</Label>
-          <Input
-            type="text"
-            id="telegram"
-            placeholder="https://t.me/your-token"
-            {...register("telegramUrl")}
-          />
-        </div>
+        <button
+          type="button"
+          className="flex text-center justify-center gap-x-2 px-8 py-2 sm:h-11 border border-b-2 rounded-lg bg-stone-800 font-bold mt-0"
+          onClick={handleSocials}
+        >
+          Add social links
+        </button>
+
+        {showSocials && (
+          <div className="space-y-6">
+            {" "}
+            <div className="flex flex-col">
+              <Label htmlFor="website">Website (optional)</Label>
+              <Input
+                type="text"
+                id="website"
+                placeholder="https://"
+                {...register("website")}
+              />
+            </div>
+            <div className="flex flex-col">
+              <Label htmlFor="twitter">X profile (optional)</Label>
+              <Input
+                type="text"
+                id="twitter"
+                placeholder="https://x.com/your-token"
+                {...register("xUrl")}
+              />
+            </div>
+            <div className="flex flex-col">
+              <Label htmlFor="telegram">Telegram (optional)</Label>
+              <Input
+                type="text"
+                id="telegram"
+                placeholder="https://t.me/your-token"
+                {...register("telegramUrl")}
+              />
+            </div>
+          </div>
+        )}
         <RadixMemeButton
           type="submit"
           disabled={isSubmitting}
           text="Launch your token!"
           icon={<HiMiniRocketLaunch />}
-          className="my-4"
+          className="my-4 mt-8"
         />
       </form>
       <SuccessModal
