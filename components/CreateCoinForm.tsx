@@ -142,7 +142,10 @@ const CreateCoinForm = () => {
               id="image"
               {...register("image")}
               onChange={handleFileUpload} // Trigger upload on file selection
-              ref={fileInputRef}
+              ref={(e) => {
+                fileInputRef.current = e;
+                register("image").ref(e);
+              }}
               className={`
                 relative
                 border-none
@@ -165,7 +168,6 @@ const CreateCoinForm = () => {
                 hover:after:scale-105
               `}
             />
-
             {iconUrl && (
               <button
                 className="absolute top-2 right-2 p-1 rounded-full shadow-md z-50"
@@ -174,7 +176,6 @@ const CreateCoinForm = () => {
                 <FaRegTrashAlt />
               </button>
             )}
-
             {imageIsUploading && (
               <div className="absolute z-[9999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-[42%]">
                 <Loading />
@@ -185,12 +186,13 @@ const CreateCoinForm = () => {
                 src={iconUrl}
                 alt={"uploaded image"}
                 width={500}
-                height={170}
+                height={200}
                 className="absolute bg-stone-800 top-1/2 left-1/2 -translate-x-1/2 -translate-y-[50%] object-cover border rounded-md z-0"
                 style={{ width: "500px", height: "200px" }}
               />
             )}
           </div>
+
           {errors.image && (
             <span className="text-red-500">
               {(errors.image.message as string) || "Error"}
@@ -246,7 +248,6 @@ const CreateCoinForm = () => {
             </span>
           )}
         </div>
-
         <button
           type="button"
           className="flex text-center justify-center gap-x-2 px-8 py-2 sm:h-11 border border-b-2 rounded-lg bg-stone-800 font-bold mt-0"
@@ -257,6 +258,7 @@ const CreateCoinForm = () => {
 
         {showSocials && (
           <div className="space-y-6">
+            {" "}
             <div className="flex flex-col">
               <Label htmlFor="website">Website (optional)</Label>
               <Input
@@ -286,7 +288,6 @@ const CreateCoinForm = () => {
             </div>
           </div>
         )}
-
         <RadixMemeButton
           type="submit"
           disabled={isSubmitting}
