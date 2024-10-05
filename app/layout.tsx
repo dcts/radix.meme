@@ -37,7 +37,7 @@ export const metadata: Metadata = {
         url: process.env.NEXT_PUBLIC_OG_IMG_URL as string,
         width: 1200,
         height: 630,
-        alt: "DeXter.Meme",
+        alt: "Radix.Meme",
       },
     ],
   },
