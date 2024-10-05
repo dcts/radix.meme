@@ -23,40 +23,40 @@ export async function getMainComponentState(
         componentAddress,
       apiResult
     );
-    throw new Error();
-  } else {
-    if (apiResult.data?.items?.length > 0) {
-      const stateFields = apiResult.data.items[0].details?.state?.fields;
-      stateFields.forEach((fieldData: any) => {
-        switch (fieldData.field_name) {
-          case "address": {
-            result.address = fieldData.value;
-            break;
-          }
-          case "owner_badge_manager": {
-            result.ownerBadge = fieldData.value;
-            break;
-          }
-          case "max_token_supply": {
-            result.maxTokenSupply = Number(fieldData.value);
-            break;
-          }
-          case "max_xrd": {
-            result.maxXrd = Number(fieldData.value);
-            break;
-          }
-          case "multiplier": {
-            result.maxXrd = fieldData.value;
-            break;
-          }
-          case "tokens": {
-            result.tokensKvs = fieldData.value;
-            break;
-          }
-        }
-      });
-    }
+    throw new Error(apiResult.message);
   }
+  if (apiResult.data?.items?.length <= 0) {
+    return result;
+  }
+  const stateFields = apiResult.data.items[0].details?.state?.fields;
+  stateFields.forEach((fieldData: any) => {
+    switch (fieldData.field_name) {
+      case "address": {
+        result.address = fieldData.value;
+        break;
+      }
+      case "owner_badge_manager": {
+        result.ownerBadge = fieldData.value;
+        break;
+      }
+      case "max_token_supply": {
+        result.maxTokenSupply = Number(fieldData.value);
+        break;
+      }
+      case "max_xrd": {
+        result.maxXrd = Number(fieldData.value);
+        break;
+      }
+      case "multiplier": {
+        result.maxXrd = fieldData.value;
+        break;
+      }
+      case "tokens": {
+        result.tokensKvs = fieldData.value;
+        break;
+      }
+    }
+  });
   return result;
 }
 
@@ -84,13 +84,14 @@ export async function getAllTokensComponents(
       "Problem fetching all tokens components form radix api.",
       apiResult
     );
-  } else {
-    if (apiResult.data?.items) {
-      result = apiResult.data.items.map(
-        (kvsItemData: any) => kvsItemData.key?.programmatic_json?.value
-      );
-    }
+    return result;
   }
+  if (!apiResult.data?.items) {
+    return result;
+  }
+  result = apiResult.data.items.map(
+    (kvsItemData: any) => kvsItemData.key?.programmatic_json?.value
+  );
   return result;
 }
 
@@ -161,6 +162,7 @@ export async function getTokenData(
       }
     }
   }
+  // Get current XRD amount inside vault
   const componentFungibleResources =
     getComponentApiResult.data.items[0].fungible_resources?.items;
   if (componentFungibleResources.length > 0) {
@@ -168,10 +170,11 @@ export async function getTokenData(
       (resObj: { resource_address: string | undefined }) =>
         resObj.resource_address === process.env.NEXT_PUBLIC_XRD_ADDRESS
     );
-    if (xrdResource && typeof xrdResource.amount === "number") {
-      result.xrdAmount = xrdResource.amount;
+    if (xrdResource && typeof xrdResource.amount === "string") {
+      result.xrdAmount = Number(xrdResource.amount);
     }
   }
+  // compute progress
   if (result.xrdAmount && result.maxXrdAmount) {
     result.progress = result.xrdAmount / result.maxXrdAmount;
   }
