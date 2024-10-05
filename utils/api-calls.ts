@@ -23,7 +23,7 @@ export async function getMainComponentState(
         componentAddress,
       apiResult
     );
-    throw new Error();
+    throw new Error(apiResult.message);
   } else {
     if (apiResult.data?.items?.length > 0) {
       const stateFields = apiResult.data.items[0].details?.state?.fields;
@@ -161,6 +161,7 @@ export async function getTokenData(
       }
     }
   }
+  // Get current XRD amount inside vault
   const componentFungibleResources =
     getComponentApiResult.data.items[0].fungible_resources?.items;
   if (componentFungibleResources.length > 0) {
@@ -172,6 +173,7 @@ export async function getTokenData(
       result.xrdAmount = Number(xrdResource.amount);
     }
   }
+  // compute progress
   if (result.xrdAmount && result.maxXrdAmount) {
     result.progress = result.xrdAmount / result.maxXrdAmount;
   }
