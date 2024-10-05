@@ -22,6 +22,25 @@ const josefinSans = Josefin_Sans({
 export const metadata: Metadata = {
   title: "DeXter Launchpad",
   description: "The first meme fair launch platform on Radix",
+  // icons: {
+  //   icon: "/images/favicon.png",
+  // },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: process.env.NEXT_PUBLIC_URL,
+    siteName: "Radix.Meme",
+    title: "DeXter Launchpad",
+    description: "The first meme fair launch platform on Radix",
+    images: [
+      {
+        url: process.env.NEXT_PUBLIC_OG_IMG_URL as string,
+        width: 1200,
+        height: 630,
+        alt: "Radix.Meme",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
