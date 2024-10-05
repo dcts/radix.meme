@@ -16,3 +16,8 @@ https://www.youtube.com/playlist?list=PLZbTckODZW5d4DoZgwIwxm5oHM-nHN1tz
 Instantly launch your coin with unlimited liquidity using a dynamic bonding curve.
 
 <img width="1339" alt="Bildschirmfoto 2024-09-26 um 21 17 34" src="https://github.com/user-attachments/assets/55da515f-ceff-4de1-8a95-484cbe8961c4">
+
+
+# Testing Setup
+
+You can add vitest test filtes simply by placing a file with the ending `.test.ts` or `.test.tsx` anywhere in the project. 
