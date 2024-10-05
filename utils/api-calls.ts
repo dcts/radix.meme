@@ -168,8 +168,8 @@ export async function getTokenData(
       (resObj: { resource_address: string | undefined }) =>
         resObj.resource_address === process.env.NEXT_PUBLIC_XRD_ADDRESS
     );
-    if (xrdResource && typeof xrdResource.amount === "number") {
-      result.xrdAmount = xrdResource.amount;
+    if (xrdResource && typeof xrdResource.amount === "string") {
+      result.xrdAmount = Number(xrdResource.amount);
     }
   }
   if (result.xrdAmount && result.maxXrdAmount) {
