@@ -59,7 +59,8 @@ export const CoinCard = ({ coin }: { coin: TTokenData }) => {
             <div className="ms-auto">
               {!!coin.maxXrdAmount && !!coin.xrdAmount && (
                 <span className="text-dexter-green whitespace-nowrap text-base">
-                  {(coin.xrdAmount/1000).toFixed(0)}k / {(coin.maxXrdAmount/1000).toFixed(0)}k XRD
+                  {(coin.xrdAmount / 1000).toFixed(0)}k /{" "}
+                  {(coin.maxXrdAmount / 1000).toFixed(0)}k XRD
                 </span>
               )}
             </div>
@@ -79,26 +80,26 @@ export const CoinCardSkeleton = () => {
     <div className="rounded-2xl w-[22rem] h-[29rem] p-4 overflow-hidden bg-dexter-grey-dark border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 m-2">
       <div className="relative z-50">
         <div className="px-4 py-1">
-          <Skeleton className="py-2 w-full h-44 rounded-lg" />
+          <Skeleton className="py-2 w-full h-44 rounded-lg bg-dexter-gray-b" />
 
           <h2 className="mt-4 flex items-center justify-between gap-x-2">
             <Skeleton className="w-28 h-6 rounded-xl bg-dexter-green/55" />
-            <Skeleton className="w-20 h-7 rounded-xl bg-dexter-gray/55" />
+            <Skeleton className="w-20 h-7 rounded-xl bg-dexter-gray-b" />
           </h2>
 
           <div className="text-stone-200/55 flex items-center mt-2">
             <span>Created by: </span>
-            <Skeleton className="ms-2 w-24 h-4 rounded-xl bg-stone-400/55" />
+            <Skeleton className="ms-2 w-24 h-4 rounded-xl bg-dexter-gray-b" />
           </div>
 
-          <Skeleton className="my-4 w-full h-14 rounded-xl bg-stone-600/55" />
+          <Skeleton className="my-4 w-full h-14 rounded-xl bg-dexter-gray-b" />
 
           <div className="flex items-center my-2">
             <h2 className="max-sm:text-base text-lg text-stone-200/55">
               Price:
             </h2>
             <div className="ms-auto flex items-center">
-              <Skeleton className="ms-4 w-20 h-8 rounded-xl bg-dexter-gray-b/55" />
+              <Skeleton className="ms-4 w-20 h-8 rounded-xl bg-dexter-gray-b" />
             </div>
           </div>
 
@@ -108,11 +109,11 @@ export const CoinCardSkeleton = () => {
             </h2>
             <div className="ms-auto flex items-center">
               <Skeleton className="w-12 h-4 rounded-xl bg-dexter-green/55" />
-              <Skeleton className="ms-4 w-16 h-8 rounded-xl bg-dexter-gray-b/55" />
+              <Skeleton className="ms-4 w-16 h-8 rounded-xl bg-dexter-gray-b" />
             </div>
           </div>
 
-          <Skeleton className="w-full h-4 rounded-xl bg-dexter-gray-b/55">
+          <Skeleton className="w-full h-4 rounded-xl bg-dexter-gray-b">
             <Progress value={randomPercentage} className="h-4" />
           </Skeleton>
         </div>
