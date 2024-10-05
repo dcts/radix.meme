@@ -66,7 +66,7 @@ export const CoinCard = ({ coin }: { coin: TTokenData }) => {
             </div>
           </div>
 
-          <Progress value={(coin?.progress || 0) * 100} className="h-4" />
+          <Progress value={(coin?.progress || 0) * 100} />
         </div>
       </div>
     </div>
@@ -114,7 +114,7 @@ export const CoinCardSkeleton = () => {
           </div>
 
           <Skeleton className="w-full h-4 rounded-xl bg-dexter-gray-b">
-            <Progress value={randomPercentage} className="h-4" />
+            <Progress value={randomPercentage} />
           </Skeleton>
         </div>
       </div>
