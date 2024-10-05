@@ -24,39 +24,39 @@ export async function getMainComponentState(
       apiResult
     );
     throw new Error(apiResult.message);
-  } else {
-    if (apiResult.data?.items?.length > 0) {
-      const stateFields = apiResult.data.items[0].details?.state?.fields;
-      stateFields.forEach((fieldData: any) => {
-        switch (fieldData.field_name) {
-          case "address": {
-            result.address = fieldData.value;
-            break;
-          }
-          case "owner_badge_manager": {
-            result.ownerBadge = fieldData.value;
-            break;
-          }
-          case "max_token_supply": {
-            result.maxTokenSupply = Number(fieldData.value);
-            break;
-          }
-          case "max_xrd": {
-            result.maxXrd = Number(fieldData.value);
-            break;
-          }
-          case "multiplier": {
-            result.maxXrd = fieldData.value;
-            break;
-          }
-          case "tokens": {
-            result.tokensKvs = fieldData.value;
-            break;
-          }
-        }
-      });
-    }
   }
+  if (apiResult.data?.items?.length <= 0) {
+    return result;
+  }
+  const stateFields = apiResult.data.items[0].details?.state?.fields;
+  stateFields.forEach((fieldData: any) => {
+    switch (fieldData.field_name) {
+      case "address": {
+        result.address = fieldData.value;
+        break;
+      }
+      case "owner_badge_manager": {
+        result.ownerBadge = fieldData.value;
+        break;
+      }
+      case "max_token_supply": {
+        result.maxTokenSupply = Number(fieldData.value);
+        break;
+      }
+      case "max_xrd": {
+        result.maxXrd = Number(fieldData.value);
+        break;
+      }
+      case "multiplier": {
+        result.maxXrd = fieldData.value;
+        break;
+      }
+      case "tokens": {
+        result.tokensKvs = fieldData.value;
+        break;
+      }
+    }
+  });
   return result;
 }
 
