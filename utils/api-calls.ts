@@ -84,13 +84,14 @@ export async function getAllTokensComponents(
       "Problem fetching all tokens components form radix api.",
       apiResult
     );
-  } else {
-    if (apiResult.data?.items) {
-      result = apiResult.data.items.map(
-        (kvsItemData: any) => kvsItemData.key?.programmatic_json?.value
-      );
-    }
+    return result;
   }
+  if (!apiResult.data?.items) {
+    return result;
+  }
+  result = apiResult.data.items.map(
+    (kvsItemData: any) => kvsItemData.key?.programmatic_json?.value
+  );
   return result;
 }
 
