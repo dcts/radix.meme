@@ -57,12 +57,10 @@ export const CoinCard = ({ coin }: { coin: TTokenData }) => {
           <div className="flex items-center my-2">
             <h2 className="text-base whitespace-nowrap">Sale progress:</h2>
             <div className="ms-auto">
-              {!!coin.maxXrdAmount && !!coin.xrdAmount && (
-                <span className="text-dexter-green whitespace-nowrap text-base">
-                  {(coin.xrdAmount / 1000).toFixed(0)}k /{" "}
-                  {(coin.maxXrdAmount / 1000).toFixed(0)}k XRD
-                </span>
-              )}
+              <span className="text-dexter-green whitespace-nowrap text-base">
+                {((coin.xrdAmount || 0) / 1000).toFixed(0)}k /{" "}
+                1000k XRD
+              </span>
             </div>
           </div>
 
