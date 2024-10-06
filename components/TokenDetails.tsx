@@ -26,6 +26,10 @@ import { getRdtOrThrow } from "@/app/_store/subscriptions";
 import RadixMemeButton from "./RadixMemeButton";
 import toast from "react-hot-toast";
 import { fetchBalance } from "@/app/_store/userSlice";
+// import {
+//   calcBuyXrdSpecified,
+//   calcSellTokensSpecified,
+// } from "@/utils/price-calcs";
 
 interface OrderSideTabProps {
   orderSide: OrderSide;
@@ -354,6 +358,20 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
                 className="w-full mx-auto mt-2"
               />
             )}
+            {/* <p className="opacity-50 text-sm mt-4 text-center">
+              {side === OrderSide.BUY &&
+                `you will receive ${calcBuyXrdSpecified(
+                  buyAmount || 0,
+                  1000000,
+                  3
+                )} ${token.symbol}`}
+              {side === OrderSide.SELL &&
+                `you will receive ${calcSellTokensSpecified(
+                  sellAmount || 0,
+                  1000000,
+                  3
+                )} XRD`}
+            </p> */}
           </div>
           <div>
             <div className="flex flex-row justify-between mt-8">
