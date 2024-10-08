@@ -253,7 +253,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
           />
         </div>
         <div className="p-4">
-          <div className="font-londrina text-4xl text-dexter-green-OG/90">
+          <div className="font-title text-4xl text-dexter-green-OG/90">
             {token.name}
           </div>
           {/* <button
@@ -262,7 +262,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
             >
               TEST
             </button> */}
-          <div className="font-josefin">
+          <div className="font-body">
             <div className="text-xs pt-2 pb-4 font-semibold">
               Created by: {shortenString(tokenAddress || "", 7, 4)}
             </div>
@@ -280,7 +280,7 @@ const TokenDetails = ({ tokenData }: { tokenData: TTokenData }) => {
             className="rounded-xl h-[500px] w-[500px]"
           />
         </div>
-        <div className="font-josefin md:p-4">
+        <div className="font-body md:p-4">
           <OrderSideTabs resetInput={resetInput} />
 
           <div className="border border-white-1 p-6 rounded-bl-sm rounded-br-sm bg-dexter-gray-c">
@@ -414,10 +414,10 @@ export const TokenDetailsSkeleton = () => {
           </div>
 
           <div className="p-4">
-            <div className="font-londrina text-4xl text-dexter-green-OG/90">
+            <div className="font-title text-4xl text-dexter-green-OG/90">
               <Skeleton className="w-full h-full rounded-xl" />
             </div>
-            <div className="font-josefin">
+            <div className="font-body">
               {/* coin name */}
               <Skeleton className="w-28 h-8 mb-2 rounded-xl bg-dexter-green/55" />
 
@@ -432,7 +432,7 @@ export const TokenDetailsSkeleton = () => {
           {/* chart */}
           <Skeleton className="w-full h-[96%] rounded-xl bg-dexter-gray-b" />
 
-          <div className="font-josefin md:p-4">
+          <div className="font-body md:p-4">
             <div className="flex">
               {/* OrderSideTabs */}
               <div

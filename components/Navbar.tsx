@@ -43,7 +43,7 @@ const Navbar = () => {
           style={{ width: "auto", height: "auto" }}
           className="hover:animate-spin transition duration-1000"
         />
-        <span className="font-londrina max-sm:mx-2 sm:mx-3 text-xl font-black tracking-wider">
+        <span className="font-title max-sm:mx-2 sm:mx-3 text-xl font-black tracking-wider">
           RADIX.MEME
         </span>
         <BetaLabel text="STOKENET"/>
@@ -71,7 +71,7 @@ export const BetaLabel = ({
 }) => {
   return (
     <span
-      className={`font-londrina text-[16px] tracking-[1px] bg-dexter-red text-sm font-bold px-2 py-[0.15rem] rounded-md hover:scale-[1.2] transition-transform duration-300 ${
+      className={`font-title text-[16px] tracking-[1px] bg-dexter-red text-sm font-bold px-2 py-[0.15rem] rounded-md hover:scale-[1.2] transition-transform duration-300 ${
         additionalClasses || ""
       }`}
     >
