@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../public/racoon-head.png";
+import racoonHead from "../public/racoon-head.svg";
+import radixMemeLettering from "../public/radix-meme-lettering.svg";
 import { useAppDispatch } from "@/app/_hooks/hooks";
 import { useEffect, useRef } from "react";
 import { userSlice } from "@/app/_store/userSlice";
@@ -33,20 +34,19 @@ const Navbar = () => {
   // const { balances } = useAppSelector((state) => state.user);
   // const xrdBalance = balances[process.env.NEXT_PUBLIC_XRD_ADDRESS || ""] || -1;
   return (
-    <header className="w-full h-full flex items-center justify-between px-8">
+    <header className="w-full h-[80px] flex items-center justify-between px-6">
       <Link href="/" className="flex justify-center items-center relative">
         <Image
           alt="racoon head"
-          src={logo}
-          width={50}
-          height={50}
-          style={{ width: "auto", height: "auto" }}
-          className="hover:animate-spin transition duration-1000"
+          src={racoonHead}
+          style={{ width: "auto", height: "40px" }}
+          className="mr-2 hover:animate-spin transition duration-1000"
         />
-        <span className="font-title max-sm:mx-2 sm:mx-3 text-xl font-black tracking-wider">
-          RADIX.MEME
-        </span>
-        <BetaLabel text="STOKENET"/>
+        <Image
+          alt="radix meme lettering"
+          src={radixMemeLettering}
+        />
+        <BetaLabel text="STOKENET" additionalClasses="ml-2"/>
       </Link>
       <div className="h-full flex items-center">
         <radix-connect-button
