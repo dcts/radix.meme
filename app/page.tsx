@@ -40,8 +40,8 @@ export default function Home() {
         <div className="h-[calc(100lvh-20rem)] mt-16 md:pt-24 lg:pt-24 sm:pt-18 flex justify-around items-center mx-16 xl:mx-[4.5rem] 2xl:mx-20 px-8 2xl:px-20 gap-x-32">
           <div className="flex flex-col gap-8 items-center sm:items-start">
             <div className="list-inside list-decimal text-sm text-center sm:text-left ">
-              <h1 className="relative font-[family-name:var(--font-londrina-solid)] text-8xl max-sm:text-6xl max-md:text-8xl md:text-8xl mb-4 font-black tracking-wider">
-                RADIX.MEME
+              <h1 className="relative font-londrina text-8xl max-sm:text-6xl max-md:text-8xl md:text-8xl mb-4 font-black tracking-wider">
+                RADIX.MEMES
                 <span className="absolute -top-6 right-0 text-base flex gap-x-2">
                   <span className="text-[20px] tracking-[2px] text-dexter-green-OG/80">
                     By DeXter
@@ -49,12 +49,12 @@ export default function Home() {
                   <BetaLabel text="STOKENET" additionalClasses="!text-[20px]" />
                 </span>
               </h1>
-              <p className="font-[family-name:var(--font-josefin-sans)] text-2xl max-sm:text-l max-md:text-2xl md:text-2xl md:mb-6 lg:mb-6 sm:mb-2 max-w-lg sm:max-w-sm md:max-w-md font-normal !leading-8">
+              <p className="font-josefin text-2xl max-sm:text-l max-md:text-2xl md:text-2xl md:mb-6 lg:mb-6 sm:mb-2 max-w-lg sm:max-w-sm md:max-w-md font-normal !leading-8">
                 Instantly launch your coin with unlimited liquidity using a
                 dynamic bonding curve.
               </p>
             </div>
-            <div className="flex items-center flex-col sm:flex-row font-[family-name:var(--font-josefin-sans)]">
+            <div className="flex items-center flex-col sm:flex-row font-josefin">
               <RadixMemeButton
                 as={Link}
                 href="/launch"
@@ -75,7 +75,7 @@ export default function Home() {
         <div className="grid max-sm:grid-cols-[3rem_1fr_3rem] max-md:grid-cols-[6rem_1fr_6rem] md:grid-cols-[8rem_1fr_8rem] w-full h-full">
           <div className="bg-dexter-grey-dark h-full"></div>
           <div className="flex flex-col items-center pt-8 pb-12 rounded-[20px] mb-5 border border-[#434343] ">
-            <h3 className="max-sm:text-2xl sm:text-3xl font-[family-name:var(--font-londrina-solid)] opacity-90 tracking-widest mb-4">
+            <h3 className="max-sm:text-2xl sm:text-3xl font-londrina opacity-90 tracking-widest mb-4">
               What are you waiting for?
             </h3>
             <RadixMemeButton
@@ -106,7 +106,7 @@ const ModalWrapper = () => {
       <ModalBody>
         <ModalContent>
           <div className="space-y-4 rounded-md text-center mx-auto sm:mx-0">
-            <div className="font-[family-name:var(--font-londrina-solid)] text-3xl font-bold pb-3">
+            <div className="font-londrina text-3xl font-bold pb-3">
               How does it work?
             </div>
             <div className="justify-center md:gap-1 lg:gap-1 sm:gap-2 gap-2 grid md:grid-cols-3">

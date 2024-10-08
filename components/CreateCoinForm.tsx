@@ -132,7 +132,7 @@ const CreateCoinForm = () => {
     <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-6 max-sm:max-w-72 font-[family-name:var(--font-josefin-sans)]"
+        className="font-josefin flex flex-col gap-6 max-sm:max-w-72"
       >
         <div className="flex flex-col">
           <Label htmlFor="image">Image *</Label>
