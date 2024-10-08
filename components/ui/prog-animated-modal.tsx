@@ -151,7 +151,7 @@ export const ModalContent = ({
         className
       )}
     >
-      <div className="flex flex-col font-[family-name:var(--font-josefin-sans)">
+      <div className="font-body flex flex-col">
         <div>
           <Image
             src={successRaccoon}

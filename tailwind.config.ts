@@ -3,6 +3,7 @@ const {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
 } = require("tailwindcss/lib/util/flattenColorPalette");
 import type { Config } from "tailwindcss";
+import { fontFamily } from 'tailwindcss/defaultTheme';
 
 const config = {
   darkMode: ["class"],
@@ -21,6 +22,10 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        title: ['var(--font-title)', ...fontFamily.sans], // Title font
+        josefin: ['var(--font-body)', ...fontFamily.sans], // Body font
+      },
       colors: {
         "dexter-green": "#A7D22D",
         "dexter-green-OG": "#CAFC40",

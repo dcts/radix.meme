@@ -18,7 +18,7 @@ const sharedClasses = `
   max-sm:text-sm sm:text-base
   max-sm:h-9 sm:h-11
   border border-b-4
-  font-[family-name:var(--font-josefin-sans)] 
+  font-body
   font-bold
   rounded-lg
   transition duration-300 transition-all

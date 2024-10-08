@@ -3,19 +3,19 @@ import "./globals.css";
 import StoreProvider from "./_store/StoreProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Londrina_Solid, Josefin_Sans } from "next/font/google";
+import { Jersey_25, Roboto } from "next/font/google";
 import Toaster from "../components/Toaster";
 import { Analytics } from "@vercel/analytics/react";
 
-const londrinaSolid = Londrina_Solid({
-  weight: ["100", "300", "400", "900"],
-  variable: "--font-londrina-solid",
+const titleFont = Jersey_25({
+  weight: ["400"],
+  variable: "--font-title",
   subsets: ["latin"],
 });
 
-const josefinSans = Josefin_Sans({
-  weight: ["100", "300", "400", "700"],
-  variable: "--font-josefin-sans",
+const bodyFont = Roboto({
+  weight: ["400", "700"],
+  variable: "--font-body",
   subsets: ["latin"],
 });
 
@@ -51,9 +51,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${londrinaSolid.variable} ${josefinSans.variable} antialiased`}
+        className={`${bodyFont.variable} ${titleFont.variable} antialiased`}
       >
-        <div className="grid grid-rows-[6rem_1fr_4rem] items-center justify-items-center min-h-screen font-[family-name:var(--font-londrinaSolid-sans)]">
+        <div className="grid grid-rows-[6rem_1fr_4rem] items-center justify-items-center min-h-screen">
           <StoreProvider>
             <Navbar />
             {children}
