@@ -53,7 +53,7 @@ export default function RootLayout({
       <body
         className={`${bodyFont.variable} ${titleFont.variable} antialiased`}
       >
-        <div className="grid grid-rows-[6rem_1fr_4rem] items-center justify-items-center min-h-screen">
+        <div className="grid items-center justify-items-center min-h-screen">
           <StoreProvider>
             <Navbar />
             {children}
