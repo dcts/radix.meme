@@ -26,6 +26,14 @@ const config = {
         title: ['var(--font-title)', ...fontFamily.sans], // Title font
         josefin: ['var(--font-body)', ...fontFamily.sans], // Body font
       },
+      screens: {
+        'xl': '1500px', // >= 1500px for the largest container/cards
+        'lg': '1280px', // >= 1280px for full-width gallery
+        'md': '990px',  // >= 990px for two cards split
+      },
+      maxWidth: {
+        '1440': '1440px',  // max-width for the container at larger screen sizes
+      },
       colors: {
         "dexter-green": "#A7D22D",
         "dexter-green-OG": "#CAFC40",
@@ -42,6 +50,9 @@ const config = {
         "dexter-gray-b": "#212426",
         "dexter-gray-c": "#181818",
         "dexter-green-faded": "#637E17",
+        "almost-white": "#D9D9D9",
+        "radix-meme-grey-100": "#202020",
+        "radix-meme-grey-200": "#404040",
 
         // aceternity
         border: "hsl(var(--border))",

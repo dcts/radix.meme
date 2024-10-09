@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 import AllCoinsGetDataWrapper from "./AllCoinsGetDataWrapper";
-import { CoinCardSkeleton } from "./CoinCard";
+import { CoinCardSkeleton } from "./AllCoinsCards";
 
 type TProps = {
   className?: string;
@@ -10,13 +10,14 @@ type TProps = {
 // server-component
 export const AllCoinsGallery = ({ className }: TProps) => {
   return (
-    <div className="mt-[8rem] sm:mt-[8rem] lg:mt-[10rem] md:mt-[10rem] py-12">
-      <h1 className="font-title text-6xl flex justify-center">
+    <div className="">
+      <h1 className="font-title text-3xl flex justify-center">
         Last Tokens
       </h1>
       <div
         className={cn(
-          "font-body flex flex-wrap items-stretch max-md:place-content-center py-10 justify-center",
+          // "font-body flex flex-wrap items-stretch py-10 justify-center w-full",
+          "font-body w-full flex flex-wrap",
           className
         )}
       >

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { SparklesCore } from "@/components/ui/sparkles";
 
+import nyanCat from "../public/nyan-cat.gif";
 import heroRocketRacoon from "../public/hero-rocket-racoon.svg";
 import bigCoin from "../public/big-filled-coin.svg";
 import mediumCoin from "../public/medium-filled-coin.svg";
@@ -18,7 +19,6 @@ import {
   ModalTrigger,
   ModalFooter,
 } from "@/components/ui/animated-modal";
-import { BetaLabel } from "@/components/Navbar";
 import { AllCoinsGallery } from "@/components/AllCoinsGallery";
 import RadixMemeButton from "@/components/RadixMemeButton";
 
@@ -36,38 +36,8 @@ export default function Home() {
           particleColor="#FFFFFF"
         />
       </div>
-      <main>
-        <div className="h-[calc(100lvh-20rem)] mt-16 md:pt-24 lg:pt-24 sm:pt-18 flex justify-around items-center mx-16 xl:mx-[4.5rem] 2xl:mx-20 px-8 2xl:px-20 gap-x-32">
-          <div className="flex flex-col gap-8 items-center sm:items-start">
-            <div className="list-inside list-decimal text-sm text-center sm:text-left ">
-              <h1 className="relative font-title text-8xl max-sm:text-6xl max-md:text-8xl md:text-8xl mb-4 font-black tracking-wider">
-                RADIX.MEME
-                <span className="absolute -top-6 right-0 text-base flex gap-x-2">
-                  <span className="text-[20px] tracking-[2px] text-dexter-green-OG/80">
-                    By DeXter
-                  </span>
-                  <BetaLabel text="STOKENET" additionalClasses="!text-[20px]" />
-                </span>
-              </h1>
-              <p className="font-body text-2xl max-sm:text-l max-md:text-2xl md:text-2xl md:mb-6 lg:mb-6 sm:mb-2 max-w-lg sm:max-w-sm md:max-w-md font-normal !leading-8">
-                Instantly launch your coin with unlimited liquidity using a
-                dynamic bonding curve.
-              </p>
-            </div>
-            <div className="font-body flex items-center flex-col sm:flex-row">
-              <RadixMemeButton
-                as={Link}
-                href="/launch"
-                text="Launch your token"
-                icon={<HiMiniRocketLaunch />}
-                className="md:mr-3 sm:mr-0 lg:mr-3"
-                variant="cta"
-              />
-              <ModalWrapper />
-            </div>
-          </div>
-          <HeroImages />
-        </div>
+      <main className="w-full">
+        <Header />
         <div className="bg-dexter-grey-dark">
           <AllCoinsGallery />
         </div>
@@ -92,6 +62,33 @@ export default function Home() {
   );
 }
 
+const Header = () => {
+  return (
+    <div className="h-80">
+      <div className="flex justify-center items-center h-full w-full">
+        <div className="flex flex-col lg:justify-center justify-start p-6 w-full">
+          <h1 className="font-title text-4xl text-center max-w-[600px] m-auto sm:text-[50px] sm:leading-[50px] pb-8 text-almost-white lg:text-left lg:m-0">
+            Instantly launch your meme coin with{" "}
+            <span className="text-dexter-green">unlimited liquidity</span>
+          </h1>
+          <div className="font-body flex items-center flex-row m-auto lg:m-0">
+            <ModalWrapper />
+            <RadixMemeButton
+              as={Link}
+              href="/launch"
+              text="Launch your token"
+              icon={<HiMiniRocketLaunch />}
+              className=""
+              variant="cta"
+            />
+          </div>
+        </div>
+        <div className="hidden"><HeroImages /></div>
+      </div>
+    </div>
+  );
+};
+
 const ModalWrapper = () => {
   return (
     <Modal>
@@ -100,7 +97,7 @@ const ModalWrapper = () => {
           as="span"
           text="How does it work ?"
           variant="secondary"
-          className="mx-auto"
+          className="mr-4"
         />
       </ModalTrigger>
       <ModalBody>
@@ -172,31 +169,38 @@ const ModalWrapper = () => {
   );
 };
 
+// TODO: reposition with new layout
 const HeroImages = () => {
   return (
-    <div className="relative w-96 h-96 max-xl:hidden mr-32">
+    <div className="relative w-64 h-96 max-xl:hidden mr-32">
       <Image
         src={bigCoin}
         alt="bigCoin"
-        width={105}
-        className="absolute top-4 left-20 animate-float"
+        width={60}
+        className="absolute animate-float" //top-4 left-20
       />
       <Image
         src={mediumCoin}
         alt="mediumCoin"
-        width={75}
-        className="absolute bottom-4 -right-2  animate-float"
+        width={40}
+        className="absolute animate-float" //bottom-4 -right-2
       />
       <Image
         src={smallCoin}
         alt="smallCoin"
-        className="absolute bottom-24 -left-8 2xl:-left-12 animate-float"
+        className="absolute animate-float" //bottom-24 -left-8 2xl:-left-12
       />
       <Image
         src={heroRocketRacoon}
         alt="rocket"
         height={475}
-        className="absolute animate-floatRocket top-10 left-6"
+        className="absolute animate-floatRocket" //  top-10 left-6
+      />
+      <Image
+        src={nyanCat}
+        alt="rocket"
+        height={1200}
+        className="absolute animate-floatRocket w-96" //  top-10 left-6
       />
     </div>
   );

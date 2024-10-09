@@ -15,14 +15,14 @@ type AsProps<T extends ElementType> = {
 const sharedClasses = `
   flex items-center justify-center gap-x-2
   px-4 py-2
-  max-sm:text-sm sm:text-base
-  max-sm:h-9 sm:h-11
+  h-[44px]
   border border-b-4
-  font-body
-  font-bold
+  font-title
+  uppercase
+  text-[16px]
   rounded-lg
   transition duration-300 transition-all
-  font-bold text-lg transition duration-100 active:translate-y-1
+  transition duration-100 active:translate-y-1
 `;
 
 const extraClasses = {
@@ -34,6 +34,7 @@ const extraClasses = {
     `,
   secondary: `
     bg-dexter-grey-dark 
+    text-almost-white
     border-white`,
   cta: `
     text-dexter-grey-light

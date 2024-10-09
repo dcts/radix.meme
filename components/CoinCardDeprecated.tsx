@@ -1,9 +1,10 @@
+// TODO: delete this file after redesign. Leaving here only for reference
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { TTokenData } from "@/types";
 
-export const CoinCard = ({ coin }: { coin: TTokenData }) => {
+export const CoinCardDeprecated = ({ coin }: { coin: TTokenData }) => {
   const hasLastPrice = !!coin.lastPrice;
 
   return (
@@ -71,7 +72,7 @@ export const CoinCard = ({ coin }: { coin: TTokenData }) => {
   );
 };
 
-export const CoinCardSkeleton = () => {
+export const CoinCardDeprecatedSkeleton = () => {
   const randomPercentage = Math.floor(Math.random() * 101);
 
   return (
