@@ -19,7 +19,6 @@ import {
   ModalTrigger,
   ModalFooter,
 } from "@/components/ui/animated-modal";
-import { BetaLabel } from "@/components/Navbar";
 import { AllCoinsGallery } from "@/components/AllCoinsGallery";
 import RadixMemeButton from "@/components/RadixMemeButton";
 
@@ -84,7 +83,7 @@ const Header = () => {
             />
           </div>
         </div>
-        <div className="hidden">{/* <HeroImages /> */}</div>
+        <div className="hidden"><HeroImages /></div>
       </div>
     </div>
   );
@@ -170,6 +169,7 @@ const ModalWrapper = () => {
   );
 };
 
+// TODO: reposition with new layout
 const HeroImages = () => {
   return (
     <div className="relative w-64 h-96 max-xl:hidden mr-32">

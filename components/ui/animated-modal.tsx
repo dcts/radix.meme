@@ -70,6 +70,8 @@ export const ModalBody = ({
   className?: string;
 }) => {
   const { open } = useModal();
+  const { setOpen } = useModal();
+  const modalRef = useRef(null);
 
   useEffect(() => {
     if (open) {
@@ -91,10 +93,8 @@ export const ModalBody = ({
     return () => {
       document.removeEventListener("keydown", handleEsc);
     };
-  }, [open]);
+  }, [open, setOpen]);
 
-  const modalRef = useRef(null);
-  const { setOpen } = useModal();
   useOutsideClick(modalRef, () => setOpen(false));
 
   return (
