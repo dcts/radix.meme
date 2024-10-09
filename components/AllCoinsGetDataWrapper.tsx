@@ -1,5 +1,6 @@
 import { getAllTokensData, getMainComponentState } from "@/utils/api-calls";
 import AllCoinsCards from "./AllCoinsCards";
+// import AllCoinsCardsDeprecated from "./AllCoinsCardsDeprecated";
 
 // get all coins on chain data
 // executed server side
@@ -18,6 +19,8 @@ const AllCoinsGetDataWrapper = async () => {
   const allCoinsData = await getCoinData();
 
   // client-component
+  // TODO: remove once implementation done
+  // return <AllCoinsCardsDeprecated allCoinsData={allCoinsData} />;
   return <AllCoinsCards allCoinsData={allCoinsData} />;
 };
 

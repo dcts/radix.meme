@@ -1,9 +1,9 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+// import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { CoinCard } from "./CoinCard";
-import { useState } from "react";
+// import { CoinCard } from "./CoinCard";
+// import { useState } from "react";
 import type { TTokenData } from "@/types";
 
 type TProps = {
@@ -12,17 +12,17 @@ type TProps = {
 
 // client-component
 const AllCoinsCards = ({ allCoinsData }: TProps) => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  
-  return allCoinsData?.map((coin, idx) => (
-    <Link
-      href={`/token/${coin?.address}?componentAddress=${coin.componentAddress}`}
-      key={coin?.address}
-      className="relative group block p-2 h-full w-fit"
-      onMouseEnter={() => setHoveredIndex(idx)}
-      onMouseLeave={() => setHoveredIndex(null)}
-    >
-      <AnimatePresence>
+  return (
+    <div className="font-body w-full flex flex-wrap justify-center p-6 gap-4">
+      {allCoinsData?.map((coin, idx) => (
+        <Link
+          href={`/token/${coin?.address}?componentAddress=${coin.componentAddress}`}
+          key={coin?.address}
+          className="bg-dexter-green rounded-lg h-[222px] min-w-[390px] lg:max-w-[475px] flex-1"
+          // onMouseEnter={() => setHoveredIndex(idx)}
+          // onMouseLeave={() => setHoveredIndex(null)}
+        >
+          {/* <AnimatePresence>
         {hoveredIndex === idx && (
           <motion.span
             className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-dexter-gradient-blue/10 block  rounded-3xl"
@@ -38,11 +38,28 @@ const AllCoinsCards = ({ allCoinsData }: TProps) => {
             }}
           />
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
 
-      <CoinCard coin={coin} />
-    </Link>
-  ));
+          {/* <CoinCardDeprecated coin={coin} /> */}
+          <CoinCard coin={coin} />
+        </Link>
+      ))}
+    </div>
+  );
 };
 
 export default AllCoinsCards;
+
+const CoinCard = ({ coin }: { coin: TTokenData }) => {
+  // const hasLastPrice = !!coin.lastPrice;
+
+  return (
+    <div className="font-title">
+      <p>{coin.symbol}</p>
+    </div>
+  );
+};
+
+export const CoinCardSkeleton = () => {
+  return <div className=""></div>;
+};

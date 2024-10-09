@@ -37,7 +37,7 @@ export default function Home() {
           particleColor="#FFFFFF"
         />
       </div>
-      <main>
+      <main className="w-full">
         <Header />
         <div className="bg-dexter-grey-dark">
           <AllCoinsGallery />
