@@ -51,6 +51,8 @@ const config = {
         "dexter-gray-c": "#181818",
         "dexter-green-faded": "#637E17",
         "almost-white": "#D9D9D9",
+        "radix-meme-grey-100": "#202020",
+        "radix-meme-grey-200": "#404040",
 
         // aceternity
         border: "hsl(var(--border))",
