@@ -1,3 +1,4 @@
+// TODO: delete this file after redesign. Leaving here only for reference
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
