@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 import AllCoinsGetDataWrapper from "./AllCoinsGetDataWrapper";
-import { CoinCardSkeleton } from "./CoinCard";
+import { CoinCardSkeleton } from "./AllCoinsCards";
 
 type TProps = {
   className?: string;
