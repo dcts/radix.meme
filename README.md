@@ -21,3 +21,5 @@ Instantly launch your coin with unlimited liquidity using a dynamic bonding curv
 # Testing Setup
 
 You can add vitest test filtes simply by placing a file with the ending `.test.ts` or `.test.tsx` anywhere in the project. 
+
+Add a line.
