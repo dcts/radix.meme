@@ -54,6 +54,7 @@ const config = {
         "radix-meme-grey-100": "#202020",
         "radix-meme-grey-200": "#404040",
         "radix-meme-grey-300": "#292828",
+        "radix-meme-grey-400": "#A2A2A2",
 
         // aceternity
         border: "hsl(var(--border))",

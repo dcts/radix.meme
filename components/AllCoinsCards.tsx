@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { TTokenData } from "@/types";
+import { Progress } from "@/components/ui/progress";
+import { IoTimeOutline } from "react-icons/io5";
 
 type TProps = {
   allCoinsData: TTokenData[];
@@ -28,59 +30,57 @@ const CoinCard = ({ coin }: { coin: TTokenData }) => {
     <Link
       href={`/token/${coin?.address}?componentAddress=${coin.componentAddress}`}
       key={coin?.address}
-      className="bg-radix-meme-grey-100 rounded-lg h-[222px] border-2 border-radix-meme-grey-200 hover:border-dexter-green p-4"
+      className="bg-radix-meme-grey-100 rounded-lg h-[200px] w-[450px] border-2 border-radix-meme-grey-200 hover:border-dexter-green p-4"
     >
       <div className="flex flex-row">
         <Image
           src={coin.iconUrl || ""}
           alt={coin.name || ""}
-          width={100}
-          height={100}
-          className="object-cover w-[100px] h-[100px] rounded-lg rounded-br-none"
+          width={80}
+          height={80}
+          className="object-cover w-[80px] h-[80px] rounded-lg rounded-br-none"
         />
         <div className="flex flex-col ml-4">
-          <div className="flex flex-row font-title text-xl gap-1">
-            <p className=" text-dexter-green-OG">{coin.name} </p>
-            <p className="">({coin.symbol})</p>
+          <div className="flex flex-row font-title text-2xl gap-1">
+            <p className="text-dexter-green-OG">{coin.name} </p>
+            <p>(${coin.symbol})</p>
           </div>
-          <div className="font-body text-xs mt-1">
-            <div className="flex flex-row gap-4">
-              <div>
-                <p>@creator</p>
-              </div>
-              <div>
-                <p>2 days ago</p>
-              </div>
-            </div>
+          <div className="font-body text-sm mt-1">
             <div>
-              <p className="mt-2">
+              <p className="text-radix-meme-grey-400 text-sm">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Pellentesque interdum rutrum sodales. Nullam mattis fermentum
-                libero, non volutpat.
+                Pellentesque ...
               </p>
             </div>
           </div>
         </div>
-        <div></div>
       </div>
       <div>
-        <div className="font-title flex flex-row justify-between text-xl mt-2">
-          <p>Market Cap:</p>
-          <p>0 / 100k XRD (0%)</p>
+        <div className="font-title flex flex-row justify-between text-xl mt-3">
+          <p>Market cap:</p>
+          <div className="flex flex-row gap-1">
+            <p>0 / 100k XRD</p>
+            <p className="text-dexter-green-OG">(0%)</p>
+          </div>
         </div>
-        <div>
-          <p className="text-xs">Line</p>
+        <div className="mt-1">
+          <Progress />
         </div>
-        <div className="flex flex-row justify-evenly font-title gap-1">
-          <p className="flex-grow border border-1 solid bg-radix-meme-grey-300 px-6 py-1 text-center">
-            56
-          </p>
-          <p className="flex-grow border border-1 solid bg-radix-meme-grey-300 px-6 py-1 text-center">
-            9.5 XRD
-          </p>
-          <p className="flex-grow border border-1 solid bg-radix-meme-grey-300 px-6 py-1 text-center">
-            0.0062 XRD
-          </p>
+        <div className="flex flex-row justify-between gap-1 mt-2 font-body text-sm">
+          <div className="flex flex-row gap-1 justify-center flex-grow px-4 py-1">
+            <div className="flex items-center">
+              <IoTimeOutline />
+            </div>
+            <p>2 d</p>
+          </div>
+          <div className="flex flex-row flex-grow px-4 py-1 justify-center gap-1">
+            <p className="font-bold">97</p>
+            <p className="text-radix-meme-grey-400">Holders</p>
+          </div>
+          <div className="flex flex-row px-4 py-1 gap-1 text-center">
+            <p className="font-bold">9.5K XRD</p>
+            <p className="text-radix-meme-grey-400">24h Vol.</p>
+          </div>
         </div>
       </div>
     </Link>
