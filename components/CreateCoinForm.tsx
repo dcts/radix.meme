@@ -133,32 +133,38 @@ const CreateCoinForm = () => {
 
   return (
     <div>
-      <div className="w-full max-w-lg">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="font-body flex flex-col gap-6"
-        >
-          <div className="flex flex-col text-center mt-6 text-sm">
-            <Label htmlFor="image">Token image *</Label>
-            <div className="relative z-50">
-              <Input
-                type="file"
-                id="image"
-                {...register("image")}
-                onChange={handleFileUpload} // Trigger upload on file selection
-                ref={(e) => {
-                  fileInputRef.current = e;
-                  register("image").ref(e);
-                }}
-                className={`
-                relative
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="font-body flex flex-col gap-6"
+      >
+        <div className="flex flex-col text-center mt-6 text-sm gap-1">
+          <Label htmlFor="image">Token image *</Label>
+          <div className="relative z-50 !w-[96px] flex justify-center mx-auto">
+            <Input
+              type="file"
+              id="image"
+              {...register("image")}
+              onChange={handleFileUpload} // Trigger upload on file selection
+              ref={(e) => {
+                fileInputRef.current = e;
+                register("image").ref(e);
+              }}
+              className={`
+                flex
+                justify-center
+                mx-auto
                 border-none
                 cursor-pointer
-                h-48
-                mt-1
+                h-[96px]
+                w-[96px]
+                bg-radix-meme-grey-500
 
                 after:absolute
-                after:content-['+']
+                after:content-['+'] after:scale-75
+                after:text-[4rem]
+                after:font-bold
+                after:text-radix-meme-grey-600
+
 
                 ${
                   imageIsUploading
@@ -168,161 +174,159 @@ const CreateCoinForm = () => {
                 after:top-1/2
                 after:left-1/2
                 after:-translate-x-1/2
-                after:-translate-y-[42%]
-                after:text-[16rem]
+                after:-translate-y-[95%]
+                after:text-[8rem]
 
-                hover:after:scale-105
+                hover:after:scale-90
               `}
+            />
+            {iconUrl && (
+              <button
+                className="absolute top-2 right-2 p-1 rounded-full shadow-md z-50"
+                onClick={handleCloseIconClick}
+              >
+                <FaRegTrashAlt />
+              </button>
+            )}
+            {imageIsUploading && (
+              <div className="absolute z-[9999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-[42%]">
+                <Loading />
+              </div>
+            )}
+            {!imageIsUploading && iconUrl && (
+              <Image
+                src={iconUrl}
+                alt={"uploaded image"}
+                width={96}
+                height={96}
+                className="absolute bg-radix-meme-grey-500 top-1/2 left-1/2 -translate-x-1/2 -translate-y-[50%] object-cover border rounded-md z-0"
+                style={{ width: "96px", height: "96px" }}
               />
-              {iconUrl && (
-                <button
-                  className="absolute top-2 right-2 p-1 rounded-full shadow-md z-50"
-                  onClick={handleCloseIconClick}
-                >
-                  <FaRegTrashAlt />
-                </button>
-              )}
-              {imageIsUploading && (
-                <div className="absolute z-[9999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-[42%]">
-                  <Loading />
-                </div>
-              )}
-              {!imageIsUploading && iconUrl && (
-                <Image
-                  src={iconUrl}
-                  alt={"uploaded image"}
-                  width={96}
-                  height={96}
-                  className="absolute bg-stone-800 top-1/2 left-1/2 -translate-x-1/2 -translate-y-[50%] object-cover border rounded-md z-0"
-                  style={{ width: "96px", height: "96px" }}
-                />
-              )}
-            </div>
+            )}
+          </div>
 
-            {errors.image && (
+          {errors.image && (
+            <span className="text-red-500">
+              {(errors.image.message as string) || "Error"}
+            </span>
+          )}
+          <p className="text-xs mt-1 text-radix-meme-grey-200">
+            .jpeg, .jpg, or .png
+          </p>
+        </div>
+        <div className="text-sm gap-6 flex flex-col">
+          <div className="flex flex-col gap-1">
+            <div className="flex flex-row justify-between">
+              <Label htmlFor="name">Token name *</Label>
+              <span className="text-right text-radix-meme-grey-200">
+                {watch("name")?.length ?? 0}/{TOKEN_MAX_CHAR_COUNT}
+              </span>
+            </div>
+            <Input
+              type="text"
+              id="name"
+              placeholder="E.G.: Memecoin"
+              maxLength={TOKEN_MAX_CHAR_COUNT}
+              className="placeholder:text-radix-meme-grey-600"
+              {...register("name")}
+            />
+            {errors.name && (
               <span className="text-red-500">
-                {(errors.image.message as string) || "Error"}
+                {(errors.name.message as string) || "Error"}
               </span>
             )}
-            <p className="text-xs font-light mt-1 text-radix-meme-grey-400">
-              .jpeg, .jpg, or .png
-            </p>
           </div>
-          <div className="text-sm gap-6 flex flex-col">
-            <div className="flex flex-col">
-              <div className="flex flex-row justify-between">
-                <Label htmlFor="name">Token name *</Label>
-                <span className="text-right text-radix-meme-grey-200">
-                  {watch("name")?.length ?? 0}/{TOKEN_MAX_CHAR_COUNT}
-                </span>
-              </div>
-              <Input
-                type="text"
-                id="name"
-                placeholder="E.G.: Meme token"
-                maxLength={TOKEN_MAX_CHAR_COUNT}
-                className="mt-1"
-                {...register("name")}
-              />
-              {errors.name && (
-                <span className="text-red-500">
-                  {(errors.name.message as string) || "Error"}
-                </span>
-              )}
+          <div className="flex flex-col gap-1">
+            <div className="flex flex-row justify-between">
+              <Label htmlFor="name">Token ticker *</Label>
+              <span className="text-right text-radix-meme-grey-200">
+                {watch("ticker")?.length ?? 0}/{TOKEN_MAX_CHAR_COUNT}
+              </span>
             </div>
-            <div className="flex flex-col">
-              <div className="flex flex-row justify-between">
-                <Label htmlFor="name">Token ticker *</Label>
-                <span className="text-right text-radix-meme-grey-200">
-                  {watch("ticker")?.length ?? 0}/{TOKEN_MAX_CHAR_COUNT}
-                </span>
-              </div>
-              <Input
-                type="text"
-                id="symbol"
-                placeholder="E.G.: MEME"
-                maxLength={TOKEN_MAX_CHAR_COUNT}
-                className="mt-1"
-                {...register("ticker")}
-              />
-              {errors.ticker && (
-                <span className="text-red-500">
-                  {(errors.ticker.message as string) || "Error"}
-                </span>
-              )}
-            </div>
-            <div className="flex flex-col">
-              <div className="flex flex-row justify-between">
-                <Label htmlFor="description">Description (optional)</Label>
-                <span className="text-right text-radix-meme-grey-200">
-                  {watch("description")?.length ?? 0}/
-                  {DESCRIPTION_MAX_CHAR_COUNT}
-                </span>
-              </div>
-              <Textarea
-                id="description"
-                placeholder="E.g.: A token designed to honor and embrace the meme culture within the crypto community."
-                maxLength={DESCRIPTION_MAX_CHAR_COUNT}
-                className="mt-1"
-                {...register("description")}
-              />
-              {errors.description && (
-                <span className="text-red-500">
-                  {(errors.description.message as string) || "Error"}
-                </span>
-              )}
-            </div>
+            <Input
+              type="text"
+              id="symbol"
+              placeholder="E.G.: MEME"
+              maxLength={TOKEN_MAX_CHAR_COUNT}
+              className="placeholder:text-radix-meme-grey-600"
+              {...register("ticker")}
+            />
+            {errors.ticker && (
+              <span className="text-red-500">
+                {(errors.ticker.message as string) || "Error"}
+              </span>
+            )}
           </div>
-          <button
-            type="button"
-            className="flex text-center justify-center gap-x-2 px-8 py-2 sm:h-11 border border-almost-white border-b-4 border-b-almost-white rounded-lg font-title uppercase text-almost-white font-normal bg-dexter-gray-c"
-            onClick={handleSocials}
-          >
-            + Add social links
-          </button>
+          <div className="flex flex-col gap-1">
+            <div className="flex flex-row justify-between">
+              <Label htmlFor="description">Description (optional)</Label>
+              <span className="text-radix-meme-grey-200">
+                {watch("description")?.length ?? 0}/{DESCRIPTION_MAX_CHAR_COUNT}
+              </span>
+            </div>
+            <Textarea
+              id="description"
+              placeholder="E.g.: A token designed to honor and embrace the meme culture within the crypto community."
+              maxLength={DESCRIPTION_MAX_CHAR_COUNT}
+              className="placeholder:text-radix-meme-grey-600"
+              {...register("description")}
+            />
+            {errors.description && (
+              <span className="text-red-500">
+                {(errors.description.message as string) || "Error"}
+              </span>
+            )}
+          </div>
+        </div>
+        <button
+          type="button"
+          className="flex text-center justify-center gap-x-2 px-8 py-2 sm:h-11 border border-almost-white border-b-4 border-b-almost-white rounded-lg font-title uppercase text-almost-white font-normal bg-dexter-gray-c"
+          onClick={handleSocials}
+        >
+          + Add social links
+        </button>
 
-          {showSocials && (
-            <div className="space-y-6 text-sm">
-              <div className="flex flex-col">
-                <Label htmlFor="website">Website (optional)</Label>
-                <Input
-                  type="text"
-                  id="website"
-                  placeholder="https://"
-                  className="mt-1"
-                  {...register("website")}
-                />
-              </div>
-              <div className="flex flex-col">
-                <Label htmlFor="twitter">X profile (optional)</Label>
-                <Input
-                  type="text"
-                  id="twitter"
-                  placeholder="https://x.com/your-token"
-                  className="mt-1"
-                  {...register("xUrl")}
-                />
-              </div>
-              <div className="flex flex-col">
-                <Label htmlFor="telegram">Telegram (optional)</Label>
-                <Input
-                  type="text"
-                  id="telegram"
-                  placeholder="https://t.me/your-token"
-                  className="mt-1"
-                  {...register("telegramUrl")}
-                />
-              </div>
+        {showSocials && (
+          <div className="space-y-6 text-sm">
+            <div className="flex flex-col gap-1">
+              <Label htmlFor="website">Website (optional)</Label>
+              <Input
+                type="text"
+                id="website"
+                placeholder="https://"
+                className="placeholder:text-radix-meme-grey-600"
+                {...register("website")}
+              />
             </div>
-          )}
-          <RadixMemeButton
-            type="submit"
-            disabled={isSubmitting}
-            text="Launch!"
-            className="my-4 mt-2"
-          />
-        </form>
-      </div>
+            <div className="flex flex-col gap-1">
+              <Label htmlFor="twitter">X profile (optional)</Label>
+              <Input
+                type="text"
+                id="twitter"
+                placeholder="https://x.com/your-token"
+                className="placeholder:text-radix-meme-grey-600"
+                {...register("xUrl")}
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <Label htmlFor="telegram">Telegram (optional)</Label>
+              <Input
+                type="text"
+                id="telegram"
+                placeholder="https://t.me/your-token"
+                className="placeholder:text-radix-meme-grey-600"
+                {...register("telegramUrl")}
+              />
+            </div>
+          </div>
+        )}
+        <RadixMemeButton
+          type="submit"
+          disabled={isSubmitting}
+          text="Launch!"
+          className="my-4 mt-2"
+        />
+      </form>
       <SuccessModal
         newTokenAddress={newTokenAddress}
         newComponentAddress={newComponentAddress}
@@ -466,8 +470,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           className={cn(
-            `flex h-10 w-full border-none bg-gray-50 dark:bg-stone-800 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm  file:border-0 file:bg-transparent
-                    file:text-sm file:font-medium placeholder:text-neutral-400 dark:placeholder-text-neutral-600
+            `flex h-10 w-full border-none bg-gray-50 dark:bg-radix-meme-grey-500 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm file:border-0 file:bg-transparent
+                    file:text-sm file:font-medium placeholder:text-neutral-400 dark:placeholder-text-radix-meme-grey-200
                     focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-600
                     disabled:cursor-not-allowed disabled:opacity-50
                     dark:shadow-[0px_0px_1px_1px_var(--neutral-700)]
@@ -522,7 +526,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       >
         <textarea
           className={cn(
-            `flex h-32 w-full border-none bg-gray-50 dark:bg-stone-800 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm  file:border-0 file:bg-transparent
+            `flex h-32 w-full border-none bg-gray-50 dark:bg-radix-meme-grey-500 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm  file:border-0 file:bg-transparent
                     file:text-sm file:font-medium placeholder:text-neutral-400 dark:placeholder-text-neutral-600
                     focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-600
                     disabled:cursor-not-allowed disabled:opacity-50

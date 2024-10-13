@@ -23,10 +23,12 @@ const page = () => {
         />
       </div>
       <div className="bg-[#141414] py-4 rounded-md max-sm:px-4 sm:px-20 mb-8">
-        <h1 className="mb-8 text-center max-w-sm text-4xl uppercase font-title font-normal">
+        <h1 className="mb-8 text-center max-w-lg text-4xl uppercase font-title font-normal md:mt-6 sm:mt-12 mt-12">
           Launch token
         </h1>
-        <CreateCoinForm />
+        <div className="w-[480px]">
+          <CreateCoinForm />
+        </div>
       </div>
     </>
   );
