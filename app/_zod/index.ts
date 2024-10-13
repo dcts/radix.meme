@@ -1,6 +1,7 @@
 import * as z from "zod";
 
 export const DESCRIPTION_MAX_CHAR_COUNT = 400;
+export const TOKEN_MAX_CHAR_COUNT = 20;
 
 export const CreateCoinFormSchema = z.object({
   name: z
