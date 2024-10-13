@@ -91,3 +91,11 @@ export const CoinCardSkeleton = () => {
   // TODO
   return <></>;
 };
+
+// name: data.name,
+// symbol: data.ticker,
+// iconUrl,
+// description: data.description,
+// telegram: data.telegramUrl,
+// x: data.xUrl,
+// website: data.website,

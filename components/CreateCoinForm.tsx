@@ -8,9 +8,12 @@ import React, {
 } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateCoinFormSchema, DESCRIPTION_MAX_CHAR_COUNT } from "@/app/_zod";
+import {
+  CreateCoinFormSchema,
+  DESCRIPTION_MAX_CHAR_COUNT,
+  TOKEN_MAX_CHAR_COUNT,
+} from "@/app/_zod";
 import { Label } from "@radix-ui/react-label";
-import { HiMiniRocketLaunch } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 import { createPinataUrl } from "@/app/_actions/create-pinata-url";
@@ -130,30 +133,33 @@ const CreateCoinForm = () => {
 
   return (
     <div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="font-body flex flex-col gap-6 max-sm:max-w-72"
-      >
-        <div className="flex flex-col">
-          <Label htmlFor="image">Image *</Label>
-          <div className="relative z-50">
-            <Input
-              type="file"
-              id="image"
-              {...register("image")}
-              onChange={handleFileUpload} // Trigger upload on file selection
-              ref={(e) => {
-                fileInputRef.current = e;
-                register("image").ref(e);
-              }}
-              className={`
+      <div className="w-full max-w-lg">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="font-body flex flex-col gap-6"
+        >
+          <div className="flex flex-col text-center mt-6 text-sm">
+            <Label htmlFor="image">Token image *</Label>
+            <div className="relative z-50">
+              <Input
+                type="file"
+                id="image"
+                {...register("image")}
+                onChange={handleFileUpload} // Trigger upload on file selection
+                ref={(e) => {
+                  fileInputRef.current = e;
+                  register("image").ref(e);
+                }}
+                className={`
                 relative
                 border-none
                 cursor-pointer
                 h-48
+                mt-1
 
                 after:absolute
                 after:content-['+']
+
                 ${
                   imageIsUploading
                     ? "after:text-transparent"
@@ -167,135 +173,156 @@ const CreateCoinForm = () => {
 
                 hover:after:scale-105
               `}
-            />
-            {iconUrl && (
-              <button
-                className="absolute top-2 right-2 p-1 rounded-full shadow-md z-50"
-                onClick={handleCloseIconClick}
-              >
-                <FaRegTrashAlt />
-              </button>
+              />
+              {iconUrl && (
+                <button
+                  className="absolute top-2 right-2 p-1 rounded-full shadow-md z-50"
+                  onClick={handleCloseIconClick}
+                >
+                  <FaRegTrashAlt />
+                </button>
+              )}
+              {imageIsUploading && (
+                <div className="absolute z-[9999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-[42%]">
+                  <Loading />
+                </div>
+              )}
+              {!imageIsUploading && iconUrl && (
+                <Image
+                  src={iconUrl}
+                  alt={"uploaded image"}
+                  width={96}
+                  height={96}
+                  className="absolute bg-stone-800 top-1/2 left-1/2 -translate-x-1/2 -translate-y-[50%] object-cover border rounded-md z-0"
+                  style={{ width: "96px", height: "96px" }}
+                />
+              )}
+            </div>
+
+            {errors.image && (
+              <span className="text-red-500">
+                {(errors.image.message as string) || "Error"}
+              </span>
             )}
-            {imageIsUploading && (
-              <div className="absolute z-[9999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-[42%]">
-                <Loading />
+            <p className="text-xs font-light mt-1 text-radix-meme-grey-400">
+              .jpeg, .jpg, or .png
+            </p>
+          </div>
+          <div className="text-sm gap-6 flex flex-col">
+            <div className="flex flex-col">
+              <div className="flex flex-row justify-between">
+                <Label htmlFor="name">Token name *</Label>
+                <span className="text-right text-radix-meme-grey-200">
+                  {watch("name")?.length ?? 0}/{TOKEN_MAX_CHAR_COUNT}
+                </span>
               </div>
-            )}
-            {!imageIsUploading && iconUrl && (
-              <Image
-                src={iconUrl}
-                alt={"uploaded image"}
-                width={500}
-                height={200}
-                className="absolute bg-stone-800 top-1/2 left-1/2 -translate-x-1/2 -translate-y-[50%] object-cover border rounded-md z-0"
-                style={{ width: "500px", height: "200px" }}
-              />
-            )}
-          </div>
-
-          {errors.image && (
-            <span className="text-red-500">
-              {(errors.image.message as string) || "Error"}
-            </span>
-          )}
-          <p className="text-xs font-light mt-1">
-            Only .jpeg, .jpg, and .png are allowed.
-          </p>
-        </div>
-        <div className="flex flex-col">
-          <Label htmlFor="name">Name *</Label>
-          <Input
-            type="text"
-            id="name"
-            placeholder="E.G.: Meme token"
-            {...register("name")}
-          />
-          {errors.name && (
-            <span className="text-red-500">
-              {(errors.name.message as string) || "Error"}
-            </span>
-          )}
-        </div>
-        <div className="flex flex-col">
-          <Label htmlFor="name">Ticker *</Label>
-          <Input
-            type="text"
-            id="symbol"
-            placeholder="E.G.: MEME"
-            {...register("ticker")}
-          />
-          {errors.ticker && (
-            <span className="text-red-500">
-              {(errors.ticker.message as string) || "Error"}
-            </span>
-          )}
-        </div>
-        <div className="flex flex-col">
-          <Label htmlFor="description">Description (optional)</Label>
-          <Textarea
-            id="description"
-            placeholder="E.G.: A token created to celebrate the meme culture around the crypto world"
-            {...register("description")}
-            maxLength={DESCRIPTION_MAX_CHAR_COUNT}
-          />
-          <span className="text-sm text-right text-white text-opacity-50">
-            {watch("description")?.length ?? 0}/{DESCRIPTION_MAX_CHAR_COUNT}{" "}
-            characters
-          </span>
-          {errors.description && (
-            <span className="text-red-500">
-              {(errors.description.message as string) || "Error"}
-            </span>
-          )}
-        </div>
-        <button
-          type="button"
-          className="flex text-center justify-center gap-x-2 px-8 py-2 sm:h-11 border border-b-2 rounded-lg bg-stone-800 font-bold mt-0"
-          onClick={handleSocials}
-        >
-          Add social links
-        </button>
-
-        {showSocials && (
-          <div className="space-y-6">
-            {" "}
-            <div className="flex flex-col">
-              <Label htmlFor="website">Website (optional)</Label>
               <Input
                 type="text"
-                id="website"
-                placeholder="https://"
-                {...register("website")}
+                id="name"
+                placeholder="E.G.: Meme token"
+                maxLength={TOKEN_MAX_CHAR_COUNT}
+                className="mt-1"
+                {...register("name")}
               />
+              {errors.name && (
+                <span className="text-red-500">
+                  {(errors.name.message as string) || "Error"}
+                </span>
+              )}
             </div>
             <div className="flex flex-col">
-              <Label htmlFor="twitter">X profile (optional)</Label>
+              <div className="flex flex-row justify-between">
+                <Label htmlFor="name">Token ticker *</Label>
+                <span className="text-right text-radix-meme-grey-200">
+                  {watch("ticker")?.length ?? 0}/{TOKEN_MAX_CHAR_COUNT}
+                </span>
+              </div>
               <Input
                 type="text"
-                id="twitter"
-                placeholder="https://x.com/your-token"
-                {...register("xUrl")}
+                id="symbol"
+                placeholder="E.G.: MEME"
+                maxLength={TOKEN_MAX_CHAR_COUNT}
+                className="mt-1"
+                {...register("ticker")}
               />
+              {errors.ticker && (
+                <span className="text-red-500">
+                  {(errors.ticker.message as string) || "Error"}
+                </span>
+              )}
             </div>
             <div className="flex flex-col">
-              <Label htmlFor="telegram">Telegram (optional)</Label>
-              <Input
-                type="text"
-                id="telegram"
-                placeholder="https://t.me/your-token"
-                {...register("telegramUrl")}
+              <div className="flex flex-row justify-between">
+                <Label htmlFor="description">Description (optional)</Label>
+                <span className="text-right text-radix-meme-grey-200">
+                  {watch("description")?.length ?? 0}/
+                  {DESCRIPTION_MAX_CHAR_COUNT}
+                </span>
+              </div>
+              <Textarea
+                id="description"
+                placeholder="E.g.: A token designed to honor and embrace the meme culture within the crypto community."
+                maxLength={DESCRIPTION_MAX_CHAR_COUNT}
+                className="mt-1"
+                {...register("description")}
               />
+              {errors.description && (
+                <span className="text-red-500">
+                  {(errors.description.message as string) || "Error"}
+                </span>
+              )}
             </div>
           </div>
-        )}
-        <RadixMemeButton
-          type="submit"
-          disabled={isSubmitting}
-          text="Launch your token!"
-          icon={<HiMiniRocketLaunch />}
-          className="my-4 mt-8"
-        />
-      </form>
+          <button
+            type="button"
+            className="flex text-center justify-center gap-x-2 px-8 py-2 sm:h-11 border border-almost-white border-b-4 border-b-almost-white rounded-lg font-title uppercase text-almost-white font-normal bg-dexter-gray-c"
+            onClick={handleSocials}
+          >
+            + Add social links
+          </button>
+
+          {showSocials && (
+            <div className="space-y-6 text-sm">
+              <div className="flex flex-col">
+                <Label htmlFor="website">Website (optional)</Label>
+                <Input
+                  type="text"
+                  id="website"
+                  placeholder="https://"
+                  className="mt-1"
+                  {...register("website")}
+                />
+              </div>
+              <div className="flex flex-col">
+                <Label htmlFor="twitter">X profile (optional)</Label>
+                <Input
+                  type="text"
+                  id="twitter"
+                  placeholder="https://x.com/your-token"
+                  className="mt-1"
+                  {...register("xUrl")}
+                />
+              </div>
+              <div className="flex flex-col">
+                <Label htmlFor="telegram">Telegram (optional)</Label>
+                <Input
+                  type="text"
+                  id="telegram"
+                  placeholder="https://t.me/your-token"
+                  className="mt-1"
+                  {...register("telegramUrl")}
+                />
+              </div>
+            </div>
+          )}
+          <RadixMemeButton
+            type="submit"
+            disabled={isSubmitting}
+            text="Launch!"
+            className="my-4 mt-2"
+          />
+        </form>
+      </div>
       <SuccessModal
         newTokenAddress={newTokenAddress}
         newComponentAddress={newComponentAddress}

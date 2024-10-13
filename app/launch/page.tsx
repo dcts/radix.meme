@@ -22,9 +22,9 @@ const page = () => {
           particleColor="#FFFFFF"
         />
       </div>
-      <div className="bg-[#141414] py-4 rounded-md font-title max-sm:px-4 sm:px-20 mb-8">
-        <h1 className="mb-8 text-center max-w-sm text-4xl font-black">
-          Create your token
+      <div className="bg-[#141414] py-4 rounded-md max-sm:px-4 sm:px-20 mb-8">
+        <h1 className="mb-8 text-center max-w-sm text-4xl uppercase font-title font-normal">
+          Launch token
         </h1>
         <CreateCoinForm />
       </div>

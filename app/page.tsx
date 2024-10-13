@@ -83,7 +83,9 @@ const Header = () => {
             />
           </div>
         </div>
-        <div className="hidden"><HeroImages /></div>
+        <div className="hidden">
+          <HeroImages />
+        </div>
       </div>
     </div>
   );
