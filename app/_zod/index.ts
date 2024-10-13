@@ -6,12 +6,12 @@ export const TOKEN_MAX_CHAR_COUNT = 20;
 export const CreateCoinFormSchema = z.object({
   name: z
     .string()
-    .min(3, { message: "Must be at least 4 characters" })
-    .max(42, { message: "Must be 42 characters or less" }),
+    .min(3, { message: "Must be at least 3 characters" })
+    .max(20, { message: "Must be 20 characters or less" }),
   ticker: z
     .string()
     .min(3, { message: "Must be at least 3 characters" })
-    .max(12, { message: "Must be 12 characters or less" }),
+    .max(20, { message: "Must be 20 characters or less" }),
   description: z.string().max(DESCRIPTION_MAX_CHAR_COUNT, {
     message: "Must be 400 characters or less",
   }),
