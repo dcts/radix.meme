@@ -10,6 +10,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import RadixMemeButton from "../RadixMemeButton";
 
 import Link from "next/link";
 
@@ -150,33 +151,32 @@ export const ModalContent = ({
   return (
     <div
       className={cn(
-        "flex flex-col flex-1 px-8 pt-8 pb-4 md:p-10 lg:px-24",
+        "flex flex-col flex-1 px-8 pt-8 pb-4 md:p-10 lg:px-24 ",
         className
       )}
     >
-      <div className="font-body flex flex-col">
-        <div>
+      <div className="font-body flex flex-col mt-10">
+        <div className="flex justify-center mx-auto">
           <Image
             src={newTokenIconUrl}
             alt={`${newTokenName} token image`}
-            width={600}
-            height={600}
+            width={140}
+            height={140}
             className="animate-float"
           />
         </div>
         <div>
-          <h4 className="text-xl md:text-6xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-2 mt-4 uppercase">
-            {newTokenName} created!
+          <h4 className="text-xl md:text-3xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-2 mt-4 uppercase">
+            ${newTokenName} created!
           </h4>
         </div>
         <div className="flex justify-center max-auto mt-4 mb-4">
-          <Link
+          <RadixMemeButton
+            text="Pump it!"
             onClick={() => setOpen(false)}
-            href={href}
-            className="flex justify-center max-auto gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-8 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
-          >
-            <span className="font-normal text-lg uppercase">Pump it!</span>
-          </Link>
+            variant="primary"
+            className="w-100 mx-auto"
+          />
         </div>
       </div>
     </div>
