@@ -12,8 +12,6 @@ import React, {
 } from "react";
 import RadixMemeButton from "../RadixMemeButton";
 
-import Link from "next/link";
-
 interface ModalContextType {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -136,7 +134,6 @@ export const ModalBody = ({
 };
 
 export const ModalContent = ({
-  href,
   className,
   newTokenName,
   newTokenIconUrl,
