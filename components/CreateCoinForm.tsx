@@ -246,7 +246,7 @@ const CreateCoinForm = () => {
               id="symbol"
               placeholder="E.G.: MEME"
               maxLength={TOKEN_MAX_CHAR_COUNT}
-              className="placeholder:text-radix-meme-grey-600"
+              className="placeholder:text-radix-meme-grey-600 uppercase"
               {...register("ticker")}
             />
             {errors.ticker && (
