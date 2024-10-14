@@ -14,7 +14,6 @@ import {
   TOKEN_MAX_CHAR_COUNT,
 } from "@/app/_zod";
 import { Label } from "@radix-ui/react-label";
-import { HiMiniRocketLaunch } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 import { createPinataUrl } from "@/app/_actions/create-pinata-url";
