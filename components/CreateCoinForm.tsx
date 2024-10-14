@@ -276,13 +276,13 @@ const CreateCoinForm = () => {
             )}
           </div>
         </div>
-        <button
+        <RadixMemeButton
           type="button"
-          className="flex text-center justify-center gap-x-2 px-8 py-2 sm:h-11 border border-almost-white border-b-4 border-b-almost-white rounded-lg font-title uppercase text-almost-white font-normal bg-dexter-gray-c"
           onClick={handleSocials}
-        >
-          + Add social links
-        </button>
+          text="+ Add social links"
+          variant="socials"
+          className="my-4 mt-2"
+        />
 
         {showSocials && (
           <div className="space-y-6 text-sm">
