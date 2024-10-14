@@ -99,7 +99,7 @@ const ModalWrapper = () => {
           as="span"
           text="How does it work ?"
           variant="secondary"
-          className="mr-4 !font-light"
+          className="mr-4"
         />
       </ModalTrigger>
       <ModalBody>
