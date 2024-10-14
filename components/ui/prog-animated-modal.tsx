@@ -10,6 +10,8 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useAppSelector } from "@/app/_hooks/hooks";
+import { tokenSlice } from "@/app/_store/tokenSlice";
 
 import successRaccoon from "../../public/success-raccoon.svg";
 import Link from "next/link";
@@ -144,6 +146,9 @@ export const ModalContent = ({
 }) => {
   const { setOpen } = useModal();
 
+  const { name, iconUrl } = useAppSelector((state) => state.token.token);
+  console.log("Name & icon", name, iconUrl);
+
   return (
     <div
       className={cn(
@@ -154,8 +159,8 @@ export const ModalContent = ({
       <div className="font-body flex flex-col">
         <div>
           <Image
-            src={successRaccoon}
-            alt="success-raccoon"
+            src={iconUrl || ""}
+            alt={`${name} token image`}
             width={600}
             height={600}
             className="animate-float"
@@ -163,7 +168,7 @@ export const ModalContent = ({
         </div>
         <div>
           <h4 className="text-xl md:text-6xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-2 mt-4 uppercase">
-            Token created!
+            {name} created!
           </h4>
         </div>
         <div className="flex justify-center max-auto mt-4 mb-4">
@@ -172,7 +177,7 @@ export const ModalContent = ({
             href={href}
             className="flex justify-center max-auto gap-2 bg-dexter-green-OG/90 hover:bg-dexter-gradient-green w-fit rounded-lg text-dexter-grey-light px-8 py-2 max-lg:self-center shadow-md shadow-dexter-green-OG transition duration-300"
           >
-            <span className="font-normal text-lg">Now pump your token!</span>
+            <span className="font-normal text-lg uppercase">Pump it!</span>
           </Link>
         </div>
       </div>
