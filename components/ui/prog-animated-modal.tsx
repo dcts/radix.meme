@@ -10,10 +10,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useAppSelector } from "@/app/_hooks/hooks";
-import { tokenSlice } from "@/app/_store/tokenSlice";
 
-import successRaccoon from "../../public/success-raccoon.svg";
 import Link from "next/link";
 
 interface ModalContextType {
@@ -140,14 +137,15 @@ export const ModalBody = ({
 export const ModalContent = ({
   href,
   className,
+  newTokenName,
+  newTokenIconUrl,
 }: {
   href: string;
   className?: string;
+  newTokenName: string;
+  newTokenIconUrl: string;
 }) => {
   const { setOpen } = useModal();
-
-  const { name, iconUrl } = useAppSelector((state) => state.token.token);
-  console.log("Name & icon", name, iconUrl);
 
   return (
     <div
@@ -159,8 +157,8 @@ export const ModalContent = ({
       <div className="font-body flex flex-col">
         <div>
           <Image
-            src={iconUrl || ""}
-            alt={`${name} token image`}
+            src={newTokenIconUrl}
+            alt={`${newTokenName} token image`}
             width={600}
             height={600}
             className="animate-float"
@@ -168,7 +166,7 @@ export const ModalContent = ({
         </div>
         <div>
           <h4 className="text-xl md:text-6xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-2 mt-4 uppercase">
-            {name} created!
+            {newTokenName} created!
           </h4>
         </div>
         <div className="flex justify-center max-auto mt-4 mb-4">
