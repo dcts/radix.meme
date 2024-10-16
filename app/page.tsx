@@ -97,7 +97,7 @@ const ModalWrapper = () => {
       <ModalTrigger>
         <RadixMemeButton
           as="span"
-          text="How does it work ?"
+          text="How it works?"
           variant="secondary"
           className="mr-4"
         />
@@ -106,7 +106,7 @@ const ModalWrapper = () => {
         <ModalContent>
           <div className="space-y-4 rounded-md text-center mx-auto sm:mx-0 bg-dexter-gray-c">
             <div className="font-title text-3xl font-bold pb-3">
-              How does it work?
+              How it works?
             </div>
             <div className="justify-center md:gap-1 lg:gap-2 sm:gap-2 gap-2 grid md:grid-cols-3">
               <div className="border rounded-md p-4 bg-radix-meme-grey-100">
