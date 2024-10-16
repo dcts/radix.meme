@@ -44,8 +44,10 @@ const CreateCoinForm = () => {
     (state) => state.user.selectedAccount.address
   );
   const [iconUrl, setIconUrl] = useState("");
-  const [newTokenAddress, setNewTokenAddress] = useState("");
+  const [newTokenAddress, setnewTokenAddress] = useState("");
   const [newComponentAddress, setNewComponentAddress] = useState("");
+  const [newTokenName, setNewTokenName] = useState("");
+  const [newTokenIconUrl, setNewTokenIconUrl] = useState("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [showSocials, setShowSocials] = useState(false);
 
@@ -85,9 +87,12 @@ const CreateCoinForm = () => {
 
       const resourceAddress = addMappingPayload.resourceAddress;
       const componentAddress = addMappingPayload.token.componentAddress || "";
+      // => propagate data to success modal
       setNewComponentAddress(componentAddress);
+      setNewTokenName(data.name);
+      setNewTokenIconUrl(iconUrl);
       // => open success modal
-      setNewTokenAddress(resourceAddress);
+      setnewTokenAddress(resourceAddress);
 
       // request to server to revalidate /
       await revalidateTwist("/");
@@ -328,6 +333,8 @@ const CreateCoinForm = () => {
       <SuccessModal
         newTokenAddress={newTokenAddress}
         newComponentAddress={newComponentAddress}
+        newTokenName={newTokenName}
+        newTokenIconUrl={newTokenIconUrl}
       />
     </div>
   );
@@ -338,9 +345,13 @@ export default CreateCoinForm;
 const SuccessModal = ({
   newTokenAddress,
   newComponentAddress,
+  newTokenName,
+  newTokenIconUrl,
 }: {
   newTokenAddress: string;
   newComponentAddress: string;
+  newTokenName: string;
+  newTokenIconUrl: string;
 }) => {
   return (
     <div>
@@ -349,6 +360,8 @@ const SuccessModal = ({
         <ModalBody>
           <ModalContent
             href={`/token/${newTokenAddress}?componentAddress=${newComponentAddress}`}
+            newTokenName={newTokenName}
+            newTokenIconUrl={newTokenIconUrl}
           />
         </ModalBody>
       </ProgModal>
