@@ -8,7 +8,7 @@ type AsProps<T extends ElementType> = {
   as?: T;
   icon?: React.ReactNode;
   text: string;
-  variant?: "primary" | "secondary" | "cta" | "warning";
+  variant?: "primary" | "secondary" | "cta" | "warning" | "socials";
   className?: string;
 } & React.ComponentPropsWithoutRef<T>;
 
@@ -28,23 +28,27 @@ const sharedClasses = `
 const extraClasses = {
   primary: `
     text-dexter-grey-light
-    bg-dexter-green 
+    bg-dexter-green
     border-dexter-green-faded
     hover:bg-dexter-gradient-green
     `,
   secondary: `
-    bg-dexter-grey-dark 
+    bg-dexter-grey-dark
     text-almost-white
     border-white`,
   cta: `
     text-dexter-grey-light
-    bg-dexter-green 
-    border-dexter-green-faded  
+    bg-dexter-green
+    border-dexter-green-faded
     shadow-[0px_4px_40px_2px_#CBEF6380]`,
   warning: `
-    bg-dexter-red-b 
+    bg-dexter-red-b
     border-dexter-red-darker
-    hover:bg-dexter-red-c 
+    hover:bg-dexter-red-c
+    text-white`,
+  socials: `
+    bg-dexter-gray-c
+    border-almost-white
     text-white`,
 };
 
